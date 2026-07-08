@@ -83,6 +83,8 @@ def main(argv=None):
     dated, index = report.save_report(ctx, cfg)
     print(f"    → {index}")
     print(f"    → {dated}")
+    prices_path = report.save_prices_json(data, universe, cfg)
+    print(f"    → {prices_path}（チャート用データ）")
 
     if is_holiday_weekend():
         print("（注: 本日は土日。休場の可能性があります）")
