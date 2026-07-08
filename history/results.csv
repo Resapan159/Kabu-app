@@ -1,2 +1,11 @@
 pick_date,code,name,systems,score,ret_5d,ret_10d
-,,,,,,
+2026-07-08,2503,キリンホールディングス,anomaly|tech|volume,71,,
+2026-07-08,4385,メルカリ,anomaly|tech|volume,71,,
+2026-07-08,8601,大和証券グループ本社,anomaly|tech|volume,72,,
+2026-07-08,9433,KDDI,anomaly|tech,49,,
+2026-07-08,8604,野村ホールディングス,anomaly|tech,49,,
+2026-07-08,6178,日本郵政,anomaly|tech,49,,
+2026-07-08,8309,三井住友トラスト・ホールディングス,anomaly|tech,49,,
+2026-07-08,8306,三菱UFJフィナンシャル・グループ,anomaly|tech,48,,
+2026-07-08,8316,三井住友フィナンシャルグループ,anomaly|tech,48,,
+2026-07-08,7182,ゆうちょ銀行,anomaly|tech,48,,
