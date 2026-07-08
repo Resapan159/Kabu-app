@@ -1,0 +1,110 @@
+# kabu-app — 日本株スイングトレード支援ツール（Phase 1）
+
+構想書に基づく「毎朝、寄付前に今日INできそうな銘柄・価格・理由を自動レポート」する自分専用ツール。
+Phase 1 は **手元のPCで毎朝実行** し、スマホ対応HTMLレポートを生成する構成。
+
+## できること（Phase 1）
+
+- プライム流動性ユニバース（`universe.csv`）の日足を yfinance で取得・キャッシュ
+- シグナル検出: 出来高急増 / 60日高値ブレイク / RSI / MACD / 移動平均ゴールデンクロス / ボリンジャースクイーズ / パーフェクトオーダー / 52週高値モメンタム / 蓄積検知（アルゴ痕跡）
+- 地合いゲート（日経・SOX・ダウ・為替の前日騰落）で「見送り(NG)/警告(WARN)/OK」を判定
+- スコアリング（構想書v3の簡素版: **根拠系統数**で順位、同数は出来高倍率）
+- 損切り・目標をATRから自動算出、**株数目安**を許容損失から計算（総資金はスマホ側localStorageのみ）
+- 保有銘柄チェック（`holdings.csv`）で 継続 / 利確 / 撤退 を判定
+- **ピック履歴を記録し、5日後・10日後の騰落率で答え合わせ**（系統別の勝率集計）
+- スマホ対応の単一HTML（ダークモード・タップで根拠展開）を生成
+
+## セットアップ
+
+```bash
+cd kabu-app
+python -m venv .venv
+# Windows: .venv\Scripts\activate    /  Mac,Linux: source .venv/bin/activate
+pip install -r requirements.txt
+```
+
+Python が未導入の場合は python.org から 3.10 以上を入れてください。
+
+## 毎朝の実行
+
+```bash
+python run.py            # 通常（キャッシュ活用）
+python run.py --force    # キャッシュ無視で全再取得
+python run.py --no-net   # ネット取得せずキャッシュのみ（オフライン確認）
+```
+
+実行後、`index.html` が生成されます。ブラウザやスマホで開いてください。
+過去分は `reports/YYYY-MM-DD.html` に蓄積されます。
+
+### スマホで見る
+
+同じ Wi-Fi 内でPCの `index.html` を簡易サーバー公開すると便利です:
+
+```bash
+python -m http.server 8000
+# スマホのブラウザで  http://<PCのIP>:8000/index.html  を開く → 「ホーム画面に追加」
+```
+
+### 自動更新（PC不要・推奨）
+
+GitHub Actions + Pages で**毎朝7時（平日）にクラウドが自動実行・公開**します。
+設定方法は **`公開手順.md`** を参照（初回30分の作業のみ）。設定後はスマホの
+ホーム画面アイコン（PWA対応済み: manifest.json / icons/）から最新レポートを開けます。
+
+（メール通知・TDnet開示取込などの残りは Phase 2 続きで対応）
+
+## 設定
+
+`config.yaml` でしきい値を調整できます（出来高倍率、流動性フィルタ、RSI/MACD期間、
+損切りATR倍率、許容損失%、同時保有上限など）。経済イベント（FOMC・日銀・雇用統計）は
+`event_dates` に手動で日付を追加すると当日/前日に警告表示されます。
+
+## 保有銘柄チェック
+
+`holdings.csv.example` を `holdings.csv` にコピーして自分の保有を記入します。
+`stop` 列は空欄ならATRから自動算出。**このファイルはローカル専用**（`.gitignore` 済み、
+公開ページには一切載せません＝構想書の秘匿方針）。
+
+## ユニバースの拡張
+
+`universe.csv`（`code,name`）に銘柄を追記すれば対象が増えます。初期値は流動性の高い
+主力〜準主力を中心にした約135銘柄。全プライムに広げる場合は JPX 公表の上場銘柄一覧
+（東証の「その他統計資料」Excel）から `code,name` を作り直してください。取得量が増えると
+yfinance のレート制限に当たりやすくなるため、`config.yaml` の `request_sleep_sec` を調整します。
+
+## ファイル構成
+
+```
+kabu-app/
+├─ run.py               … メイン（毎朝これを実行）
+├─ config.yaml          … しきい値・パス設定
+├─ universe.csv         … 対象銘柄リスト
+├─ holdings.csv(.example) … 保有銘柄（ローカル専用）
+├─ requirements.txt
+├─ src/
+│  ├─ config.py         … 設定読込
+│  ├─ data.py           … yfinance取得＋キャッシュ
+│  ├─ indicators.py     … RSI/MACD/MA/ボリンジャー/ATR
+│  ├─ signals.py        … シグナル検出（根拠系統に分類）
+│  ├─ market_gate.py    … 地合いゲート
+│  ├─ screener.py       … 統合・スコアリング・順位付け
+│  ├─ money.py          … 株数計算（資金管理）
+│  ├─ portfolio.py      … 保有銘柄チェック（出口判定）
+│  ├─ history.py        … ピック記録＋答え合わせ
+│  └─ report.py         … スマホHTML生成
+├─ data/                … 日足キャッシュ（自動生成・gitignore）
+├─ history/             … picks.csv / results.csv（自動生成）
+└─ reports/             … 日次HTMLアーカイブ（自動生成）
+```
+
+## ロードマップ上の位置づけ
+
+- **Phase 1（本実装）**: ユニバース→日足→スクリーニング→地合いゲート→スマホHTML＋ピック履歴記録・答え合わせ ✅
+- **Phase 2**: GitHub Actions自動化・PWA化・メール通知、TDnet開示取込＋修正幅の定量抽出、PTS反応、信用需給、保有出口判定の高度化
+- **Phase 3**: アルゴ痕跡分析の拡充、答え合わせデータに基づく重み導入・バックテスト、板情報API接続
+
+## 注意
+
+本ツールは候補提示であり投資助言ではありません。最終判断は自分で行い、実発注前に証券会社
+アプリで現値を確認してください。無料データ（yfinance）は遅延・欠損があり得ます。
+```

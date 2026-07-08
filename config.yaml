@@ -1,0 +1,73 @@
+# 株アプリ設定ファイル（Phase 1）
+# しきい値やパスをここで調整する。売買記録・総資金など秘匿情報はここに置かない。
+
+paths:
+  universe: "universe.csv"      # 対象銘柄リスト（code,name）
+  data_dir: "data"              # 日足キャッシュ置き場
+  reports_dir: "reports"        # 生成HTMLアーカイブ
+  history_dir: "history"        # ピック履歴・答え合わせ
+
+data:
+  lookback_days: 400            # 各銘柄で取得する日足の日数（各種MA計算に十分な長さ）
+  cache_max_age_hours: 20       # このキャッシュ経過時間を超えたら再取得
+  request_sleep_sec: 0.4        # yfinanceレート制限回避のための待機
+
+# 対象ユニバースの流動性フィルタ（売買代金 = 終値×出来高 の20日平均）
+liquidity:
+  min_turnover_yen: 500000000   # 5億円/日以上（構想書の例）
+  hard_exclude_below_yen: 100000000  # 1億円/日未満は除外（リスクフィルタ）
+
+# シグナル検出しきい値
+signals:
+  volume_surge_ratio: 2.0       # 当日出来高 ÷ 20日平均 がこの倍率以上で「出来高急増」
+  strong_volume_ratio: 3.0      # 強い急増（スコア補助）
+  breakout_lookback: 60         # 直近N日高値更新でボックスブレイク
+  rsi_period: 14
+  rsi_oversold: 30
+  rsi_trend: 50
+  ma_short: 25
+  ma_mid: 75
+  ma_long: 200
+  golden_cross_within_days: 5   # 直近N日以内のゴールデンクロスを検出
+  macd_fast: 12
+  macd_slow: 26
+  macd_signal: 9
+  bb_period: 20
+  bb_std: 2.0
+  bb_squeeze_pct: 0.6           # バンド幅が過去平均のこの割合以下でスクイーズ判定
+  atr_period: 14
+  # 蓄積検知（執行アルゴの買い集め疑い）: 出来高増なのに値動きが小さい日が連続
+  accumulation_days: 5
+  accumulation_vol_ratio: 1.3
+  accumulation_range_pct: 2.0   # 日中値幅がこの%以下なら「値動き小さい」
+
+# 出口・損切り（ATRベース）
+exit:
+  stop_atr_mult: 2.0            # 損切り = IN価格 - ATR×この倍率
+  target_atr_mult: 3.0          # 目標   = IN価格 + ATR×この倍率
+  time_stop_days: 10            # 横ばいがこの営業日続いたら撤退（時間切れ）
+
+# 資金管理（総資金はここに書かず、株数計算の基準だけ設定。実額はスマホ側localStorage）
+money:
+  risk_per_trade_pct: 1.0       # 1トレードの許容損失（総資金比）
+  max_positions: 5              # 同時保有上限
+  # 総資金はレポート表示用のプレースホルダ。実運用ではスマホ側で入力する想定。
+  reference_capital_yen: 3000000
+
+# 地合いゲート（前日終値の騰落で判定）。ティッカーはyfinance表記。
+market_gate:
+  nikkei: "^N225"               # 日経平均（先物の代理。厳密には NIY=F 等）
+  usdjpy: "JPY=X"               # ドル円
+  sox: "^SOX"                   # フィラデルフィア半導体指数
+  dow: "^DJI"                   # ダウ
+  ng_threshold_pct: -1.5        # 日経がこの%以下なら「見送り(NG)」
+  warn_threshold_pct: -0.8      # この%以下なら「警告」
+
+# 経済イベント（当日/前日にエントリー警告）。手動で更新する。
+event_dates:
+  # "YYYY-MM-DD": "イベント名"
+  # 例: "2026-07-29": "FOMC"
+
+# 答え合わせ設定
+review:
+  horizons_days: [5, 10]        # ピック後この営業日数で騰落率を評価
