@@ -25,17 +25,20 @@ def evaluate(cfg: dict) -> dict:
     result = {"status": "OK", "reasons": [], "metrics": {}}
 
     nikkei = datamod.fetch_index(mg["nikkei"], cfg)
+    futures = datamod.fetch_index(mg.get("futures", "NIY=F"), cfg)
     usdjpy = datamod.fetch_index(mg["usdjpy"], cfg)
     sox = datamod.fetch_index(mg["sox"], cfg)
     dow = datamod.fetch_index(mg["dow"], cfg)
 
     nk = _pct_change_last(nikkei)
+    ft = _pct_change_last(futures)
     sx = _pct_change_last(sox)
     dw = _pct_change_last(dow)
     fx_level = float(usdjpy["Close"].iloc[-1]) if usdjpy is not None and len(usdjpy) else None
 
     result["metrics"] = {
         "nikkei_pct": None if nk is None else round(nk, 2),
+        "futures_pct": None if ft is None else round(ft, 2),
         "sox_pct": None if sx is None else round(sx, 2),
         "dow_pct": None if dw is None else round(dw, 2),
         "usdjpy": None if fx_level is None else round(fx_level, 2),
@@ -53,6 +56,18 @@ def evaluate(cfg: dict) -> dict:
         result["reasons"].append(f"日経 {nk:+.1f}%（軟調）→ 慎重に")
     else:
         result["reasons"].append(f"日経 {nk:+.1f}%")
+
+    # 先物（夜間の動き）も判定に使う
+    if ft is not None:
+        if ft <= mg["ng_threshold_pct"]:
+            result["status"] = "NG"
+            result["reasons"].append(f"日経先物 {ft:+.1f}%（大幅安）→ 本日は見送り推奨")
+        elif ft <= mg["warn_threshold_pct"]:
+            result["reasons"].append(f"日経先物 {ft:+.1f}%（軟調）")
+            if result["status"] == "OK":
+                result["status"] = "WARN"
+        else:
+            result["reasons"].append(f"先物 {ft:+.1f}%")
 
     # SOX/ダウの大幅安も警告材料
     if sx is not None and sx <= -2.0:

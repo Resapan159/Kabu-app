@@ -72,6 +72,7 @@ def main(argv=None):
     print("[5] レポート生成 ...")
     ctx = {
         "date": today,
+        "generated_at": datetime.now().strftime("%H:%M"),
         "gate": gate,
         "candidates": candidates,
         "holdings": holdings,

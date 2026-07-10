@@ -9,7 +9,7 @@ paths:
 
 data:
   lookback_days: 400            # 各銘柄で取得する日足の日数（各種MA計算に十分な長さ）
-  cache_max_age_hours: 20       # このキャッシュ経過時間を超えたら再取得
+  cache_max_age_hours: 1        # 日中も更新するため1時間で再取得
   request_sleep_sec: 0.4        # yfinanceレート制限回避のための待機
 
 # 対象ユニバースの流動性フィルタ（売買代金 = 終値×出来高 の20日平均）
@@ -56,7 +56,8 @@ money:
 
 # 地合いゲート（前日終値の騰落で判定）。ティッカーはyfinance表記。
 market_gate:
-  nikkei: "^N225"               # 日経平均（先物の代理。厳密には NIY=F 等）
+  nikkei: "^N225"               # 日経平均
+  futures: "NIY=F"              # 日経225先物（CME円建て・夜間の動きを反映）
   usdjpy: "JPY=X"               # ドル円
   sox: "^SOX"                   # フィラデルフィア半導体指数
   dow: "^DJI"                   # ダウ

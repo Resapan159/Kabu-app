@@ -21,6 +21,7 @@ def _gate_banner(gate: dict) -> str:
     icon = {"OK": "✅", "WARN": "⚠️", "NG": "⛔"}[status]
     m = gate["metrics"]
     metric_txt = " / ".join(filter(None, [
+        f"先物 {m['futures_pct']:+.1f}%" if m.get("futures_pct") is not None else None,
         f"日経 {m['nikkei_pct']:+.1f}%" if m.get("nikkei_pct") is not None else None,
         f"SOX {m['sox_pct']:+.1f}%" if m.get("sox_pct") is not None else None,
         f"ダウ {m['dow_pct']:+.1f}%" if m.get("dow_pct") is not None else None,
@@ -218,6 +219,14 @@ footer { margin-top:26px; font-size:.72rem; color:#8b949e; }
   font-size:1.4rem; cursor:pointer; padding:0 4px; }
 #chart-canvas { width:100%; height:340px; display:block; }
 #chart-note { font-size:.72rem; color:#8b949e; margin-top:4px; }
+/* タブ */
+.tabs { position:sticky; top:0; z-index:10; display:flex; gap:6px; background:#0d1117;
+  padding:8px 0; }
+.tabbtn { flex:1; background:#161b22; color:#8b949e; border:1px solid #30363d;
+  border-radius:10px; padding:9px 0; font-size:.9rem; cursor:pointer; }
+.tabbtn.active { background:#1f2d3d; color:#79c0ff; border-color:#2d7dd2; font-weight:700; }
+.tabpanel { display:none; }
+.tabpanel.active { display:block; }
 /* 購入ダイアログ */
 #buy-overlay { position:fixed; inset:0; background:rgba(0,0,0,.7); z-index:60;
   display:none; align-items:center; justify-content:center; }
@@ -396,7 +405,8 @@ function submitBuy() {
   savePurchases(items);
   closeBuy();
   renderPurchases();
-  document.getElementById('purchases-h2').scrollIntoView({ behavior: 'smooth' });
+  const tb = document.querySelector('.tabbtn[data-tab="buy"]');
+  if (tb) tb.click();
 }
 
 /* ---------- チャート描画（ローソク足＋MA5/25＋出来高） ---------- */
@@ -514,6 +524,22 @@ document.getElementById('buy-overlay').addEventListener('click', e => {
   if (e.target === e.currentTarget) closeBuy();
 });
 
+/* ---------- タブ切替 ---------- */
+document.querySelectorAll('.tabbtn').forEach(b => b.addEventListener('click', () => {
+  document.querySelectorAll('.tabbtn').forEach(x => x.classList.remove('active'));
+  document.querySelectorAll('.tabpanel').forEach(x => x.classList.remove('active'));
+  b.classList.add('active');
+  document.getElementById('tab-' + b.dataset.tab).classList.add('active');
+  try { localStorage.setItem('kabu_tab', b.dataset.tab); } catch (e) {}
+}));
+try {
+  const t = localStorage.getItem('kabu_tab');
+  if (t && t !== 'cand') {
+    const b = document.querySelector('.tabbtn[data-tab="' + t + '"]');
+    if (b) b.click();
+  }
+} catch (e) {}
+
 /* ---------- 株価データ読込 ---------- */
 fetch(PRICES_URL)
   .then(r => r.json())
@@ -530,6 +556,7 @@ fetch(PRICES_URL)
 
 def build_html(ctx: dict) -> str:
     today = ctx["date"]
+    gen_time = ctx.get("generated_at", "")
     gate = ctx["gate"]
     candidates = ctx["candidates"]
     holdings = ctx["holdings"]
@@ -574,12 +601,12 @@ def build_html(ctx: dict) -> str:
 <link rel="apple-touch-icon" href="icons/icon-192.png">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<title>朝のピックアップ {today}</title>
+<title>株レポ {today} {gen_time}</title>
 <style>{CSS}</style>
 </head>
 <body>
 <div class="wrap">
-  <h1>■ {today} 朝のピックアップ</h1>
+  <h1>■ {today} レポート <span class="muted" style="font-size:.78rem">更新 {gen_time}</span></h1>
   {error_banner}
   <div class="errbar" id="prices-warn" style="display:none"></div>
   {_gate_banner(gate)}
@@ -590,18 +617,29 @@ def build_html(ctx: dict) -> str:
     <span class="muted">→ 許容損失 {risk_pct}% / 同時保有上限 {max_pos}銘柄で株数を再計算</span>
   </div>
 
-  <h2>■ 新規候補</h2>
-  {cards_html}
+  <nav class="tabs">
+    <button class="tabbtn active" data-tab="cand">📋 候補</button>
+    <button class="tabbtn" data-tab="buy">🛒 購入一覧</button>
+    <button class="tabbtn" data-tab="etc">📊 保有・検証</button>
+  </nav>
 
-  <h2 id="purchases-h2">■ 購入一覧（この端末だけに保存）</h2>
-  <div id="purchase-list"></div>
-  <div class="btnrow">
-    <button class="btn buybtn" data-code="" data-name="" data-in="">＋ 候補以外の銘柄を手動で購入登録</button>
-  </div>
+  <section class="tabpanel active" id="tab-cand">
+    <h2>■ 新規候補</h2>
+    {cards_html}
+  </section>
 
-  {_holdings_section(holdings)}
+  <section class="tabpanel" id="tab-buy">
+    <h2 id="purchases-h2">■ 購入一覧（この端末だけに保存）</h2>
+    <div id="purchase-list"></div>
+    <div class="btnrow">
+      <button class="btn buybtn" data-code="" data-name="" data-in="">＋ 候補以外の銘柄を手動で購入登録</button>
+    </div>
+  </section>
 
-  {_review_section(review)}
+  <section class="tabpanel" id="tab-etc">
+    {_holdings_section(holdings)}
+    {_review_section(review)}
+  </section>
 
   <footer>
     ※本ツールは候補提示であり投資助言ではありません。最終判断は自分で行い、
