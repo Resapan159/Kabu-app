@@ -35,3 +35,5 @@ pick_date,code,name,systems,score,ret_5d,ret_10d
 2026-07-10,8604,野村ホールディングス,anomaly|tech,46,,
 2026-07-10,7182,ゆうちょ銀行,anomaly|tech,47,,
 2026-07-10,8601,大和証券グループ本社,anomaly|tech,46,,
+2026-07-10,8591,オリックス,anomaly|tech,48,,
+2026-07-10,9984,ソフトバンクグループ,tech,25,,
