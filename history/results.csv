@@ -52,3 +52,4 @@ pick_date,code,name,systems,score,ret_5d,ret_10d
 2026-07-13,7182,ゆうちょ銀行,anomaly|tech,47,,
 2026-07-13,9433,KDDI,anomaly|tech,46,,
 2026-07-13,6920,レーザーテック,tech,25,,
+2026-07-13,6506,安川電機,volume,27,,
