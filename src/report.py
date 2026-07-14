@@ -111,12 +111,50 @@ def _holdings_section(holdings: list) -> str:
     return f'<h2>■ 保有銘柄チェック（holdings.csv）</h2><div class="holds">{rows}</div>'
 
 
+BT_LABELS = {
+    "combo2": "★2系統以上（本命）",
+    "volume": "②出来高・需給",
+    "tech": "③テクニカル",
+    "anomaly": "⑦アノマリー",
+    "algo": "アルゴ痕跡",
+}
+
+
+def _backtest_section(bt: dict) -> str:
+    rows = (bt or {}).get("rows", [])
+    if not rows:
+        return ('<h2>■ バックテスト（過去データ検証）</h2>'
+                '<p class="muted">データ不足のため未計算。</p>')
+    h0 = bt["horizon"]
+    base = bt.get("baseline")
+    trs = ""
+    if base:
+        trs += (f'<tr style="color:#8b949e"><td>基準（全営業日）</td>'
+                f'<td>{base["n"]:,}</td><td>{base["avg_ret"]:+.2f}%</td>'
+                f'<td>{base["win_rate"]:.0f}%</td></tr>')
+    for r in rows:
+        label = BT_LABELS.get(r["system"], r["system"])
+        better = base and r["avg_ret"] > base["avg_ret"]
+        mark = " ✓" if better else ""
+        trs += (f'<tr><td>{_esc(label)}{mark}</td><td>{r["n"]:,}</td>'
+                f'<td>{r["avg_ret"]:+.2f}%</td><td>{r["win_rate"]:.0f}%</td></tr>')
+    return (
+        f'<h2>■ バックテスト（過去データ検証）</h2>'
+        f'<p class="muted">{_esc(bt["from"])}〜{_esc(bt["to"])} のユニバース日足で、'
+        f'各シグナル発生から{h0}営業日後の騰落を集計。「基準」行を上回る系統（✓）に優位性。'
+        f'現ユニバース構成での検証のため生存者バイアスあり・目安。カタリスト系は対象外。</p>'
+        f'<table class="rev"><thead><tr><th>系統</th><th>回数</th>'
+        f'<th>平均</th><th>勝率</th></tr></thead><tbody>{trs}</tbody></table>')
+
+
 def _review_section(review: dict) -> str:
     recent = review.get("recent")
     by_system = review.get("by_system", [])
     if not recent and not by_system:
-        return '<h2>■ 答え合わせ</h2><p class="muted">まだ評価対象のピックがありません（記録開始直後）。</p>'
-    parts = ['<h2>■ 答え合わせ（シグナル検証）</h2>']
+        return ('<h2>■ 答え合わせ（実運用・蓄積中）</h2>'
+                '<p class="muted">まだ評価対象のピックがありません（記録開始直後）。'
+                '毎日のピックが5営業日経過すると自動で集計されます。</p>')
+    parts = ['<h2>■ 答え合わせ（実運用のピック実績）</h2>']
     if recent:
         parts.append(
             f'<p>{_esc(recent["pick_date"])}ピック {recent["n"]}銘柄: '
@@ -134,6 +172,57 @@ def _review_section(review: dict) -> str:
             f'<th>平均</th><th>勝率</th></tr></thead><tbody>{srows}</tbody></table>'
         )
     return "".join(parts)
+
+
+def _watch_section(watch: list) -> str:
+    if not watch:
+        return ('<h2>■ 予備軍（もうすぐ候補）</h2>'
+                '<p class="muted">本日は該当なし。</p>')
+    rows = ""
+    for w in watch:
+        notes = "".join(f"<li>{_esc(n)}</li>" for n in w["notes"])
+        rows += f"""
+        <div class="hold">
+          <div class="hold-head">
+            <span class="code">{_esc(w['code'])}</span>
+            <span class="name">{_esc(w['name'])}</span>
+            <button class="btn small chartbtn" data-code="{_esc(w['code'])}"
+                    data-name="{_esc(w['name'])}">📈</button>
+          </div>
+          <ul class="hits">{notes}</ul>
+        </div>"""
+    return ('<h2>■ 予備軍（もうすぐ候補）</h2>'
+            '<p class="muted">条件まであと一歩の監視銘柄。ブレイクすれば候補入り。</p>'
+            f'<div class="holds">{rows}</div>')
+
+
+def _disclosure_section(disc: dict) -> str:
+    if not disc:
+        return ('<h2>■ 適時開示（ユニバース・直近2日）</h2>'
+                '<p class="muted">該当する開示はありません（または取得失敗）。</p>')
+    order = {"neg": 0, "pos_strong": 1, "pos": 2, "earnings": 3, "other": 4}
+    badge = {"pos_strong": ("好材料", "#1f9d55"), "pos": ("材料", "#2d7dd2"),
+             "earnings": ("決算", "#8250df"), "other": ("その他", "#57606a"),
+             "neg": ("悪材料", "#c0392b")}
+    items = []
+    for code, ds in disc.items():
+        for d in ds:
+            items.append((code, d))
+    items.sort(key=lambda x: (order.get(x[1]["cls"], 4), x[1]["time"]))
+    rows = ""
+    for code, d in items[:30]:
+        lbl, col = badge.get(d["cls"], ("他", "#57606a"))
+        rows += f"""
+        <div class="hold">
+          <div class="hold-head">
+            <span class="code">{_esc(code)}</span>
+            <span class="judge" style="background:{col}">{lbl}</span>
+            <span class="muted">{_esc(d['time'])}</span>
+          </div>
+          <div class="hold-detail">{_esc(d['title'])}</div>
+        </div>"""
+    more = f'<p class="muted">他 {len(items)-30}件</p>' if len(items) > 30 else ""
+    return f'<h2>■ 適時開示（ユニバース・直近2日）</h2><div class="holds">{rows}</div>{more}'
 
 
 # ---------------------------------------------------------------- CSS / JS
@@ -561,6 +650,9 @@ def build_html(ctx: dict) -> str:
     candidates = ctx["candidates"]
     holdings = ctx["holdings"]
     review = ctx["review"]
+    watch = ctx.get("watchlist", [])
+    disc = ctx.get("disclosures", {})
+    bt = ctx.get("backtest", {})
     errors = ctx.get("errors", [])
     risk_pct = ctx.get("risk_per_trade_pct", 1.0)
     max_pos = ctx.get("max_positions", 5)
@@ -626,6 +718,8 @@ def build_html(ctx: dict) -> str:
   <section class="tabpanel active" id="tab-cand">
     <h2>■ 新規候補</h2>
     {cards_html}
+    {_watch_section(watch)}
+    {_disclosure_section(disc)}
   </section>
 
   <section class="tabpanel" id="tab-buy">
@@ -639,6 +733,7 @@ def build_html(ctx: dict) -> str:
   <section class="tabpanel" id="tab-etc">
     {_holdings_section(holdings)}
     {_review_section(review)}
+    {_backtest_section(bt)}
   </section>
 
   <footer>

@@ -12,6 +12,7 @@ from . import signals as sig
 from . import money as moneymod
 
 SYSTEM_LABELS = {
+    "catalyst": "①カタリスト（開示）",
     "volume": "②出来高・需給",
     "tech": "③テクニカル",
     "anomaly": "⑦統計・アノマリー",
@@ -27,14 +28,16 @@ def _display_score(num_systems: int, vol_ratio: float, num_hits: int) -> int:
     return int(min(base + vol_bonus + hit_bonus, 100))
 
 
-def screen(data: dict, universe: list, cfg: dict, gate_ok: bool) -> list:
+def screen(data: dict, universe: list, cfg: dict, gate_ok: bool,
+           disclosures: dict | None = None) -> list:
     """スクリーニングを実行し、候補リスト（スコア降順）を返す。"""
     name_map = {code: name for code, name in universe}
     candidates = []
 
     for code, df in data.items():
         name = name_map.get(code, code)
-        a = sig.analyze(df, code, name, cfg)
+        a = sig.analyze(df, code, name, cfg,
+                        disclosures=(disclosures or {}).get(code))
         if a is None:
             continue
         # 必須条件: リスクフィルタ（除外理由なし）＋ 流動性 ＋ 何らかのシグナル
@@ -70,3 +73,18 @@ def screen(data: dict, universe: list, cfg: dict, gate_ok: bool) -> list:
     # 順位付け: 系統数 → 出来高倍率
     candidates.sort(key=lambda c: (c["num_systems"], c["volume_ratio"]), reverse=True)
     return candidates
+
+
+def watchlist(data: dict, universe: list, cfg: dict,
+              exclude_codes: set, top_n: int = 8) -> list:
+    """予備軍（もうすぐ候補）リスト。候補入りしていない銘柄から検出する。"""
+    name_map = {code: name for code, name in universe}
+    out = []
+    for code, df in data.items():
+        if code in exclude_codes:
+            continue
+        w = sig.near_miss(df, code, name_map.get(code, code), cfg)
+        if w:
+            out.append(w)
+    out.sort(key=lambda w: w["n"], reverse=True)
+    return out[:top_n]

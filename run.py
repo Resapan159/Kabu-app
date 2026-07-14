@@ -13,6 +13,7 @@
 from __future__ import annotations
 
 import argparse
+import os
 import sys
 from datetime import date, datetime
 
@@ -23,11 +24,29 @@ from src import screener
 from src import portfolio
 from src import history
 from src import report
+from src import disclosures as discmod
+from src import backtest as btmod
 
 
 def is_holiday_weekend() -> bool:
-    # 土日判定（祝日カレンダーはPhase2で追加）
     return datetime.now().weekday() >= 5
+
+
+def is_market_closed() -> bool:
+    """東証休場判定（土日・日本の祝日・年末年始）。"""
+    today = date.today()
+    if is_holiday_weekend():
+        return True
+    try:
+        import jpholiday
+        if jpholiday.is_holiday(today):
+            return True
+    except ImportError:
+        pass
+    if (today.month == 12 and today.day == 31) or \
+            (today.month == 1 and today.day <= 3):
+        return True
+    return False
 
 
 def main(argv=None):
@@ -39,6 +58,12 @@ def main(argv=None):
 
     cfg = configmod.load_config(args.config)
     today = date.today().isoformat()
+
+    # 休場日はスキップ（自動実行時のみ。手動実行は通常どおり動く）
+    if is_market_closed() and os.environ.get("GITHUB_ACTIONS") \
+            and os.environ.get("GITHUB_EVENT_NAME") == "schedule":
+        print(f"本日({today})は休場のためスキップします。")
+        return 0
 
     if args.no_net:
         # yfinance呼び出しを抑止（キャッシュのみ使用）
@@ -54,10 +79,21 @@ def main(argv=None):
         [c for c, _ in universe], cfg, force=args.force)
     print(f"    → 取得 {len(data)}銘柄 / 失敗 {len(failed)}銘柄")
 
+    print("[1b] 適時開示の取得（TDnet）...")
+    disc = {} if args.no_net else discmod.fetch([c for c, _ in universe], cfg)
+    n_disc = sum(len(v) for v in disc.values())
+    print(f"    → ユニバース関連 {n_disc}件")
+
     print("[2-3] シグナル検出＆スコアリング ...")
     gate_ok = gate["status"] != "NG"
-    candidates = screener.screen(data, universe, cfg, gate_ok=gate_ok)
+    candidates = screener.screen(data, universe, cfg, gate_ok=gate_ok,
+                                 disclosures=disc)
     print(f"    → 候補 {len(candidates)}銘柄")
+
+    print("[2b] 予備軍（もうすぐ候補）...")
+    watch = screener.watchlist(data, universe, cfg,
+                               exclude_codes={c["code"] for c in candidates})
+    print(f"    → 予備軍 {len(watch)}銘柄")
 
     print("[4] 保有銘柄チェック ...")
     holdings = portfolio.check(data, cfg)
@@ -68,6 +104,10 @@ def main(argv=None):
     n_new = history.record_picks(candidates, data, cfg, top_n=10)
     review = history.evaluate_history(data, cfg)
     print(f"    → 新規記録 {n_new}件 / 評価済 {review.get('results_count', 0)}件")
+
+    print("[検証] バックテスト（過去データ）...")
+    bt = btmod.run(data, cfg)
+    print(f"    → {bt['from']}〜{bt['to']} / 系統 {len(bt['rows'])}件")
 
     print("[5] レポート生成 ...")
     ctx = {
@@ -80,6 +120,9 @@ def main(argv=None):
         "errors": failed,
         "risk_per_trade_pct": cfg["money"]["risk_per_trade_pct"],
         "max_positions": cfg["money"]["max_positions"],
+        "watchlist": watch,
+        "disclosures": disc,
+        "backtest": bt,
     }
     dated, index = report.save_report(ctx, cfg)
     print(f"    → {index}")

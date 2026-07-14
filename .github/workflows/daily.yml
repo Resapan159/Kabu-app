@@ -52,3 +52,30 @@ jobs:
           git commit -m "report $(date '+%F %H:%M')" || echo "変更なし"
           git pull --rebase origin main || true
           git push
+
+      - name: メール通知（朝7時の回のみ・GMAIL secrets設定時）
+        if: github.event.schedule == '0 22 * * 0-4'
+        continue-on-error: true
+        env:
+          GMAIL_ADDRESS: ${{ secrets.GMAIL_ADDRESS }}
+          GMAIL_APP_PASSWORD: ${{ secrets.GMAIL_APP_PASSWORD }}
+        run: |
+          python - <<'PY'
+          import os, smtplib
+          from email.mime.text import MIMEText
+          addr = os.environ.get("GMAIL_ADDRESS")
+          pw = os.environ.get("GMAIL_APP_PASSWORD")
+          if not addr or not pw:
+              print("GMAIL secrets未設定のためスキップ")
+              raise SystemExit(0)
+          msg = MIMEText("今朝のレポートが更新されました。\n"
+                         "https://resapan159.github.io/Kabu-app/", _charset="utf-8")
+          msg["Subject"] = "📈 株 朝レポート更新"
+          msg["From"] = addr
+          msg["To"] = addr
+          s = smtplib.SMTP_SSL("smtp.gmail.com", 465, timeout=30)
+          s.login(addr, pw)
+          s.send_message(msg)
+          s.quit()
+          print("メール送信済み")
+          PY

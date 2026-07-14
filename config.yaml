@@ -8,7 +8,7 @@ paths:
   history_dir: "history"        # ピック履歴・答え合わせ
 
 data:
-  lookback_days: 400            # 各銘柄で取得する日足の日数（各種MA計算に十分な長さ）
+  lookback_days: 800            # 各銘柄で取得する日足の日数（バックテスト用に約3年分）
   cache_max_age_hours: 1        # 日中も更新するため1時間で再取得
   request_sleep_sec: 0.4        # yfinanceレート制限回避のための待機
 

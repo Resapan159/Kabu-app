@@ -40,7 +40,8 @@ def _add(a: Analysis, system: str, label: str, detail: str = ""):
     a.systems.add(system)
 
 
-def analyze(df: pd.DataFrame, code: str, name: str, cfg: dict) -> Analysis | None:
+def analyze(df: pd.DataFrame, code: str, name: str, cfg: dict,
+            disclosures: list | None = None) -> Analysis | None:
     """1銘柄を分析。データ不足なら None。"""
     s = cfg["signals"]
     if df is None or len(df) < max(s["ma_mid"], s["breakout_lookback"], 60) + 5:
@@ -148,9 +149,81 @@ def analyze(df: pd.DataFrame, code: str, name: str, cfg: dict) -> Analysis | Non
         _add(a, "algo", "蓄積検知",
              "出来高増なのに値動き小＝VWAP執行による買い集め疑い")
 
+    # ===== ①カタリスト系（適時開示） =====
+    for d in (disclosures or []):
+        if d["cls"] == "pos_strong":
+            _add(a, "catalyst", f"好材料開示: {d['kw']}",
+                 f"{d['time']} {d['title'][:48]}")
+        elif d["cls"] == "pos":
+            _add(a, "catalyst", f"材料開示: {d['kw']}",
+                 f"{d['time']} {d['title'][:48]}")
+        elif d["cls"] == "neg":
+            a.hits.append({"system": "warn", "label": "⚠悪材料開示",
+                           "detail": f"{d['time']} {d['title'][:48]}"})
+        elif d["cls"] == "earnings":
+            a.hits.append({"system": "warn", "label": "決算発表あり",
+                           "detail": "決算直後は値動きが荒れやすい（要注意）"})
+
     # ---- 出口の目安（ATRベース） ----
     ex = cfg["exit"]
     a.in_price = round(last_close, 1)
     a.stop = round(last_close - atr_val * ex["stop_atr_mult"], 1)
     a.target = round(last_close + atr_val * ex["target_atr_mult"], 1)
+
+    # ---- ヒゲ分析: ストップ狩り帯を避けて損切りを置く（構想書コア機能2） ----
+    # 直近10日の安値（下ヒゲの先）がATR損切りラインの少し下にある場合、
+    # 逆指値が並ぶその価格帯を「一瞬割ってすぐ戻す」動きに狩られやすい。
+    # → ヒゲ安値のさらに下（0.3ATR分）まで損切りを下げて狩り帯を回避する。
+    wick_low = float(df["Low"].iloc[-10:].min())
+    if a.stop >= wick_low > a.stop - atr_val:
+        old_stop = a.stop
+        a.stop = round(wick_low - atr_val * 0.3, 1)
+        a.hits.append({"system": "note", "label": "ヒゲ分析で損切り調整",
+                       "detail": f"直近ヒゲ安値{wick_low:.0f}円の狩り帯を回避 "
+                                 f"{old_stop:.0f}→{a.stop:.0f}円"})
     return a
+
+
+def near_miss(df: pd.DataFrame, code: str, name: str, cfg: dict) -> dict | None:
+    """予備軍（もうすぐ候補）判定。条件まであと一歩の銘柄を検出する。"""
+    s = cfg["signals"]
+    if df is None or len(df) < s["ma_mid"] + 5:
+        return None
+    close = df["Close"]
+    vol = df["Volume"]
+    last_close = float(close.iloc[-1])
+    turnover = float((close * vol).rolling(20).mean().iloc[-1])
+    if turnover < cfg["liquidity"]["min_turnover_yen"]:
+        return None
+
+    notes = []
+    # ブレイク目前（60日高値まで3%以内）
+    lookback = s["breakout_lookback"]
+    prior_high = float(df["High"].iloc[-(lookback + 1):-1].max())
+    gap_pct = (prior_high / last_close - 1) * 100
+    if 0 < gap_pct <= 3.0:
+        notes.append(f"{lookback}日高値まであと{gap_pct:.1f}%（ブレイク目前）")
+    # スクイーズ形成中（エネルギー充填）
+    upper, mid, lower, width = ind.bollinger(close, s["bb_period"], s["bb_std"])
+    width_ma = width.rolling(s["bb_period"]).mean().iloc[-1]
+    if pd.notna(width_ma) and float(width.iloc[-1]) <= float(width_ma) * s["bb_squeeze_pct"]:
+        notes.append("BBスクイーズ形成中（ブレイク待ち）")
+    # ゴールデンクロス接近
+    ma_s = ind.sma(close, s["ma_short"])
+    ma_m = ind.sma(close, s["ma_mid"])
+    if pd.notna(ma_s.iloc[-1]) and pd.notna(ma_m.iloc[-1]):
+        diff_pct = (float(ma_m.iloc[-1]) / float(ma_s.iloc[-1]) - 1) * 100
+        rising = float(ma_s.iloc[-1]) > float(ma_s.iloc[-3])
+        if 0 < diff_pct <= 1.5 and rising:
+            notes.append(f"GC接近（{s['ma_short']}日線が{s['ma_mid']}日線まで{diff_pct:.1f}%）")
+    # 出来高じわ増（急増未満）
+    vol_ma20 = vol.rolling(20).mean().iloc[-1]
+    if vol_ma20 and vol_ma20 > 0:
+        vr5 = float(vol.iloc[-5:].mean() / vol_ma20)
+        if 1.3 <= vr5 < s["volume_surge_ratio"]:
+            notes.append(f"出来高じわ増（5日平均が20日平均比{vr5:.1f}倍）")
+
+    if not notes:
+        return None
+    return {"code": code, "name": name, "close": last_close,
+            "notes": notes, "n": len(notes)}
