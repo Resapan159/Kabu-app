@@ -63,3 +63,7 @@ pick_date,code,name,systems,score,ret_5d,ret_10d
 2026-07-14,8309,三井住友トラスト・ホールディングス,anomaly|tech,47,,
 2026-07-14,9433,KDDI,anomaly|tech,47,,
 2026-07-14,6506,安川電機,volume,27,,
+2026-07-14,6098,リクルートホールディングス,anomaly|tech|volume,69,,
+2026-07-14,4661,オリエンタルランド,tech|volume,48,,
+2026-07-14,7832,バンダイナムコホールディングス,tech|volume,46,,
+2026-07-14,4385,メルカリ,anomaly|tech,46,,
