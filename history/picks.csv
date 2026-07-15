@@ -82,3 +82,4 @@ pick_date,ref_date,code,name,ref_close,score,num_systems,systems
 2026-07-15,2026-07-15,6178,日本郵政,2397.0,70,3,anomaly|tech|volume
 2026-07-15,2026-07-15,8309,三井住友トラスト・ホールディングス,6715.0,69,3,anomaly|tech|volume
 2026-07-15,2026-07-15,8750,第一生命ホールディングス,1874.0,46,2,anomaly|tech
+2026-07-15,2026-07-15,8591,オリックス,6593.0,72,3,anomaly|tech|volume
