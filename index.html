@@ -8,122 +8,196 @@
 <link rel="apple-touch-icon" href="icons/icon-192.png">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<title>株レポ 2026-07-22 16:27</title>
+<title>株レポ 2026-07-22 16:36</title>
 <style>
-:root { color-scheme: dark; }
-* { box-sizing: border-box; }
+:root { color-scheme: dark;
+  --bg:#0b0e14; --card:#151a23; --card2:#1b2230; --border:#242c3a;
+  --text:#e8ecf3; --muted:#8f9cb3; --accent:#3b82f6;
+  --up:#16c784; --down:#ea3943; --gold:#f0b90b; }
+* { box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
 body { margin:0; font-family:-apple-system,"Hiragino Kaku Gothic ProN",sans-serif;
-  background:#0d1117; color:#e6edf3; line-height:1.6; padding-bottom:40px; }
-.wrap { max-width:560px; margin:0 auto; padding:12px; }
-h1 { font-size:1.15rem; margin:8px 0; }
-h2 { font-size:1rem; margin:22px 0 8px; border-left:4px solid #2d7dd2; padding-left:8px; }
-.muted { color:#8b949e; font-size:.85rem; }
-.banner { border-radius:12px; padding:12px 14px; color:#fff; margin:10px 0; }
-.banner-top { font-weight:700; font-size:1.05rem; }
-.banner-metrics { font-size:.9rem; opacity:.95; margin-top:2px; }
-.banner-reasons { font-size:.8rem; opacity:.9; margin-top:4px; }
-.errbar { background:#5a3a00; color:#ffd479; border-radius:8px; padding:8px 10px;
+  background:var(--bg); color:var(--text); line-height:1.55;
+  padding-bottom:calc(78px + env(safe-area-inset-bottom)); }
+.wrap { max-width:600px; margin:0 auto; padding:8px 12px; }
+h2 { font-size:.98rem; margin:22px 0 8px; border-left:4px solid var(--accent);
+  padding-left:8px; }
+.muted { color:var(--muted); font-size:.85rem; }
+/* ===== アプリバー ===== */
+.appbar { position:sticky; top:0; z-index:30; display:flex; align-items:center; gap:8px;
+  padding:10px 14px 8px; padding-top:calc(10px + env(safe-area-inset-top));
+  background:rgba(11,14,20,.92); -webkit-backdrop-filter:blur(12px); backdrop-filter:blur(12px);
+  border-bottom:1px solid var(--border); }
+.appbar .logo { font-weight:800; font-size:1.02rem; }
+.appbar .when { color:var(--muted); font-size:.72rem; flex:1; }
+.iconbtn { background:var(--card); border:1px solid var(--border); color:var(--text);
+  border-radius:10px; width:40px; height:36px; font-size:1rem; cursor:pointer; }
+.iconbtn:active { background:var(--card2); }
+/* ===== 市況ストリップ ===== */
+.mstrip { display:flex; gap:8px; overflow-x:auto; padding:10px 0 4px;
+  scrollbar-width:none; }
+.mstrip::-webkit-scrollbar { display:none; }
+.mchip { flex:0 0 auto; background:var(--card); border:1px solid var(--border);
+  border-radius:12px; padding:6px 12px; text-align:center; min-width:84px; }
+.mchip .k { display:block; font-size:.66rem; color:var(--muted); }
+.mchip .v { font-weight:700; font-size:.88rem; }
+.up { color:var(--up); } .down { color:var(--down); }
+/* ===== サマリーダッシュ ===== */
+.dash { display:grid; grid-template-columns:repeat(4,1fr); gap:8px; margin:8px 0 4px; }
+.dash .cell { background:var(--card); border:1px solid var(--border); border-radius:14px;
+  padding:9px 4px; text-align:center; }
+.dash .num { font-size:1.15rem; font-weight:800; line-height:1.2; }
+.dash .lbl { font-size:.64rem; color:var(--muted); }
+/* ===== バナー・注意 ===== */
+.banner { border-radius:14px; padding:11px 14px; color:#fff; margin:8px 0; }
+.banner-top { font-weight:700; font-size:1rem; }
+.banner-metrics { font-size:.85rem; opacity:.95; margin-top:2px; }
+.banner-reasons { font-size:.78rem; opacity:.9; margin-top:3px; }
+.errbar { background:#3d2b00; color:#ffd479; border-radius:10px; padding:8px 10px;
   font-size:.8rem; margin:8px 0; }
-.seemikakuri { background:#3a1414; color:#ffb3b3; border-radius:8px; padding:10px;
+.seemikakuri { background:#3a1414; color:#ffb3b3; border-radius:10px; padding:10px;
   font-size:.9rem; margin:8px 0; }
-.capbox { background:#161b22; border:1px solid #30363d; border-radius:10px;
+.capbox { background:var(--card); border:1px solid var(--border); border-radius:14px;
   padding:10px 12px; margin:10px 0; font-size:.85rem; }
-.capbox input { width:120px; background:#0d1117; color:#e6edf3; border:1px solid #30363d;
-  border-radius:6px; padding:4px 8px; font-size:.9rem; }
-.card { background:#161b22; border:1px solid #30363d; border-radius:12px;
-  margin:10px 0; overflow:hidden; }
-.card[open] { border-color:#2d7dd2; }
-.gated-card { opacity:.7; }
-summary { list-style:none; cursor:pointer; padding:12px; }
+.capbox input { width:130px; background:var(--bg); color:var(--text);
+  border:1px solid var(--border); border-radius:8px; padding:6px 8px; font-size:.95rem; }
+/* ===== 候補カード ===== */
+.tierhead { border-left:4px solid; padding-left:8px; margin:18px 0 6px;
+  font-size:.92rem; }
+.card { background:var(--card); border:1px solid var(--border); border-radius:16px;
+  margin:8px 0; overflow:hidden; box-shadow:0 2px 8px rgba(0,0,0,.25); }
+.card[open] { border-color:var(--accent); }
+.gated-card { opacity:.65; }
+summary { list-style:none; cursor:pointer; padding:12px 14px; }
 summary::-webkit-details-marker { display:none; }
-.card-head { display:flex; align-items:center; gap:8px; }
-.rank { background:#2d7dd2; color:#fff; border-radius:50%; width:22px; height:22px;
-  display:flex; align-items:center; justify-content:center; font-size:.8rem; font-weight:700; }
-.code { font-family:monospace; color:#8b949e; }
+.card-head { display:flex; align-items:center; gap:10px; }
+.rank { color:#fff; border-radius:9px; min-width:26px; height:26px; padding:0 4px;
+  display:flex; align-items:center; justify-content:center;
+  font-size:.8rem; font-weight:800; background:#57606a; }
+.rank-S { background:linear-gradient(135deg,#f0b90b,#e8890b); color:#1a1200; }
+.rank-A { background:linear-gradient(135deg,#3b82f6,#2563eb); }
+.rank-B { background:#3a4453; }
+.tinfo { flex:1; min-width:0; }
+.tinfo .name { font-weight:700; font-size:.95rem; white-space:nowrap;
+  overflow:hidden; text-overflow:ellipsis; }
+.tinfo .csub { font-size:.7rem; color:var(--muted); font-family:monospace; }
+.card-right { text-align:right; display:flex; align-items:center; gap:8px; }
+.px { font-weight:700; font-size:.95rem; display:block; }
+.pxchg { display:block; font-size:.72rem; font-weight:600; }
+canvas.spark { width:62px; height:28px; }
+.code { font-family:monospace; color:var(--muted); }
 .name { font-weight:700; flex:1; }
-.score { background:#233; color:#7ee787; font-weight:700; padding:2px 8px;
-  border-radius:6px; font-size:.9rem; }
-.card-sub { margin-top:6px; display:flex; flex-wrap:wrap; gap:6px; align-items:center; }
-.tag { background:#1f2d3d; color:#79c0ff; border-radius:5px; padding:1px 7px; font-size:.72rem; }
-.card-body { padding:0 12px 12px; border-top:1px solid #30363d; }
+.score { background:rgba(22,199,132,.12); color:var(--up); font-weight:700;
+  padding:2px 8px; border-radius:8px; font-size:.85rem; }
+.card-sub { margin-top:7px; display:flex; flex-wrap:wrap; gap:5px; align-items:center; }
+.tag { background:rgba(59,130,246,.13); color:#7ab3ff; border-radius:6px;
+  padding:1px 8px; font-size:.7rem; }
+.card-body { padding:0 14px 13px; border-top:1px solid var(--border); }
 .gated { color:#ffb3b3; font-size:.85rem; margin:8px 0; }
-.hits { margin:10px 0; padding-left:18px; font-size:.85rem; }
+.hits { margin:10px 0; padding-left:18px; font-size:.84rem; }
 .hits li { margin:3px 0; }
-.levels { display:grid; grid-template-columns:1fr 1fr; gap:6px; margin-top:8px; }
-.levels > div { background:#0d1117; border-radius:8px; padding:6px 8px; }
-.levels .k { display:block; color:#8b949e; font-size:.72rem; }
-.levels .v { font-weight:700; }
+.levels { display:grid; grid-template-columns:1fr 1fr; gap:7px; margin-top:8px; }
+.levels > div { background:var(--bg); border:1px solid var(--border);
+  border-radius:10px; padding:6px 9px; }
+.levels .k { display:block; color:var(--muted); font-size:.7rem; }
+.levels .v { font-weight:700; font-size:.9rem; }
 .btnrow { display:flex; gap:8px; margin-top:10px; }
-.btn { flex:1; background:#21262d; color:#e6edf3; border:1px solid #30363d;
-  border-radius:8px; padding:8px; font-size:.85rem; cursor:pointer; }
-.btn.buy { background:#1f3d2b; border-color:#2ea043; color:#7ee787; }
-.btn.danger { background:#3a1414; border-color:#c0392b; color:#ffb3b3; }
-.btn.small { flex:none; padding:5px 10px; font-size:.78rem; }
-.holds .hold { background:#161b22; border:1px solid #30363d; border-radius:10px;
-  padding:10px; margin:8px 0; }
+.btn { flex:1; background:var(--card2); color:var(--text); border:1px solid var(--border);
+  border-radius:11px; padding:9px; font-size:.85rem; cursor:pointer; font-weight:600; }
+.btn:active { opacity:.75; }
+.btn.buy { background:rgba(22,199,132,.13); border-color:rgba(22,199,132,.5);
+  color:var(--up); }
+.btn.danger { background:rgba(234,57,67,.12); border-color:rgba(234,57,67,.45);
+  color:#ff8f96; }
+.btn.small { flex:none; padding:6px 11px; font-size:.78rem; }
+/* ===== リストカード（予備軍・開示・保有） ===== */
+.holds .hold { background:var(--card); border:1px solid var(--border);
+  border-radius:14px; padding:11px 12px; margin:8px 0; }
 .hold-head { display:flex; align-items:center; gap:8px; flex-wrap:wrap; }
 .hold .pnl { font-weight:700; }
-.judge { color:#fff; border-radius:6px; padding:2px 8px; font-size:.78rem; }
-.hold-detail { margin-top:4px; }
+.judge { color:#fff; border-radius:7px; padding:2px 9px; font-size:.75rem; }
+.hold-detail { margin-top:4px; font-size:.8rem; color:var(--muted); }
 table.rev { width:100%; border-collapse:collapse; font-size:.82rem; margin-top:6px; }
-table.rev th, table.rev td { border-bottom:1px solid #30363d; padding:5px; text-align:center; }
-table.rev th { color:#8b949e; }
-footer { margin-top:26px; font-size:.72rem; color:#8b949e; }
-/* 購入一覧 */
-.psum { background:#161b22; border:1px solid #30363d; border-radius:10px;
-  padding:10px 12px; margin:8px 0; font-size:.95rem; }
-.pos { color:#7ee787; } .neg { color:#ff7b72; }
-.pcard { background:#161b22; border:1px solid #30363d; border-radius:10px;
-  padding:10px; margin:8px 0; }
-.pcard.sold { opacity:.75; }
+table.rev th, table.rev td { border-bottom:1px solid var(--border); padding:6px 4px;
+  text-align:center; }
+table.rev th { color:var(--muted); font-weight:600; }
+footer { margin-top:26px; font-size:.7rem; color:var(--muted); }
+/* ===== 購入一覧 ===== */
+.psum { background:linear-gradient(135deg,#17202e,#141a26);
+  border:1px solid var(--border); border-radius:16px; padding:14px;
+  margin:8px 0 12px; text-align:center; }
+.psum .big { font-size:1.5rem; font-weight:800; display:block; }
+.pos { color:var(--up); } .neg { color:var(--down); }
+.pcard { background:var(--card); border:1px solid var(--border); border-radius:14px;
+  padding:11px 12px; margin:8px 0; }
+.pcard.sold { opacity:.7; }
 .pcard-head { display:flex; align-items:center; gap:8px; flex-wrap:wrap; }
 .pcard-head .pnl { font-weight:700; margin-left:auto; }
-.pcard-detail { font-size:.82rem; color:#8b949e; margin-top:3px; }
+.pcard-detail { font-size:.8rem; color:var(--muted); margin-top:3px; }
 .pcard .btnrow { margin-top:8px; }
-/* チャートモーダル */
-#chart-overlay { position:fixed; inset:0; background:rgba(0,0,0,.85); z-index:50;
+/* ===== 下部タブバー ===== */
+.tabs { position:fixed; left:0; right:0; bottom:0; z-index:40; display:flex; gap:4px;
+  background:rgba(13,17,24,.96); -webkit-backdrop-filter:blur(12px);
+  backdrop-filter:blur(12px); border-top:1px solid var(--border);
+  padding:7px 12px calc(7px + env(safe-area-inset-bottom)); }
+.tabbtn { flex:1; background:none; border:none; color:var(--muted);
+  border-radius:12px; padding:5px 0 3px; font-size:.66rem; cursor:pointer;
+  display:flex; flex-direction:column; align-items:center; gap:1px; font-weight:600; }
+.tabbtn .ico { font-size:1.3rem; line-height:1.15; }
+.tabbtn.active { color:#7ab3ff; background:rgba(59,130,246,.13); }
+.tabpanel { display:none; }
+.tabpanel.active { display:block; animation:fadein .18s ease; }
+@keyframes fadein { from { opacity:.4; transform:translateY(4px); }
+  to { opacity:1; transform:none; } }
+/* ===== チャートモーダル ===== */
+#chart-overlay { position:fixed; inset:0; background:rgba(0,0,0,.86); z-index:50;
   display:none; align-items:center; justify-content:center; flex-direction:column; }
 #chart-overlay.show { display:flex; }
-#chart-box { background:#161b22; border:1px solid #30363d; border-radius:14px;
-  padding:12px; width:min(96vw, 640px); }
+#chart-box { background:var(--card); border:1px solid var(--border); border-radius:16px;
+  padding:13px; width:min(96vw, 640px); }
 #chart-title { font-weight:700; margin-bottom:6px; display:flex; align-items:center; }
-#chart-close { margin-left:auto; background:none; border:none; color:#8b949e;
+#chart-close { margin-left:auto; background:none; border:none; color:var(--muted);
   font-size:1.4rem; cursor:pointer; padding:0 4px; }
 #chart-canvas { width:100%; height:340px; display:block; }
-#chart-note { font-size:.72rem; color:#8b949e; margin-top:4px; }
-.tierhead { border-left:4px solid; padding-left:8px; margin:18px 0 4px;
-  font-size:.95rem; }
-/* タブ */
-.tabs { position:sticky; top:0; z-index:10; display:flex; gap:6px; background:#0d1117;
-  padding:8px 0; }
-.tabbtn { flex:1; background:#161b22; color:#8b949e; border:1px solid #30363d;
-  border-radius:10px; padding:9px 0; font-size:.9rem; cursor:pointer; }
-.tabbtn.active { background:#1f2d3d; color:#79c0ff; border-color:#2d7dd2; font-weight:700; }
-.tabpanel { display:none; }
-.tabpanel.active { display:block; }
-/* 購入ダイアログ */
-#buy-overlay { position:fixed; inset:0; background:rgba(0,0,0,.7); z-index:60;
+#chart-note { font-size:.72rem; color:var(--muted); margin-top:4px; }
+/* ===== 購入ダイアログ ===== */
+#buy-overlay { position:fixed; inset:0; background:rgba(0,0,0,.72); z-index:60;
   display:none; align-items:center; justify-content:center; }
 #buy-overlay.show { display:flex; }
-#buy-box { background:#161b22; border:1px solid #2ea043; border-radius:14px;
-  padding:16px; width:min(92vw, 380px); }
+#buy-box { background:var(--card); border:1px solid rgba(22,199,132,.55);
+  border-radius:16px; padding:16px; width:min(92vw, 380px); }
 #buy-box h3 { margin:0 0 10px; font-size:1rem; }
-#buy-box label { display:block; font-size:.8rem; color:#8b949e; margin-top:10px; }
-#buy-box input { width:100%; background:#0d1117; color:#e6edf3; border:1px solid #30363d;
-  border-radius:8px; padding:8px; font-size:1rem; margin-top:3px; }
+#buy-box label { display:block; font-size:.8rem; color:var(--muted); margin-top:10px; }
+#buy-box input { width:100%; background:var(--bg); color:var(--text);
+  border:1px solid var(--border); border-radius:10px; padding:9px; font-size:1rem;
+  margin-top:3px; }
 #buy-box .btnrow { margin-top:14px; }
 </style>
 </head>
 <body>
+<header class="appbar">
+  <span class="logo">📈 株レポ</span>
+  <span class="when">2026-07-22<br>更新 16:36</span>
+  <button class="iconbtn" id="btn-dispatch" title="今すぐデータ更新">🔄</button>
+  <button class="iconbtn" id="btn-reload" title="再読み込み">↻</button>
+</header>
 <div class="wrap">
-  <h1>■ 2026-07-22 レポート <span class="muted" style="font-size:.78rem">更新 16:27</span></h1>
-  <div class="btnrow" style="margin:4px 0 8px">
-    <button class="btn small" id="btn-dispatch">🔄 今すぐデータ更新</button>
-    <button class="btn small" id="btn-reload">↻ 再読み込み</button>
-  </div>
   <div class="muted" id="dispatch-msg" style="display:none"></div>
   <div class="errbar">⚠ データ取得失敗 1銘柄 （前日キャッシュで代替の可能性）: 9613</div>
   <div class="errbar" id="prices-warn" style="display:none"></div>
+
+  <div class="mstrip"><div class="mchip"><span class="k">地合い</span><span class="v">⚠️WARN</span></div></div>
+
+  <div class="dash">
+    <div class="cell"><div class="num" style="color:var(--gold)">0</div>
+      <div class="lbl">🎯 本命</div></div>
+    <div class="cell"><div class="num">0</div>
+      <div class="lbl">候補合計</div></div>
+    <div class="cell"><div class="num">0</div>
+      <div class="lbl">予備軍</div></div>
+    <div class="cell"><div class="num" id="dash-pnl">—</div>
+      <div class="lbl">保有損益</div></div>
+  </div>
+
   
     <div class="banner" style="background:#c0392b">
       <div class="banner-top">⛔ 地合い: NG</div>
@@ -131,19 +205,12 @@ footer { margin-top:26px; font-size:.72rem; color:#8b949e; }
       <div class="banner-reasons">日経 -0.2%　日経先物 -1.6%（大幅安）→ 本日は見送り推奨</div>
     </div>
 
-  <div class="capbox">
-    総資金（この端末だけに保存）:
-    <input id="capital" type="number" inputmode="numeric" placeholder="例 3000000"> 円
-    <span class="muted">→ 許容損失 1.0% / 同時保有上限 5銘柄で株数を再計算</span>
-  </div>
-
-  <nav class="tabs">
-    <button class="tabbtn active" data-tab="cand">📋 候補</button>
-    <button class="tabbtn" data-tab="buy">🛒 購入一覧</button>
-    <button class="tabbtn" data-tab="etc">📊 保有・検証</button>
-  </nav>
-
   <section class="tabpanel active" id="tab-cand">
+    <div class="capbox">
+      💰 総資金（この端末だけに保存）:
+      <input id="capital" type="number" inputmode="numeric" placeholder="例 3000000"> 円
+      <span class="muted">→ 許容損失 1.0% / 上限 5銘柄で株数を自動計算</span>
+    </div>
     <h2>■ 新規候補</h2>
     <div class="seemikakuri">⛔ 本日は地合いNGのため「見送り」推奨。以下は参考候補（IN非推奨）。</div>
     <details class="card gated-card" data-code="7182"
@@ -616,6 +683,12 @@ footer { margin-top:26px; font-size:.72rem; color:#8b949e; }
   </footer>
 </div>
 
+<nav class="tabs">
+  <button class="tabbtn active" data-tab="cand"><span class="ico">🏠</span>候補</button>
+  <button class="tabbtn" data-tab="buy"><span class="ico">💼</span>購入</button>
+  <button class="tabbtn" data-tab="etc"><span class="ico">📊</span>検証</button>
+</nav>
+
 <div id="chart-overlay">
   <div id="chart-box">
     <div id="chart-title"><span id="chart-title-text"></span>
@@ -727,10 +800,11 @@ function renderPurchases() {
   let sum = '';
   if (totalCost > 0) {
     const cls = totalPnl >= 0 ? 'pos' : 'neg';
-    sum = '<div class="psum">保有中の評価損益: <b class="' + cls + '">' +
-      (totalPnl >= 0 ? '+' : '') + fmt(totalPnl) + '円 (' +
-      (totalPnl / totalCost * 100).toFixed(1) + '%)</b>' +
-      ' <span class="muted">/ 投下資金 ' + fmt(totalCost) + '円</span></div>';
+    sum = '<div class="psum"><span class="muted" style="font-size:.75rem">保有中の評価損益</span>' +
+      '<span class="big ' + cls + '">' + (totalPnl >= 0 ? '+' : '') + fmt(totalPnl) + '円</span>' +
+      '<span class="' + cls + '" style="font-weight:700">(' +
+      (totalPnl >= 0 ? '+' : '') + (totalPnl / totalCost * 100).toFixed(2) + '%)</span>' +
+      '<div class="muted" style="font-size:.72rem;margin-top:2px">投下資金 ' + fmt(totalCost) + '円</div></div>';
   }
 
   if (sold.length) {
@@ -768,11 +842,13 @@ function sellPurchase(id) {
   p.sellDate = new Date().toISOString().slice(0, 10);
   savePurchases(items);
   renderPurchases();
+  fillDashPnl();
 }
 function deletePurchase(id) {
   if (!confirm('この記録を削除しますか？')) return;
   savePurchases(loadPurchases().filter(x => x.id !== id));
   renderPurchases();
+  fillDashPnl();
 }
 
 /* ---------- 購入登録ダイアログ ---------- */
@@ -803,6 +879,7 @@ function submitBuy() {
   savePurchases(items);
   closeBuy();
   renderPurchases();
+  fillDashPnl();
   const tb = document.querySelector('.tabbtn[data-tab="buy"]');
   if (tb) tb.click();
 }
@@ -992,10 +1069,70 @@ try {
   }
 } catch (e) {}
 
+/* ---------- スパークライン・前日比・保有損益 ---------- */
+function drawSpark(cv, arr) {
+  if (!arr || arr.length < 2) return;
+  const dpr = window.devicePixelRatio || 1;
+  const W = cv.clientWidth || 62, H = cv.clientHeight || 28;
+  cv.width = W * dpr; cv.height = H * dpr;
+  const g = cv.getContext('2d');
+  g.scale(dpr, dpr);
+  const lo = Math.min.apply(null, arr), hi = Math.max.apply(null, arr);
+  const r = (hi - lo) || 1;
+  const up = arr[arr.length - 1] >= arr[0];
+  const col = up ? '#16c784' : '#ea3943';
+  g.beginPath();
+  arr.forEach((v, i) => {
+    const x = i / (arr.length - 1) * W;
+    const y = H - 2 - (v - lo) / r * (H - 5);
+    i ? g.lineTo(x, y) : g.moveTo(x, y);
+  });
+  g.strokeStyle = col; g.lineWidth = 1.6; g.stroke();
+  g.lineTo(W, H); g.lineTo(0, H); g.closePath();
+  g.fillStyle = up ? 'rgba(22,199,132,.12)' : 'rgba(234,57,67,.12)';
+  g.fill();
+}
+function fillQuotes() {
+  if (!PRICES) return;
+  document.querySelectorAll('.px[data-code]').forEach(el => {
+    const p = PRICES[el.dataset.code];
+    if (!p || p.c.length < 2) return;
+    const last = p.c[p.c.length - 1], prev = p.c[p.c.length - 2];
+    el.textContent = Math.round(last).toLocaleString();
+    const chg = (last / prev - 1) * 100;
+    const ce = document.querySelector('.pxchg[data-code="' + el.dataset.code + '"]');
+    if (ce) {
+      ce.textContent = (chg >= 0 ? '+' : '') + chg.toFixed(2) + '%';
+      ce.classList.remove('up', 'down');
+      ce.classList.add(chg >= 0 ? 'up' : 'down');
+    }
+  });
+  document.querySelectorAll('canvas.spark[data-code]').forEach(cv => {
+    const p = PRICES[cv.dataset.code];
+    if (p) drawSpark(cv, p.c.slice(-30));
+  });
+}
+function fillDashPnl() {
+  const el = document.getElementById('dash-pnl');
+  if (!el) return;
+  const items = loadPurchases().filter(p => p.status !== 'sold');
+  if (!items.length) { el.textContent = '—'; return; }
+  let pnl = 0, known = false;
+  items.forEach(p => {
+    const cur = lastClose(p.code);
+    if (cur !== null) { pnl += (cur - p.price) * p.units * 100; known = true; }
+  });
+  if (!known) { el.textContent = '—'; return; }
+  const man = pnl / 10000;
+  el.textContent = (pnl >= 0 ? '+' : '') +
+    (Math.abs(man) >= 1 ? man.toFixed(1) + '万' : Math.round(pnl).toLocaleString());
+  el.style.color = pnl >= 0 ? 'var(--up)' : 'var(--down)';
+}
+
 /* ---------- 株価データ読込 ---------- */
 fetch(PRICES_URL)
   .then(r => r.json())
-  .then(p => { PRICES = p; renderPurchases(); })
+  .then(p => { PRICES = p; renderPurchases(); fillQuotes(); fillDashPnl(); })
   .catch(() => {
     renderPurchases();
     const el = document.getElementById('prices-warn');
