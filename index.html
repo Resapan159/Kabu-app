@@ -8,7 +8,7 @@
 <link rel="apple-touch-icon" href="icons/icon-192.png">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<title>株レポ 2026-07-22 16:36</title>
+<title>株レポ 2026-07-22 16:38</title>
 <style>
 :root { color-scheme: dark;
   --bg:#0b0e14; --card:#151a23; --card2:#1b2230; --border:#242c3a;
@@ -176,7 +176,7 @@ footer { margin-top:26px; font-size:.7rem; color:var(--muted); }
 <body>
 <header class="appbar">
   <span class="logo">📈 株レポ</span>
-  <span class="when">2026-07-22<br>更新 16:36</span>
+  <span class="when">2026-07-22<br>更新 16:38</span>
   <button class="iconbtn" id="btn-dispatch" title="今すぐデータ更新">🔄</button>
   <button class="iconbtn" id="btn-reload" title="再読み込み">↻</button>
 </header>
@@ -185,14 +185,14 @@ footer { margin-top:26px; font-size:.7rem; color:var(--muted); }
   <div class="errbar">⚠ データ取得失敗 1銘柄 （前日キャッシュで代替の可能性）: 9613</div>
   <div class="errbar" id="prices-warn" style="display:none"></div>
 
-  <div class="mstrip"><div class="mchip"><span class="k">地合い</span><span class="v">⚠️WARN</span></div></div>
+  <div class="mstrip"><div class="mchip"><span class="k">地合い</span><span class="v">⛔NG</span></div><div class="mchip"><span class="k">日経先物</span><span class="v down">-1.6%</span></div><div class="mchip"><span class="k">日経平均</span><span class="v down">-0.2%</span></div><div class="mchip"><span class="k">SOX</span><span class="v up">+5.2%</span></div><div class="mchip"><span class="k">NYダウ</span><span class="v up">+0.7%</span></div><div class="mchip"><span class="k">ドル円</span><span class="v ">163.1円</span></div></div>
 
   <div class="dash">
-    <div class="cell"><div class="num" style="color:var(--gold)">0</div>
+    <div class="cell"><div class="num" style="color:var(--gold)">4</div>
       <div class="lbl">🎯 本命</div></div>
-    <div class="cell"><div class="num">0</div>
+    <div class="cell"><div class="num">10</div>
       <div class="lbl">候補合計</div></div>
-    <div class="cell"><div class="num">0</div>
+    <div class="cell"><div class="num">8</div>
       <div class="lbl">予備軍</div></div>
     <div class="cell"><div class="num" id="dash-pnl">—</div>
       <div class="lbl">保有損益</div></div>
@@ -212,20 +212,25 @@ footer { margin-top:26px; font-size:.7rem; color:var(--muted); }
       <span class="muted">→ 許容損失 1.0% / 上限 5銘柄で株数を自動計算</span>
     </div>
     <h2>■ 新規候補</h2>
-    <div class="seemikakuri">⛔ 本日は地合いNGのため「見送り」推奨。以下は参考候補（IN非推奨）。</div>
+    <div class="seemikakuri">⛔ 本日は地合いNGのため「見送り」推奨。以下は参考候補（IN非推奨）。</div><div class="tierhead" style="border-color:#f0b90b"><b>🎯 本命</b> <span class="muted">3系統以上の根拠 or 開示材料あり（4件）</span></div>
     <details class="card gated-card" data-code="7182"
              data-in="3411.0" data-stop="3203.9">
       <summary>
         <div class="card-head">
-          <span class="rank">1</span>
-          <span class="code">7182</span>
-          <span class="name">ゆうちょ銀行</span>
-          <span class="score">72</span>
+          <span class="rank rank-S">1</span>
+          <div class="tinfo">
+            <div class="name">ゆうちょ銀行</div>
+            <div class="csub">7182・出来高1.29倍・代金194.6億</div>
+          </div>
+          <div class="card-right">
+            <div>
+              <span class="px" data-code="7182">3,411</span>
+              <span class="pxchg" data-code="7182"></span>
+            </div>
+            <canvas class="spark" data-code="7182"></canvas>
+          </div>
         </div>
-        <div class="card-sub">
-          <span class="tag">⑦統計・アノマリー</span><span class="tag">③テクニカル</span><span class="tag">②出来高・需給</span>
-          <span class="muted">出来高1.29倍 / 代金194.6億</span>
-        </div>
+        <div class="card-sub"><span class="tag">⑦統計・アノマリー</span><span class="tag">③テクニカル</span><span class="tag">②出来高・需給</span><span class="score">72</span></div>
       </summary>
       <div class="card-body">
         <div class="gated">⛔ 地合いNGのため本日は見送り推奨</div>
@@ -247,15 +252,20 @@ footer { margin-top:26px; font-size:.7rem; color:var(--muted); }
              data-in="4801.0" data-stop="4586.1">
       <summary>
         <div class="card-head">
-          <span class="rank">2</span>
-          <span class="code">8725</span>
-          <span class="name">MS&amp;ADインシュアランスグループ</span>
-          <span class="score">71</span>
+          <span class="rank rank-S">2</span>
+          <div class="tinfo">
+            <div class="name">MS&amp;ADインシュアランスグループ</div>
+            <div class="csub">8725・出来高1.0倍・代金237.4億</div>
+          </div>
+          <div class="card-right">
+            <div>
+              <span class="px" data-code="8725">4,801</span>
+              <span class="pxchg" data-code="8725"></span>
+            </div>
+            <canvas class="spark" data-code="8725"></canvas>
+          </div>
         </div>
-        <div class="card-sub">
-          <span class="tag">⑦統計・アノマリー</span><span class="tag">③テクニカル</span><span class="tag">②出来高・需給</span>
-          <span class="muted">出来高1.0倍 / 代金237.4億</span>
-        </div>
+        <div class="card-sub"><span class="tag">⑦統計・アノマリー</span><span class="tag">③テクニカル</span><span class="tag">②出来高・需給</span><span class="score">71</span></div>
       </summary>
       <div class="card-body">
         <div class="gated">⛔ 地合いNGのため本日は見送り推奨</div>
@@ -277,15 +287,20 @@ footer { margin-top:26px; font-size:.7rem; color:var(--muted); }
              data-in="2453.5" data-stop="2329.3">
       <summary>
         <div class="card-head">
-          <span class="rank">3</span>
-          <span class="code">6178</span>
-          <span class="name">日本郵政</span>
-          <span class="score">70</span>
+          <span class="rank rank-S">3</span>
+          <div class="tinfo">
+            <div class="name">日本郵政</div>
+            <div class="csub">6178・出来高0.9倍・代金126.3億</div>
+          </div>
+          <div class="card-right">
+            <div>
+              <span class="px" data-code="6178">2,454</span>
+              <span class="pxchg" data-code="6178"></span>
+            </div>
+            <canvas class="spark" data-code="6178"></canvas>
+          </div>
         </div>
-        <div class="card-sub">
-          <span class="tag">⑦統計・アノマリー</span><span class="tag">③テクニカル</span><span class="tag">②出来高・需給</span>
-          <span class="muted">出来高0.9倍 / 代金126.3億</span>
-        </div>
+        <div class="card-sub"><span class="tag">⑦統計・アノマリー</span><span class="tag">③テクニカル</span><span class="tag">②出来高・需給</span><span class="score">70</span></div>
       </summary>
       <div class="card-body">
         <div class="gated">⛔ 地合いNGのため本日は見送り推奨</div>
@@ -307,15 +322,20 @@ footer { margin-top:26px; font-size:.7rem; color:var(--muted); }
              data-in="6844.0" data-stop="6313.6">
       <summary>
         <div class="card-head">
-          <span class="rank">4</span>
-          <span class="code">8309</span>
-          <span class="name">三井住友トラスト・ホールディングス</span>
-          <span class="score">71</span>
+          <span class="rank rank-S">4</span>
+          <div class="tinfo">
+            <div class="name">三井住友トラスト・ホールディングス</div>
+            <div class="csub">8309・出来高0.85倍・代金159.4億</div>
+          </div>
+          <div class="card-right">
+            <div>
+              <span class="px" data-code="8309">6,844</span>
+              <span class="pxchg" data-code="8309"></span>
+            </div>
+            <canvas class="spark" data-code="8309"></canvas>
+          </div>
         </div>
-        <div class="card-sub">
-          <span class="tag">⑦統計・アノマリー</span><span class="tag">③テクニカル</span><span class="tag">②出来高・需給</span>
-          <span class="muted">出来高0.85倍 / 代金159.4億</span>
-        </div>
+        <div class="card-sub"><span class="tag">⑦統計・アノマリー</span><span class="tag">③テクニカル</span><span class="tag">②出来高・需給</span><span class="score">71</span></div>
       </summary>
       <div class="card-body">
         <div class="gated">⛔ 地合いNGのため本日は見送り推奨</div>
@@ -332,20 +352,25 @@ footer { margin-top:26px; font-size:.7rem; color:var(--muted); }
                   data-in="6844.0">🛒 購入登録</button>
         </div>
       </div>
-    </details>
+    </details><div class="tierhead" style="border-color:#3b82f6"><b>◎ 有力</b> <span class="muted">2系統の根拠（6件）</span></div>
     <details class="card gated-card" data-code="4385"
              data-in="4417.0" data-stop="4039.6">
       <summary>
         <div class="card-head">
-          <span class="rank">5</span>
-          <span class="code">4385</span>
-          <span class="name">メルカリ</span>
-          <span class="score">50</span>
+          <span class="rank rank-A">5</span>
+          <div class="tinfo">
+            <div class="name">メルカリ</div>
+            <div class="csub">4385・出来高2.01倍・代金79.6億</div>
+          </div>
+          <div class="card-right">
+            <div>
+              <span class="px" data-code="4385">4,417</span>
+              <span class="pxchg" data-code="4385"></span>
+            </div>
+            <canvas class="spark" data-code="4385"></canvas>
+          </div>
         </div>
-        <div class="card-sub">
-          <span class="tag">③テクニカル</span><span class="tag">②出来高・需給</span>
-          <span class="muted">出来高2.01倍 / 代金79.6億</span>
-        </div>
+        <div class="card-sub"><span class="tag">③テクニカル</span><span class="tag">②出来高・需給</span><span class="score">50</span></div>
       </summary>
       <div class="card-body">
         <div class="gated">⛔ 地合いNGのため本日は見送り推奨</div>
@@ -367,15 +392,20 @@ footer { margin-top:26px; font-size:.7rem; color:var(--muted); }
              data-in="6582.0" data-stop="6063.0">
       <summary>
         <div class="card-head">
-          <span class="rank">6</span>
-          <span class="code">8591</span>
-          <span class="name">オリックス</span>
-          <span class="score">50</span>
+          <span class="rank rank-A">6</span>
+          <div class="tinfo">
+            <div class="name">オリックス</div>
+            <div class="csub">8591・出来高1.06倍・代金188.5億</div>
+          </div>
+          <div class="card-right">
+            <div>
+              <span class="px" data-code="8591">6,582</span>
+              <span class="pxchg" data-code="8591"></span>
+            </div>
+            <canvas class="spark" data-code="8591"></canvas>
+          </div>
         </div>
-        <div class="card-sub">
-          <span class="tag">⑦統計・アノマリー</span><span class="tag">③テクニカル</span>
-          <span class="muted">出来高1.06倍 / 代金188.5億</span>
-        </div>
+        <div class="card-sub"><span class="tag">⑦統計・アノマリー</span><span class="tag">③テクニカル</span><span class="score">50</span></div>
       </summary>
       <div class="card-body">
         <div class="gated">⛔ 地合いNGのため本日は見送り推奨</div>
@@ -397,15 +427,20 @@ footer { margin-top:26px; font-size:.7rem; color:var(--muted); }
              data-in="1897.0" data-stop="1760.2">
       <summary>
         <div class="card-head">
-          <span class="rank">7</span>
-          <span class="code">8750</span>
-          <span class="name">第一生命ホールディングス</span>
-          <span class="score">49</span>
+          <span class="rank rank-A">7</span>
+          <div class="tinfo">
+            <div class="name">第一生命ホールディングス</div>
+            <div class="csub">8750・出来高1.04倍・代金190.6億</div>
+          </div>
+          <div class="card-right">
+            <div>
+              <span class="px" data-code="8750">1,897</span>
+              <span class="pxchg" data-code="8750"></span>
+            </div>
+            <canvas class="spark" data-code="8750"></canvas>
+          </div>
         </div>
-        <div class="card-sub">
-          <span class="tag">⑦統計・アノマリー</span><span class="tag">③テクニカル</span>
-          <span class="muted">出来高1.04倍 / 代金190.6億</span>
-        </div>
+        <div class="card-sub"><span class="tag">⑦統計・アノマリー</span><span class="tag">③テクニカル</span><span class="score">49</span></div>
       </summary>
       <div class="card-body">
         <div class="gated">⛔ 地合いNGのため本日は見送り推奨</div>
@@ -427,15 +462,20 @@ footer { margin-top:26px; font-size:.7rem; color:var(--muted); }
              data-in="2875.5" data-stop="2757.3">
       <summary>
         <div class="card-head">
-          <span class="rank">8</span>
-          <span class="code">9433</span>
-          <span class="name">KDDI</span>
-          <span class="score">48</span>
+          <span class="rank rank-A">8</span>
+          <div class="tinfo">
+            <div class="name">KDDI</div>
+            <div class="csub">9433・出来高1.03倍・代金241.3億</div>
+          </div>
+          <div class="card-right">
+            <div>
+              <span class="px" data-code="9433">2,876</span>
+              <span class="pxchg" data-code="9433"></span>
+            </div>
+            <canvas class="spark" data-code="9433"></canvas>
+          </div>
         </div>
-        <div class="card-sub">
-          <span class="tag">⑦統計・アノマリー</span><span class="tag">③テクニカル</span>
-          <span class="muted">出来高1.03倍 / 代金241.3億</span>
-        </div>
+        <div class="card-sub"><span class="tag">⑦統計・アノマリー</span><span class="tag">③テクニカル</span><span class="score">48</span></div>
       </summary>
       <div class="card-body">
         <div class="gated">⛔ 地合いNGのため本日は見送り推奨</div>
@@ -457,15 +497,20 @@ footer { margin-top:26px; font-size:.7rem; color:var(--muted); }
              data-in="7971.0" data-stop="7387.9">
       <summary>
         <div class="card-head">
-          <span class="rank">9</span>
-          <span class="code">8766</span>
-          <span class="name">東京海上ホールディングス</span>
-          <span class="score">48</span>
+          <span class="rank rank-A">9</span>
+          <div class="tinfo">
+            <div class="name">東京海上ホールディングス</div>
+            <div class="csub">8766・出来高0.88倍・代金423.1億</div>
+          </div>
+          <div class="card-right">
+            <div>
+              <span class="px" data-code="8766">7,971</span>
+              <span class="pxchg" data-code="8766"></span>
+            </div>
+            <canvas class="spark" data-code="8766"></canvas>
+          </div>
         </div>
-        <div class="card-sub">
-          <span class="tag">⑦統計・アノマリー</span><span class="tag">③テクニカル</span>
-          <span class="muted">出来高0.88倍 / 代金423.1億</span>
-        </div>
+        <div class="card-sub"><span class="tag">⑦統計・アノマリー</span><span class="tag">③テクニカル</span><span class="score">48</span></div>
       </summary>
       <div class="card-body">
         <div class="gated">⛔ 地合いNGのため本日は見送り推奨</div>
@@ -487,15 +532,20 @@ footer { margin-top:26px; font-size:.7rem; color:var(--muted); }
              data-in="6458.0" data-stop="6225.4">
       <summary>
         <div class="card-head">
-          <span class="rank">10</span>
-          <span class="code">2914</span>
-          <span class="name">日本たばこ産業</span>
-          <span class="score">47</span>
+          <span class="rank rank-A">10</span>
+          <div class="tinfo">
+            <div class="name">日本たばこ産業</div>
+            <div class="csub">2914・出来高0.87倍・代金299.1億</div>
+          </div>
+          <div class="card-right">
+            <div>
+              <span class="px" data-code="2914">6,458</span>
+              <span class="pxchg" data-code="2914"></span>
+            </div>
+            <canvas class="spark" data-code="2914"></canvas>
+          </div>
         </div>
-        <div class="card-sub">
-          <span class="tag">⑦統計・アノマリー</span><span class="tag">③テクニカル</span>
-          <span class="muted">出来高0.87倍 / 代金299.1億</span>
-        </div>
+        <div class="card-sub"><span class="tag">⑦統計・アノマリー</span><span class="tag">③テクニカル</span><span class="score">47</span></div>
       </summary>
       <div class="card-body">
         <div class="gated">⛔ 地合いNGのため本日は見送り推奨</div>
@@ -519,6 +569,7 @@ footer { margin-top:26px; font-size:.7rem; color:var(--muted); }
             <span class="code">4502</span>
             <span class="name">武田薬品工業</span>
             <span class="score" title="期待度">72</span>
+            <canvas class="spark" data-code="4502"></canvas>
             <button class="btn small chartbtn" data-code="4502"
                     data-name="武田薬品工業">📈</button>
           </div>
@@ -530,6 +581,7 @@ footer { margin-top:26px; font-size:.7rem; color:var(--muted); }
             <span class="code">4528</span>
             <span class="name">小野薬品工業</span>
             <span class="score" title="期待度">72</span>
+            <canvas class="spark" data-code="4528"></canvas>
             <button class="btn small chartbtn" data-code="4528"
                     data-name="小野薬品工業">📈</button>
           </div>
@@ -541,6 +593,7 @@ footer { margin-top:26px; font-size:.7rem; color:var(--muted); }
             <span class="code">9008</span>
             <span class="name">京王電鉄</span>
             <span class="score" title="期待度">72</span>
+            <canvas class="spark" data-code="9008"></canvas>
             <button class="btn small chartbtn" data-code="9008"
                     data-name="京王電鉄">📈</button>
           </div>
@@ -552,6 +605,7 @@ footer { margin-top:26px; font-size:.7rem; color:var(--muted); }
             <span class="code">9107</span>
             <span class="name">川崎汽船</span>
             <span class="score" title="期待度">72</span>
+            <canvas class="spark" data-code="9107"></canvas>
             <button class="btn small chartbtn" data-code="9107"
                     data-name="川崎汽船">📈</button>
           </div>
@@ -563,6 +617,7 @@ footer { margin-top:26px; font-size:.7rem; color:var(--muted); }
             <span class="code">4478</span>
             <span class="name">freee</span>
             <span class="score" title="期待度">57</span>
+            <canvas class="spark" data-code="4478"></canvas>
             <button class="btn small chartbtn" data-code="4478"
                     data-name="freee">📈</button>
           </div>
@@ -574,6 +629,7 @@ footer { margin-top:26px; font-size:.7rem; color:var(--muted); }
             <span class="code">4568</span>
             <span class="name">第一三共</span>
             <span class="score" title="期待度">57</span>
+            <canvas class="spark" data-code="4568"></canvas>
             <button class="btn small chartbtn" data-code="4568"
                     data-name="第一三共">📈</button>
           </div>
@@ -585,6 +641,7 @@ footer { margin-top:26px; font-size:.7rem; color:var(--muted); }
             <span class="code">4755</span>
             <span class="name">楽天グループ</span>
             <span class="score" title="期待度">57</span>
+            <canvas class="spark" data-code="4755"></canvas>
             <button class="btn small chartbtn" data-code="4755"
                     data-name="楽天グループ">📈</button>
           </div>
@@ -596,6 +653,7 @@ footer { margin-top:26px; font-size:.7rem; color:var(--muted); }
             <span class="code">4911</span>
             <span class="name">資生堂</span>
             <span class="score" title="期待度">57</span>
+            <canvas class="spark" data-code="4911"></canvas>
             <button class="btn small chartbtn" data-code="4911"
                     data-name="資生堂">📈</button>
           </div>
