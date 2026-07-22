@@ -14,6 +14,7 @@ from . import money as moneymod
 SYSTEM_LABELS = {
     "catalyst": "①カタリスト（開示）",
     "volume": "②出来高・需給",
+    "margin": "④信用需給",
     "tech": "③テクニカル",
     "anomaly": "⑦統計・アノマリー",
     "algo": "アルゴ痕跡",
@@ -29,7 +30,9 @@ def _display_score(num_systems: int, vol_ratio: float, num_hits: int) -> int:
 
 
 def screen(data: dict, universe: list, cfg: dict, gate_ok: bool,
-           disclosures: dict | None = None) -> list:
+           disclosures: dict | None = None,
+           margin_map: dict | None = None,
+           pts_map: dict | None = None) -> list:
     """スクリーニングを実行し、候補リスト（スコア降順）を返す。"""
     name_map = {code: name for code, name in universe}
     candidates = []
@@ -37,7 +40,8 @@ def screen(data: dict, universe: list, cfg: dict, gate_ok: bool,
     for code, df in data.items():
         name = name_map.get(code, code)
         a = sig.analyze(df, code, name, cfg,
-                        disclosures=(disclosures or {}).get(code))
+                        disclosures=(disclosures or {}).get(code),
+                        margin=(margin_map or {}).get(code))
         if a is None:
             continue
         # 必須条件: リスクフィルタ（除外理由なし）＋ 流動性 ＋ 何らかのシグナル
@@ -68,6 +72,7 @@ def screen(data: dict, universe: list, cfg: dict, gate_ok: bool,
             "position": pos,
             "score": _display_score(len(a.systems), a.volume_ratio, len(a.hits)),
             "gated_out": not gate_ok,   # 地合いNGなら見送り扱いで表示
+            "pts": (pts_map or {}).get(code),
         })
 
     # 順位付け: 系統数 → 出来高倍率

@@ -26,6 +26,8 @@ from src import history
 from src import report
 from src import disclosures as discmod
 from src import backtest as btmod
+from src import pts as ptsmod
+from src import margin as marginmod
 
 
 def is_holiday_weekend() -> bool:
@@ -83,11 +85,27 @@ def main(argv=None):
     disc = {} if args.no_net else discmod.fetch([c for c, _ in universe], cfg)
     n_disc = sum(len(v) for v in disc.values())
     print(f"    → ユニバース関連 {n_disc}件")
+    if disc:
+        n_rev = discmod.enrich_revisions(disc)
+        print(f"    → 修正幅PDF解析 {n_rev}件")
+
+    print("[1c] PTS夜間価格（開示銘柄のみ・実験的）...")
+    pts_map = {}
+    if disc and not args.no_net:
+        closes = {c: float(df["Close"].iloc[-1])
+                  for c, df in data.items() if df is not None and len(df)}
+        pts_map = ptsmod.fetch_for(list(disc.keys()), closes)
+    print(f"    → 取得 {len(pts_map)}銘柄")
+
+    print("[1d] 信用需給（JPX週末信用残・実験的）...")
+    margin_map = {} if args.no_net else marginmod.fetch(cfg)
+    print(f"    → {len(margin_map)}銘柄分")
 
     print("[2-3] シグナル検出＆スコアリング ...")
     gate_ok = gate["status"] != "NG"
     candidates = screener.screen(data, universe, cfg, gate_ok=gate_ok,
-                                 disclosures=disc)
+                                 disclosures=disc, margin_map=margin_map,
+                                 pts_map=pts_map)
     print(f"    → 候補 {len(candidates)}銘柄")
 
     print("[検証] バックテスト（過去データ）...")
@@ -124,12 +142,15 @@ def main(argv=None):
         "watchlist": watch,
         "disclosures": disc,
         "backtest": bt,
+        "pts": pts_map,
     }
     dated, index = report.save_report(ctx, cfg)
     print(f"    → {index}")
     print(f"    → {dated}")
     prices_path = report.save_prices_json(data, universe, cfg)
     print(f"    → {prices_path}（チャート用データ）")
+    archive_path = report.save_archive(cfg)
+    print(f"    → {archive_path}（過去レポート一覧）")
 
     if is_holiday_weekend():
         print("（注: 本日は土日。休場の可能性があります）")

@@ -68,3 +68,81 @@ def fetch(universe_codes: list[str], cfg: dict, days: int = 2,
             "url": str(td.get("document_url", "")),
         })
     return out
+
+
+# ================= 修正幅の定量抽出（構想書: カタリストの強弱判定） =================
+
+REVISION_KWS = ("上方修正", "下方修正", "業績予想の修正")
+
+
+def _extract_revision_pct(pdf_bytes: bytes) -> float | None:
+    """業績予想修正PDFから営業利益の増減率(%)を抽出する（ベストエフォート）。
+
+    TDnetの修正開示は「前回予想/今回修正予想/増減額/増減率」の定型表を持つ。
+    pdfminerでテキスト化し、増減率らしき%数値を探す。営業利益列を特定できない
+    場合は、見つかった増減率のうち絶対値が最大のものを代表値とする。
+    """
+    try:
+        from io import BytesIO
+        from pdfminer.high_level import extract_text
+        text = extract_text(BytesIO(pdf_bytes), maxpages=3)
+    except Exception:
+        return None
+    if not text:
+        return None
+    import re
+    # 全角記号を正規化
+    t = text.replace("△", "-").replace("▲", "-").replace("−", "-") \
+            .replace("，", ",").replace("％", "%")
+    # 「増減率」行の近くの %値 を収集
+    vals = []
+    for m in re.finditer(r"増\s*減\s*率[\s\S]{0,130}", t):
+        seg = m.group(0)
+        for v in re.findall(r"(-?\d{1,3}(?:\.\d+)?)\s*%", seg):
+            try:
+                f = float(v)
+                if 0.1 <= abs(f) <= 500:
+                    vals.append(f)
+            except ValueError:
+                pass
+    if not vals:
+        # フォールバック: 文中の「○%増（減）」表現
+        for v, updown in re.findall(r"(\d{1,3}(?:\.\d+)?)\s*%\s*(増|減)", t):
+            try:
+                f = float(v)
+                if 0.1 <= f <= 500:
+                    vals.append(f if updown == "増" else -f)
+            except ValueError:
+                pass
+    if not vals:
+        return None
+    # 絶対値最大を代表値に（利益系の修正率は売上より大きく出るため）
+    return max(vals, key=abs)
+
+
+def enrich_revisions(disc: dict, max_pdfs: int = 4, timeout: int = 25) -> int:
+    """修正系開示のPDFをダウンロードして rev_pct を付与。処理した件数を返す。"""
+    n = 0
+    for code, ds in disc.items():
+        for d in ds:
+            if n >= max_pdfs:
+                return n
+            title = d.get("title", "")
+            if not any(k in title for k in REVISION_KWS):
+                continue
+            url = d.get("url", "")
+            if not url or not url.lower().endswith(".pdf"):
+                continue
+            try:
+                req = urllib.request.Request(
+                    url, headers={"User-Agent": "kabu-app/1.0 (personal use)"})
+                with urllib.request.urlopen(req, timeout=timeout) as r:
+                    pdf = r.read(3_000_000)
+                pct = _extract_revision_pct(pdf)
+                if pct is not None:
+                    d["rev_pct"] = round(pct, 1)
+                n += 1
+            except Exception:
+                n += 1
+                continue
+    return n

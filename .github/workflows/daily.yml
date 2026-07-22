@@ -48,7 +48,7 @@ jobs:
         run: |
           git config user.name "kabu-bot"
           git config user.email "actions@users.noreply.github.com"
-          git add -f index.html prices.json reports/ history/
+          git add -f index.html prices.json archive.html reports/ history/
           git commit -m "report $(date '+%F %H:%M')" || echo "変更なし"
           git pull --rebase origin main || true
           git push

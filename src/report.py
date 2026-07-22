@@ -77,6 +77,13 @@ def _candidate_card(c: dict, rank: int, tier: str = "B") -> str:
     gated_note = '<div class="gated">⛔ 地合いNGのため本日は見送り推奨</div>' if gated else ""
     code = _esc(c["code"])
     name = _esc(c["name"])
+    pts = c.get("pts")
+    pts_tag = ""
+    if pts and pts.get("gap_pct") is not None:
+        g = pts["gap_pct"]
+        pcol = "var(--up)" if g >= 0 else "var(--down)"
+        pts_tag = (f'<span class="tag" style="color:{pcol}">'
+                   f'夜間PTS {g:+.1f}%</span>')
     return f"""
     <details class="card{' gated-card' if gated else ''}" data-code="{code}"
              data-in="{c['in_price']}" data-stop="{c['stop']}">
@@ -95,7 +102,7 @@ def _candidate_card(c: dict, rank: int, tier: str = "B") -> str:
             <canvas class="spark" data-code="{code}"></canvas>
           </div>
         </div>
-        <div class="card-sub">{sys_tags}<span class="score">{c['score']}</span></div>
+        <div class="card-sub">{sys_tags}{pts_tag}<span class="score">{c['score']}</span></div>
       </summary>
       <div class="card-body">
         {gated_note}
@@ -239,7 +246,7 @@ def _watch_section(watch: list) -> str:
             f'<div class="holds">{rows}</div>')
 
 
-def _disclosure_section(disc: dict) -> str:
+def _disclosure_section(disc: dict, pts_map: dict | None = None) -> str:
     if not disc:
         return ('<h2>■ 適時開示（ユニバース・直近2日）</h2>'
                 '<p class="muted">該当する開示はありません（または取得失敗）。</p>')
@@ -255,6 +262,18 @@ def _disclosure_section(disc: dict) -> str:
     rows = ""
     for code, d in items[:30]:
         lbl, col = badge.get(d["cls"], ("他", "#57606a"))
+        extra = ""
+        if d.get("rev_pct") is not None:
+            rcol = "var(--up)" if d["rev_pct"] >= 0 else "var(--down)"
+            extra += (f'<span style="color:{rcol};font-weight:700">'
+                      f'利益修正率 {d["rev_pct"]:+.1f}%</span> ')
+        p = (pts_map or {}).get(code)
+        if p and p.get("gap_pct") is not None:
+            pcol = "var(--up)" if p["gap_pct"] >= 0 else "var(--down)"
+            extra += (f'<span style="color:{pcol};font-weight:700">'
+                      f'夜間PTS {p["gap_pct"]:+.1f}%</span>')
+        if extra:
+            extra = f'<div class="hold-detail">{extra}</div>'
         rows += f"""
         <div class="hold">
           <div class="hold-head">
@@ -263,6 +282,7 @@ def _disclosure_section(disc: dict) -> str:
             <span class="muted">{_esc(d['time'])}</span>
           </div>
           <div class="hold-detail">{_esc(d['title'])}</div>
+          {extra}
         </div>"""
     more = f'<p class="muted">他 {len(items)-30}件</p>' if len(items) > 30 else ""
     return f'<h2>■ 適時開示（ユニバース・直近2日）</h2><div class="holds">{rows}</div>{more}'
@@ -731,6 +751,9 @@ function dmsg(t) {
 document.getElementById('btn-reload').addEventListener('click', () => {
   location.href = location.pathname + '?t=' + Date.now();
 });
+document.getElementById('btn-archive').addEventListener('click', () => {
+  location.href = (IS_ARCHIVE ? '../' : '') + 'archive.html';
+});
 document.getElementById('btn-dispatch').addEventListener('click', async () => {
   let tok = null;
   try { tok = localStorage.getItem('kabu_gh_token'); } catch (e) {}
@@ -875,6 +898,7 @@ def build_html(ctx: dict) -> str:
     watch = ctx.get("watchlist", [])
     disc = ctx.get("disclosures", {})
     bt = ctx.get("backtest", {})
+    pts_map = ctx.get("pts", {})
     errors = ctx.get("errors", [])
     risk_pct = ctx.get("risk_per_trade_pct", 1.0)
     max_pos = ctx.get("max_positions", 5)
@@ -953,6 +977,7 @@ def build_html(ctx: dict) -> str:
 <header class="appbar">
   <span class="logo">📈 株レポ</span>
   <span class="when">{today}<br>更新 {gen_time}</span>
+  <button class="iconbtn" id="btn-archive" title="過去レポート">🗓</button>
   <button class="iconbtn" id="btn-dispatch" title="今すぐデータ更新">🔄</button>
   <button class="iconbtn" id="btn-reload" title="再読み込み">↻</button>
 </header>
@@ -985,7 +1010,7 @@ def build_html(ctx: dict) -> str:
     <h2>■ 新規候補</h2>
     {cards_html}
     {_watch_section(watch)}
-    {_disclosure_section(disc)}
+    {_disclosure_section(disc, pts_map)}
   </section>
 
   <section class="tabpanel" id="tab-buy">
@@ -1067,6 +1092,52 @@ def save_prices_json(data: dict, universe: list, cfg: dict, days: int = 75) -> s
     path = configmod.ROOT / "prices.json"
     path.write_text(json.dumps(out, ensure_ascii=False, separators=(",", ":")),
                     encoding="utf-8")
+    return str(path)
+
+
+ARCHIVE_TMPL = """<!DOCTYPE html>
+<html lang="ja"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#0b0e14"><title>過去レポート</title>
+<style>
+body {{ margin:0; background:#0b0e14; color:#e8ecf3;
+  font-family:-apple-system,"Hiragino Kaku Gothic ProN",sans-serif; }}
+.wrap {{ max-width:600px; margin:0 auto; padding:16px 14px; }}
+h1 {{ font-size:1.05rem; }}
+a.day {{ display:flex; justify-content:space-between; align-items:center;
+  background:#151a23; border:1px solid #242c3a; border-radius:14px;
+  padding:13px 16px; margin:8px 0; color:#e8ecf3; text-decoration:none;
+  font-weight:600; }}
+a.day span {{ color:#8f9cb3; font-size:.8rem; font-weight:400; }}
+a.back {{ color:#7ab3ff; text-decoration:none; font-size:.9rem; }}
+</style></head><body><div class="wrap">
+<p><a class="back" href="index.html">← 最新レポートへ戻る</a></p>
+<h1>🗓 過去レポート</h1>
+{rows}
+</div></body></html>"""
+
+WEEKDAYS_JA = ["月", "火", "水", "木", "金", "土", "日"]
+
+
+def save_archive(cfg: dict) -> str:
+    """reports/ 内の日次HTMLからアーカイブページを生成する。"""
+    from datetime import date as _date
+    from . import config as configmod
+    reports_dir = Path(cfg["paths"]["reports_dir"])
+    days = sorted((f.stem for f in reports_dir.glob("????-??-??.html")),
+                  reverse=True)
+    rows = ""
+    for d in days[:120]:
+        try:
+            wd = WEEKDAYS_JA[_date.fromisoformat(d).weekday()]
+        except ValueError:
+            wd = ""
+        rows += (f'<a class="day" href="reports/{d}.html">{d}'
+                 f'<span>{wd}曜日</span></a>\n')
+    if not rows:
+        rows = '<p style="color:#8f9cb3">まだ過去レポートがありません。</p>'
+    path = configmod.ROOT / "archive.html"
+    path.write_text(ARCHIVE_TMPL.format(rows=rows), encoding="utf-8")
     return str(path)
 
 

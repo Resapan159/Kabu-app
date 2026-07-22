@@ -41,7 +41,8 @@ def _add(a: Analysis, system: str, label: str, detail: str = ""):
 
 
 def analyze(df: pd.DataFrame, code: str, name: str, cfg: dict,
-            disclosures: list | None = None) -> Analysis | None:
+            disclosures: list | None = None,
+            margin: dict | None = None) -> Analysis | None:
     """1銘柄を分析。データ不足なら None。"""
     s = cfg["signals"]
     if df is None or len(df) < max(s["ma_mid"], s["breakout_lookback"], 60) + 5:
@@ -151,18 +152,32 @@ def analyze(df: pd.DataFrame, code: str, name: str, cfg: dict,
 
     # ===== ①カタリスト系（適時開示） =====
     for d in (disclosures or []):
+        rev = d.get("rev_pct")
+        rev_txt = f"（利益修正率 {rev:+.1f}%）" if rev is not None else ""
         if d["cls"] == "pos_strong":
-            _add(a, "catalyst", f"好材料開示: {d['kw']}",
-                 f"{d['time']} {d['title'][:48]}")
+            label = f"好材料開示: {d['kw']}{rev_txt}"
+            if rev is not None and abs(rev) < 5:
+                label = f"材料開示: {d['kw']}{rev_txt}※小幅"
+            _add(a, "catalyst", label, f"{d['time']} {d['title'][:48]}")
         elif d["cls"] == "pos":
-            _add(a, "catalyst", f"材料開示: {d['kw']}",
+            _add(a, "catalyst", f"材料開示: {d['kw']}{rev_txt}",
                  f"{d['time']} {d['title'][:48]}")
         elif d["cls"] == "neg":
-            a.hits.append({"system": "warn", "label": "⚠悪材料開示",
+            a.hits.append({"system": "warn", "label": f"⚠悪材料開示{rev_txt}",
                            "detail": f"{d['time']} {d['title'][:48]}"})
         elif d["cls"] == "earnings":
             a.hits.append({"system": "warn", "label": "決算発表あり",
                            "detail": "決算直後は値動きが荒れやすい（要注意）"})
+
+    # ===== ④信用需給系（週次・JPX信用残） =====
+    if margin and margin.get("ratio") is not None:
+        ratio = margin["ratio"]
+        if ratio < 1.0:
+            _add(a, "margin", "信用売り長（踏み上げ候補）",
+                 f"信用倍率 {ratio:.2f}倍（売残>買残、ショートカバー圧力）")
+        elif ratio < 2.0:
+            a.hits.append({"system": "note", "label": "信用倍率 良好",
+                           "detail": f"{ratio:.2f}倍（買い残の重さは限定的）"})
 
     # ---- 出口の目安（ATRベース） ----
     ex = cfg["exit"]
