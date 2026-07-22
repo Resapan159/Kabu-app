@@ -90,9 +90,14 @@ def main(argv=None):
                                  disclosures=disc)
     print(f"    → 候補 {len(candidates)}銘柄")
 
+    print("[検証] バックテスト（過去データ）...")
+    bt = btmod.run(data, cfg)
+    print(f"    → {bt['from']}〜{bt['to']} / 系統 {len(bt['rows'])}件")
+
     print("[2b] 予備軍（もうすぐ候補）...")
     watch = screener.watchlist(data, universe, cfg,
-                               exclude_codes={c["code"] for c in candidates})
+                               exclude_codes={c["code"] for c in candidates},
+                               bt=bt)
     print(f"    → 予備軍 {len(watch)}銘柄")
 
     print("[4] 保有銘柄チェック ...")
@@ -104,10 +109,6 @@ def main(argv=None):
     n_new = history.record_picks(candidates, data, cfg, top_n=10)
     review = history.evaluate_history(data, cfg)
     print(f"    → 新規記録 {n_new}件 / 評価済 {review.get('results_count', 0)}件")
-
-    print("[検証] バックテスト（過去データ）...")
-    bt = btmod.run(data, cfg)
-    print(f"    → {bt['from']}〜{bt['to']} / 系統 {len(bt['rows'])}件")
 
     print("[5] レポート生成 ...")
     ctx = {

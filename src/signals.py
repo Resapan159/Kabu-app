@@ -197,31 +197,34 @@ def near_miss(df: pd.DataFrame, code: str, name: str, cfg: dict) -> dict | None:
         return None
 
     notes = []
-    # ブレイク目前（60日高値まで3%以内）
+    # ブレイク目前（60日高値まで3%以内）→ 発火すれば②出来高・需給系
     lookback = s["breakout_lookback"]
     prior_high = float(df["High"].iloc[-(lookback + 1):-1].max())
     gap_pct = (prior_high / last_close - 1) * 100
     if 0 < gap_pct <= 3.0:
-        notes.append(f"{lookback}日高値まであと{gap_pct:.1f}%（ブレイク目前）")
-    # スクイーズ形成中（エネルギー充填）
+        notes.append({"text": f"{lookback}日高値まであと{gap_pct:.1f}%（ブレイク目前）",
+                      "sys": "volume"})
+    # スクイーズ形成中（エネルギー充填）→ 発火すれば③テクニカル系
     upper, mid, lower, width = ind.bollinger(close, s["bb_period"], s["bb_std"])
     width_ma = width.rolling(s["bb_period"]).mean().iloc[-1]
     if pd.notna(width_ma) and float(width.iloc[-1]) <= float(width_ma) * s["bb_squeeze_pct"]:
-        notes.append("BBスクイーズ形成中（ブレイク待ち）")
-    # ゴールデンクロス接近
+        notes.append({"text": "BBスクイーズ形成中（ブレイク待ち）", "sys": "tech"})
+    # ゴールデンクロス接近 → ③テクニカル系
     ma_s = ind.sma(close, s["ma_short"])
     ma_m = ind.sma(close, s["ma_mid"])
     if pd.notna(ma_s.iloc[-1]) and pd.notna(ma_m.iloc[-1]):
         diff_pct = (float(ma_m.iloc[-1]) / float(ma_s.iloc[-1]) - 1) * 100
         rising = float(ma_s.iloc[-1]) > float(ma_s.iloc[-3])
         if 0 < diff_pct <= 1.5 and rising:
-            notes.append(f"GC接近（{s['ma_short']}日線が{s['ma_mid']}日線まで{diff_pct:.1f}%）")
-    # 出来高じわ増（急増未満）
+            notes.append({"text": f"GC接近（{s['ma_short']}日線が{s['ma_mid']}日線まで{diff_pct:.1f}%）",
+                          "sys": "tech"})
+    # 出来高じわ増（急増未満）→ ②出来高・需給系
     vol_ma20 = vol.rolling(20).mean().iloc[-1]
     if vol_ma20 and vol_ma20 > 0:
         vr5 = float(vol.iloc[-5:].mean() / vol_ma20)
         if 1.3 <= vr5 < s["volume_surge_ratio"]:
-            notes.append(f"出来高じわ増（5日平均が20日平均比{vr5:.1f}倍）")
+            notes.append({"text": f"出来高じわ増（5日平均が20日平均比{vr5:.1f}倍）",
+                          "sys": "volume"})
 
     if not notes:
         return None

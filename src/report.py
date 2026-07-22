@@ -180,19 +180,34 @@ def _watch_section(watch: list) -> str:
                 '<p class="muted">本日は該当なし。</p>')
     rows = ""
     for w in watch:
-        notes = "".join(f"<li>{_esc(n)}</li>" for n in w["notes"])
+        notes = "".join(
+            f"<li>{_esc(n['text'] if isinstance(n, dict) else n)}</li>"
+            for n in w["notes"])
+        if w.get("expect_score") is not None:
+            col = "#7ee787" if w["exp_ret"] >= 0 else "#ff7b72"
+            exp_badge = (f'<span class="score" title="期待度">{w["expect_score"]}</span>')
+            exp_line = (f'<div class="pcard-detail">発火時の期待値'
+                        f'（過去3年・5日後）: <b style="color:{col}">'
+                        f'{w["exp_ret"]:+.2f}%</b> / 勝率 {w["exp_win"]:.0f}%</div>')
+        else:
+            exp_badge = ""
+            exp_line = ('<div class="pcard-detail">期待値: 算出不可'
+                        '（バックテストデータ不足）</div>')
         rows += f"""
         <div class="hold">
           <div class="hold-head">
             <span class="code">{_esc(w['code'])}</span>
             <span class="name">{_esc(w['name'])}</span>
+            {exp_badge}
             <button class="btn small chartbtn" data-code="{_esc(w['code'])}"
                     data-name="{_esc(w['name'])}">📈</button>
           </div>
           <ul class="hits">{notes}</ul>
+          {exp_line}
         </div>"""
     return ('<h2>■ 予備軍（もうすぐ候補）</h2>'
-            '<p class="muted">条件まであと一歩の監視銘柄。ブレイクすれば候補入り。</p>'
+            '<p class="muted">条件まであと一歩の監視銘柄。緑数字は期待度(0-100)。'
+            '期待値は同系統シグナルが過去3年に発火した後の平均実績。</p>'
             f'<div class="holds">{rows}</div>')
 
 
@@ -308,6 +323,8 @@ footer { margin-top:26px; font-size:.72rem; color:#8b949e; }
   font-size:1.4rem; cursor:pointer; padding:0 4px; }
 #chart-canvas { width:100%; height:340px; display:block; }
 #chart-note { font-size:.72rem; color:#8b949e; margin-top:4px; }
+.tierhead { border-left:4px solid; padding-left:8px; margin:18px 0 4px;
+  font-size:.95rem; }
 /* タブ */
 .tabs { position:sticky; top:0; z-index:10; display:flex; gap:6px; background:#0d1117;
   padding:8px 0; }
@@ -613,6 +630,60 @@ document.getElementById('buy-overlay').addEventListener('click', e => {
   if (e.target === e.currentTarget) closeBuy();
 });
 
+/* ---------- 手動更新（GitHub Actionsをトリガー） ---------- */
+const GH_REPO = 'Resapan159/Kabu-app';
+const GH_WORKFLOW = 'daily.yml';
+function dmsg(t) {
+  const el = document.getElementById('dispatch-msg');
+  el.textContent = t; el.style.display = 'block';
+}
+document.getElementById('btn-reload').addEventListener('click', () => {
+  location.href = location.pathname + '?t=' + Date.now();
+});
+document.getElementById('btn-dispatch').addEventListener('click', async () => {
+  let tok = null;
+  try { tok = localStorage.getItem('kabu_gh_token'); } catch (e) {}
+  if (!tok) {
+    tok = prompt('GitHubトークン(PAT)を入力してください（初回のみ・この端末だけに保存）。\n作り方は公開手順.mdの「手動更新の設定」参照');
+    if (!tok) return;
+    tok = tok.trim();
+    try { localStorage.setItem('kabu_gh_token', tok); } catch (e) {}
+  }
+  dmsg('更新リクエスト送信中...');
+  try {
+    const r = await fetch('https://api.github.com/repos/' + GH_REPO +
+        '/actions/workflows/' + GH_WORKFLOW + '/dispatches', {
+      method: 'POST',
+      headers: {
+        'Authorization': 'Bearer ' + tok,
+        'Accept': 'application/vnd.github+json',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ ref: 'main' })
+    });
+    if (r.status === 204) {
+      let sec = 150;
+      dmsg('✅ 更新を開始しました。約2〜3分後に自動で再読み込みします...');
+      const timer = setInterval(() => {
+        sec -= 10;
+        if (sec <= 0) {
+          clearInterval(timer);
+          location.href = location.pathname + '?t=' + Date.now();
+        } else {
+          dmsg('✅ 更新実行中... あと約' + sec + '秒で再読み込み');
+        }
+      }, 10000);
+    } else if (r.status === 401 || r.status === 403) {
+      try { localStorage.removeItem('kabu_gh_token'); } catch (e) {}
+      dmsg('⛔ トークンが無効です。次回タップ時に再入力してください（権限: Actions Read and write が必要）');
+    } else {
+      dmsg('⛔ 失敗 (HTTP ' + r.status + ')。トークンの権限を確認してください');
+    }
+  } catch (e) {
+    dmsg('⛔ 通信エラー: ' + e.message);
+  }
+});
+
 /* ---------- タブ切替 ---------- */
 document.querySelectorAll('.tabbtn').forEach(b => b.addEventListener('click', () => {
   document.querySelectorAll('.tabbtn').forEach(x => x.classList.remove('active'));
@@ -699,6 +770,11 @@ def build_html(ctx: dict) -> str:
 <body>
 <div class="wrap">
   <h1>■ {today} レポート <span class="muted" style="font-size:.78rem">更新 {gen_time}</span></h1>
+  <div class="btnrow" style="margin:4px 0 8px">
+    <button class="btn small" id="btn-dispatch">🔄 今すぐデータ更新</button>
+    <button class="btn small" id="btn-reload">↻ 再読み込み</button>
+  </div>
+  <div class="muted" id="dispatch-msg" style="display:none"></div>
   {error_banner}
   <div class="errbar" id="prices-warn" style="display:none"></div>
   {_gate_banner(gate)}

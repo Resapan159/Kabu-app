@@ -76,15 +76,32 @@ def screen(data: dict, universe: list, cfg: dict, gate_ok: bool,
 
 
 def watchlist(data: dict, universe: list, cfg: dict,
-              exclude_codes: set, top_n: int = 8) -> list:
-    """予備軍（もうすぐ候補）リスト。候補入りしていない銘柄から検出する。"""
+              exclude_codes: set, bt: dict | None = None,
+              top_n: int = 8) -> list:
+    """予備軍（もうすぐ候補）リスト。候補入りしていない銘柄から検出し、
+    バックテスト実績から「発火した場合の期待値」を付与する。"""
     name_map = {code: name for code, name in universe}
+    bt_map = {r["system"]: r for r in (bt or {}).get("rows", [])}
     out = []
     for code, df in data.items():
         if code in exclude_codes:
             continue
         w = sig.near_miss(df, code, name_map.get(code, code), cfg)
-        if w:
-            out.append(w)
-    out.sort(key=lambda w: w["n"], reverse=True)
+        if not w:
+            continue
+        syss = sorted({n["sys"] for n in w["notes"]})
+        rets = [bt_map[x]["avg_ret"] for x in syss if x in bt_map]
+        wins = [bt_map[x]["win_rate"] for x in syss if x in bt_map]
+        if rets:
+            w["exp_ret"] = round(sum(rets) / len(rets), 2)
+            w["exp_win"] = round(sum(wins) / len(wins), 0)
+            # 期待度 0-100: 期待リターンと条件数から算出
+            w["expect_score"] = int(min(100, max(0,
+                50 + w["exp_ret"] * 15 + (w["n"] - 1) * 15)))
+        else:
+            w["exp_ret"] = None
+            w["exp_win"] = None
+            w["expect_score"] = None
+        out.append(w)
+    out.sort(key=lambda w: (w["expect_score"] or 0, w["n"]), reverse=True)
     return out[:top_n]
