@@ -179,3 +179,4 @@ pick_date,ref_date,code,name,ref_close,score,num_systems,systems
 2026-07-23,2026-07-23,8306,三菱UFJフィナンシャル・グループ,3735.0,70,3,anomaly|tech|volume
 2026-07-23,2026-07-23,8316,三井住友フィナンシャルグループ,7187.0,71,3,anomaly|tech|volume
 2026-07-23,2026-07-23,8630,SOMPOホールディングス,6975.0,70,3,anomaly|tech|volume
+2026-07-23,2026-07-23,8697,日本取引所グループ,2271.5,70,3,anomaly|tech|volume
