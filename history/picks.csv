@@ -194,3 +194,5 @@ pick_date,ref_date,code,name,ref_close,score,num_systems,systems
 2026-07-24,2026-07-24,8766,東京海上ホールディングス,8153.0,69,3,anomaly|tech|volume
 2026-07-24,2026-07-24,8630,SOMPOホールディングス,7076.0,70,3,anomaly|tech|volume
 2026-07-24,2026-07-24,9107,川崎汽船,2814.5,48,2,anomaly|tech
+2026-07-24,2026-07-24,3382,セブン&アイ・ホールディングス,2146.5,47,2,tech|volume
+2026-07-24,2026-07-24,2914,日本たばこ産業,6440.0,47,2,anomaly|tech
