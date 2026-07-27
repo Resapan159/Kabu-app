@@ -211,3 +211,5 @@ pick_date,ref_date,code,name,ref_close,score,num_systems,systems
 2026-07-27,2026-07-27,9107,川崎汽船,2842.0,71,3,anomaly|tech|volume
 2026-07-27,2026-07-27,9433,KDDI,2958.0,70,3,anomaly|tech|volume
 2026-07-27,2026-07-27,2503,キリンホールディングス,2963.5,71,3,anomaly|tech|volume
+2026-07-27,2026-07-27,8309,三井住友トラスト・ホールディングス,6888.0,70,3,anomaly|tech|volume
+2026-07-27,2026-07-27,8316,三井住友フィナンシャルグループ,7227.0,71,3,anomaly|tech|volume
