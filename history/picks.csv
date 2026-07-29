@@ -251,3 +251,5 @@ pick_date,ref_date,code,name,ref_close,score,num_systems,systems
 2026-07-29,2026-07-29,2801,キッコーマン,1742.0,71,3,anomaly|tech|volume
 2026-07-29,2026-07-29,8766,東京海上ホールディングス,8468.0,70,3,anomaly|tech|volume
 2026-07-29,2026-07-29,4452,花王,3429.0,71,3,anomaly|tech|volume
+2026-07-29,2026-07-29,4502,武田薬品工業,5872.0,71,3,anomaly|tech|volume
+2026-07-29,2026-07-29,4911,資生堂,3471.0,71,3,anomaly|tech|volume
