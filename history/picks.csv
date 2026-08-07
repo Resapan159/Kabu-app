@@ -419,3 +419,5 @@ pick_date,ref_date,code,name,ref_close,score,num_systems,systems
 2026-08-07,2026-08-07,9104,商船三井,6149.0,47,2,tech|volume
 2026-08-07,2026-08-07,6098,リクルートホールディングス,13105.0,48,2,anomaly|tech
 2026-08-07,2026-08-07,6981,村田製作所,7289.0,47,2,catalyst|tech
+2026-08-07,2026-08-07,5108,ブリヂストン,4199.0,75,3,anomaly|tech|volume
+2026-08-07,2026-08-07,6273,SMC,74190.0,53,2,tech|volume
