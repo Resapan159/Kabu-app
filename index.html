@@ -8,7 +8,7 @@
 <link rel="apple-touch-icon" href="icons/icon-192.png">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<title>株レポ 2026-08-28 19:43</title>
+<title>株レポ 2026-08-28 23:34</title>
 <style>
 :root { color-scheme: dark;
   --bg:#0b0e14; --card:#151a23; --card2:#1b2230; --border:#242c3a;
@@ -176,7 +176,7 @@ footer { margin-top:26px; font-size:.7rem; color:var(--muted); }
 <body>
 <header class="appbar">
   <span class="logo">📈 株レポ</span>
-  <span class="when">2026-08-28<br>更新 19:43</span>
+  <span class="when">2026-08-28<br>更新 23:34</span>
   <button class="iconbtn" id="btn-archive" title="過去レポート">🗓</button>
   <button class="iconbtn" id="btn-dispatch" title="今すぐデータ更新">🔄</button>
   <button class="iconbtn" id="btn-reload" title="再読み込み">↻</button>
@@ -186,7 +186,7 @@ footer { margin-top:26px; font-size:.7rem; color:var(--muted); }
   <div class="errbar">⚠ データ取得失敗 1銘柄 （前日キャッシュで代替の可能性）: 9613</div>
   <div class="errbar" id="prices-warn" style="display:none"></div>
 
-  <div class="mstrip"><div class="mchip"><span class="k">地合い</span><span class="v">✅OK</span></div><div class="mchip"><span class="k">日経先物</span><span class="v up">+0.5%</span></div><div class="mchip"><span class="k">日経平均</span><span class="v up">+0.4%</span></div><div class="mchip"><span class="k">SOX</span><span class="v up">+2.3%</span></div><div class="mchip"><span class="k">NYダウ</span><span class="v up">+0.2%</span></div><div class="mchip"><span class="k">ドル円</span><span class="v ">159.7円</span></div></div>
+  <div class="mstrip"><div class="mchip"><span class="k">地合い</span><span class="v">✅OK</span></div><div class="mchip"><span class="k">日経先物</span><span class="v up">+0.5%</span></div><div class="mchip"><span class="k">日経平均</span><span class="v up">+0.4%</span></div><div class="mchip"><span class="k">SOX</span><span class="v down">-1.3%</span></div><div class="mchip"><span class="k">NYダウ</span><span class="v down">-0.0%</span></div><div class="mchip"><span class="k">ドル円</span><span class="v ">159.9円</span></div></div>
 
   <div class="dash">
     <div class="cell"><div class="num" style="color:var(--gold)">3</div>
@@ -202,7 +202,7 @@ footer { margin-top:26px; font-size:.7rem; color:var(--muted); }
   
     <div class="banner" style="background:#1f9d55">
       <div class="banner-top">✅ 地合い: OK</div>
-      <div class="banner-metrics">先物 +0.5% / 日経 +0.4% / SOX +2.3% / ダウ +0.2% / 為替 159.7円</div>
+      <div class="banner-metrics">先物 +0.5% / 日経 +0.4% / SOX -1.3% / ダウ -0.0% / 為替 159.9円</div>
       <div class="banner-reasons">日経 +0.4%　先物 +0.5%</div>
     </div>
 
@@ -765,7 +765,7 @@ footer { margin-top:26px; font-size:.7rem; color:var(--muted); }
   <section class="tabpanel" id="tab-etc">
     
     <h2>■ 答え合わせ（実運用のピック実績）</h2><p>2026-08-25ピック 3銘柄: 5日後平均 <b>+0.7%</b>（勝率 1/3）</p><table class="rev"><thead><tr><th>系統</th><th>件数</th><th>平均</th><th>勝率</th></tr></thead><tbody><tr><td>anomaly</td><td>328</td><td>-0.8%</td><td>47%</td></tr><tr><td>catalyst</td><td>41</td><td>+6.7%</td><td>93%</td></tr><tr><td>tech</td><td>551</td><td>+0.2%</td><td>53%</td></tr><tr><td>volume</td><td>312</td><td>-0.7%</td><td>43%</td></tr></tbody></table>
-    <h2>■ バックテスト（過去データ検証）</h2><p class="muted">2024-01-19〜2026-08-21 のユニバース日足で、各シグナル発生から5営業日後の騰落を集計。「基準」行を上回る系統（✓）に優位性。現ユニバース構成での検証のため生存者バイアスあり・目安。カタリスト系は対象外。</p><table class="rev"><thead><tr><th>系統</th><th>回数</th><th>平均</th><th>勝率</th></tr></thead><tbody><tr style="color:#8b949e"><td>基準（全営業日）</td><td>87,354</td><td>+0.53%</td><td>54%</td></tr><tr><td>★2系統以上（本命）</td><td>8,753</td><td>+0.23%</td><td>51%</td></tr><tr><td>②出来高・需給</td><td>7,006</td><td>+0.44%</td><td>51%</td></tr><tr><td>③テクニカル</td><td>41,260</td><td>+0.45%</td><td>53%</td></tr><tr><td>⑦アノマリー</td><td>7,539</td><td>+0.20%</td><td>50%</td></tr><tr><td>アルゴ痕跡</td><td>20</td><td>-0.08%</td><td>50%</td></tr></tbody></table>
+    <h2>■ バックテスト（過去データ検証）</h2><p class="muted">2024-01-19〜2026-08-21 のユニバース日足で、各シグナル発生から5営業日後の騰落を集計。「基準」行を上回る系統（✓）に優位性。現ユニバース構成での検証のため生存者バイアスあり・目安。カタリスト系は対象外。</p><table class="rev"><thead><tr><th>系統</th><th>回数</th><th>平均</th><th>勝率</th></tr></thead><tbody><tr style="color:#8b949e"><td>基準（全営業日）</td><td>87,354</td><td>+0.53%</td><td>54%</td></tr><tr><td>★2系統以上（本命）</td><td>8,752</td><td>+0.23%</td><td>51%</td></tr><tr><td>②出来高・需給</td><td>7,004</td><td>+0.44%</td><td>51%</td></tr><tr><td>③テクニカル</td><td>41,257</td><td>+0.45%</td><td>53%</td></tr><tr><td>⑦アノマリー</td><td>7,539</td><td>+0.20%</td><td>50%</td></tr><tr><td>アルゴ痕跡</td><td>20</td><td>-0.08%</td><td>50%</td></tr></tbody></table>
   </section>
 
   <footer>
