@@ -8,7 +8,7 @@
 <link rel="apple-touch-icon" href="icons/icon-192.png">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<title>株レポ 2026-09-16 17:47</title>
+<title>株レポ 2026-09-16 20:58</title>
 <style>
 :root { color-scheme: dark;
   --bg:#0b0e14; --card:#151a23; --card2:#1b2230; --border:#242c3a;
@@ -176,7 +176,7 @@ footer { margin-top:26px; font-size:.7rem; color:var(--muted); }
 <body>
 <header class="appbar">
   <span class="logo">📈 株レポ</span>
-  <span class="when">2026-09-16<br>更新 17:47</span>
+  <span class="when">2026-09-16<br>更新 20:58</span>
   <button class="iconbtn" id="btn-archive" title="過去レポート">🗓</button>
   <button class="iconbtn" id="btn-dispatch" title="今すぐデータ更新">🔄</button>
   <button class="iconbtn" id="btn-reload" title="再読み込み">↻</button>
@@ -186,7 +186,7 @@ footer { margin-top:26px; font-size:.7rem; color:var(--muted); }
   <div class="errbar">⚠ データ取得失敗 1銘柄 （前日キャッシュで代替の可能性）: 9613</div>
   <div class="errbar" id="prices-warn" style="display:none"></div>
 
-  <div class="mstrip"><div class="mchip"><span class="k">地合い</span><span class="v">✅OK</span></div><div class="mchip"><span class="k">日経先物</span><span class="v up">+0.5%</span></div><div class="mchip"><span class="k">日経平均</span><span class="v up">+0.7%</span></div><div class="mchip"><span class="k">SOX</span><span class="v up">+0.4%</span></div><div class="mchip"><span class="k">NYダウ</span><span class="v down">-0.6%</span></div><div class="mchip"><span class="k">ドル円</span><span class="v ">154.9円</span></div></div>
+  <div class="mstrip"><div class="mchip"><span class="k">地合い</span><span class="v">✅OK</span></div><div class="mchip"><span class="k">日経先物</span><span class="v up">+1.0%</span></div><div class="mchip"><span class="k">日経平均</span><span class="v up">+0.7%</span></div><div class="mchip"><span class="k">SOX</span><span class="v up">+0.4%</span></div><div class="mchip"><span class="k">NYダウ</span><span class="v down">-0.6%</span></div><div class="mchip"><span class="k">ドル円</span><span class="v ">155.0円</span></div></div>
 
   <div class="dash">
     <div class="cell"><div class="num" style="color:var(--gold)">2</div>
@@ -202,8 +202,8 @@ footer { margin-top:26px; font-size:.7rem; color:var(--muted); }
   
     <div class="banner" style="background:#1f9d55">
       <div class="banner-top">✅ 地合い: OK</div>
-      <div class="banner-metrics">先物 +0.5% / 日経 +0.7% / SOX +0.4% / ダウ -0.6% / 為替 154.9円</div>
-      <div class="banner-reasons">日経 +0.7%　先物 +0.5%</div>
+      <div class="banner-metrics">先物 +1.0% / 日経 +0.7% / SOX +0.4% / ダウ -0.6% / 為替 155.0円</div>
+      <div class="banner-reasons">日経 +0.7%　先物 +1.0%</div>
     </div>
 
   <section class="tabpanel active" id="tab-cand">
@@ -760,6 +760,15 @@ footer { margin-top:26px; font-size:.7rem; color:var(--muted); }
           </div>
           <div class="hold-detail">早期アルツハイマー病治療剤「レケンビ」の皮下注製剤「レケンビ皮下注250 mgペン」、日本において承認取得</div>
           
+        </div>
+        <div class="hold">
+          <div class="hold-head">
+            <span class="code">4689</span>
+            <span class="judge" style="background:#57606a">その他</span>
+            <span class="muted">2026-09-16 19:00</span>
+          </div>
+          <div class="hold-detail">（経過開示）BCPE Blitz Cayman, L.P.による株式会社カカクコム（証券コード：2371）に対する公開買付けの開始予定に係る一部変更に関するお知らせ</div>
+          
         </div></div>
   </section>
 
@@ -774,7 +783,7 @@ footer { margin-top:26px; font-size:.7rem; color:var(--muted); }
   <section class="tabpanel" id="tab-etc">
     
     <h2>■ 答え合わせ（実運用のピック実績）</h2><p>2026-09-10ピック 10銘柄: 5日後平均 <b>+0.1%</b>（勝率 7/10）</p><table class="rev"><thead><tr><th>系統</th><th>件数</th><th>平均</th><th>勝率</th></tr></thead><tbody><tr><td>anomaly</td><td>449</td><td>-1.0%</td><td>43%</td></tr><tr><td>catalyst</td><td>75</td><td>+2.6%</td><td>64%</td></tr><tr><td>tech</td><td>761</td><td>-0.3%</td><td>47%</td></tr><tr><td>volume</td><td>414</td><td>-0.9%</td><td>40%</td></tr></tbody></table>
-    <h2>■ バックテスト（過去データ検証）</h2><p class="muted">2024-02-07〜2026-09-09 のユニバース日足で、各シグナル発生から5営業日後の騰落を集計。「基準」行を上回る系統（✓）に優位性。現ユニバース構成での検証のため生存者バイアスあり・目安。カタリスト系は対象外。</p><table class="rev"><thead><tr><th>系統</th><th>回数</th><th>平均</th><th>勝率</th></tr></thead><tbody><tr style="color:#8b949e"><td>基準（全営業日）</td><td>87,354</td><td>+0.51%</td><td>53%</td></tr><tr><td>★2系統以上（本命）</td><td>8,503</td><td>+0.20%</td><td>50%</td></tr><tr><td>②出来高・需給</td><td>6,924</td><td>+0.43%</td><td>51%</td></tr><tr><td>③テクニカル</td><td>40,861</td><td>+0.43%</td><td>53%</td></tr><tr><td>⑦アノマリー</td><td>7,230</td><td>+0.15%</td><td>50%</td></tr><tr><td>アルゴ痕跡</td><td>20</td><td>-0.08%</td><td>50%</td></tr></tbody></table>
+    <h2>■ バックテスト（過去データ検証）</h2><p class="muted">2024-02-07〜2026-09-09 のユニバース日足で、各シグナル発生から5営業日後の騰落を集計。「基準」行を上回る系統（✓）に優位性。現ユニバース構成での検証のため生存者バイアスあり・目安。カタリスト系は対象外。</p><table class="rev"><thead><tr><th>系統</th><th>回数</th><th>平均</th><th>勝率</th></tr></thead><tbody><tr style="color:#8b949e"><td>基準（全営業日）</td><td>87,354</td><td>+0.51%</td><td>53%</td></tr><tr><td>★2系統以上（本命）</td><td>8,504</td><td>+0.20%</td><td>50%</td></tr><tr><td>②出来高・需給</td><td>6,926</td><td>+0.43%</td><td>51%</td></tr><tr><td>③テクニカル</td><td>40,859</td><td>+0.43%</td><td>53%</td></tr><tr><td>⑦アノマリー</td><td>7,230</td><td>+0.15%</td><td>50%</td></tr><tr><td>アルゴ痕跡</td><td>20</td><td>-0.08%</td><td>50%</td></tr></tbody></table>
   </section>
 
   <footer>
