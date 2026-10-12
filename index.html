@@ -8,7 +8,7 @@
 <link rel="apple-touch-icon" href="icons/icon-192.png">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<title>株レポ 2026-10-09 22:39</title>
+<title>株レポ 2026-10-13 00:57</title>
 <style>
 :root { color-scheme: dark;
   --bg:#0b0e14; --card:#151a23; --card2:#1b2230; --border:#242c3a;
@@ -176,7 +176,7 @@ footer { margin-top:26px; font-size:.7rem; color:var(--muted); }
 <body>
 <header class="appbar">
   <span class="logo">📈 株レポ</span>
-  <span class="when">2026-10-09<br>更新 22:39</span>
+  <span class="when">2026-10-13<br>更新 00:57</span>
   <button class="iconbtn" id="btn-archive" title="過去レポート">🗓</button>
   <button class="iconbtn" id="btn-dispatch" title="今すぐデータ更新">🔄</button>
   <button class="iconbtn" id="btn-reload" title="再読み込み">↻</button>
@@ -186,7 +186,7 @@ footer { margin-top:26px; font-size:.7rem; color:var(--muted); }
   <div class="errbar">⚠ データ取得失敗 1銘柄 （前日キャッシュで代替の可能性）: 9613</div>
   <div class="errbar" id="prices-warn" style="display:none"></div>
 
-  <div class="mstrip"><div class="mchip"><span class="k">地合い</span><span class="v">✅OK</span></div><div class="mchip"><span class="k">日経先物</span><span class="v up">+1.5%</span></div><div class="mchip"><span class="k">日経平均</span><span class="v down">-0.0%</span></div><div class="mchip"><span class="k">SOX</span><span class="v up">+0.7%</span></div><div class="mchip"><span class="k">NYダウ</span><span class="v up">+0.3%</span></div><div class="mchip"><span class="k">ドル円</span><span class="v ">158.3円</span></div></div>
+  <div class="mstrip"><div class="mchip"><span class="k">地合い</span><span class="v">⚠️WARN</span></div><div class="mchip"><span class="k">日経先物</span><span class="v down">-0.5%</span></div><div class="mchip"><span class="k">日経平均</span><span class="v down">-0.0%</span></div><div class="mchip"><span class="k">SOX</span><span class="v down">-2.2%</span></div><div class="mchip"><span class="k">NYダウ</span><span class="v up">+0.5%</span></div><div class="mchip"><span class="k">ドル円</span><span class="v ">158.7円</span></div></div>
 
   <div class="dash">
     <div class="cell"><div class="num" style="color:var(--gold)">2</div>
@@ -200,10 +200,10 @@ footer { margin-top:26px; font-size:.7rem; color:var(--muted); }
   </div>
 
   
-    <div class="banner" style="background:#1f9d55">
-      <div class="banner-top">✅ 地合い: OK</div>
-      <div class="banner-metrics">先物 +1.5% / 日経 -0.0% / SOX +0.7% / ダウ +0.3% / 為替 158.3円</div>
-      <div class="banner-reasons">日経 -0.0%　先物 +1.5%</div>
+    <div class="banner" style="background:#c98a00">
+      <div class="banner-top">⚠️ 地合い: WARN</div>
+      <div class="banner-metrics">先物 -0.5% / 日経 -0.0% / SOX -2.2% / ダウ +0.5% / 為替 158.7円</div>
+      <div class="banner-reasons">日経 -0.0%　先物 -0.5%　SOX -2.2%（半導体軟調）</div>
     </div>
 
   <section class="tabpanel active" id="tab-cand">
@@ -575,7 +575,7 @@ footer { margin-top:26px; font-size:.7rem; color:var(--muted); }
                     data-name="エムスリー">📈</button>
           </div>
           <ul class="hits"><li>GC接近（25日線が75日線まで1.3%）</li></ul>
-          <div class="pcard-detail">発火時の期待値（過去3年・5日後）: <b style="color:#7ee787">+0.37%</b> / 勝率 52%</div>
+          <div class="pcard-detail">発火時の期待値（過去3年・5日後）: <b style="color:#7ee787">+0.38%</b> / 勝率 52%</div>
         </div>
         <div class="hold">
           <div class="hold-head">
@@ -587,7 +587,7 @@ footer { margin-top:26px; font-size:.7rem; color:var(--muted); }
                     data-name="キリンホールディングス">📈</button>
           </div>
           <ul class="hits"><li>BBスクイーズ形成中（ブレイク待ち）</li></ul>
-          <div class="pcard-detail">発火時の期待値（過去3年・5日後）: <b style="color:#7ee787">+0.37%</b> / 勝率 52%</div>
+          <div class="pcard-detail">発火時の期待値（過去3年・5日後）: <b style="color:#7ee787">+0.38%</b> / 勝率 52%</div>
         </div>
         <div class="hold">
           <div class="hold-head">
@@ -599,7 +599,7 @@ footer { margin-top:26px; font-size:.7rem; color:var(--muted); }
                     data-name="塩野義製薬">📈</button>
           </div>
           <ul class="hits"><li>出来高じわ増（5日平均が20日平均比1.3倍）</li></ul>
-          <div class="pcard-detail">発火時の期待値（過去3年・5日後）: <b style="color:#7ee787">+0.35%</b> / 勝率 50%</div>
+          <div class="pcard-detail">発火時の期待値（過去3年・5日後）: <b style="color:#7ee787">+0.37%</b> / 勝率 50%</div>
         </div>
         <div class="hold">
           <div class="hold-head">
@@ -611,7 +611,7 @@ footer { margin-top:26px; font-size:.7rem; color:var(--muted); }
                     data-name="住友金属鉱山">📈</button>
           </div>
           <ul class="hits"><li>BBスクイーズ形成中（ブレイク待ち）</li></ul>
-          <div class="pcard-detail">発火時の期待値（過去3年・5日後）: <b style="color:#7ee787">+0.37%</b> / 勝率 52%</div>
+          <div class="pcard-detail">発火時の期待値（過去3年・5日後）: <b style="color:#7ee787">+0.38%</b> / 勝率 52%</div>
         </div>
         <div class="hold">
           <div class="hold-head">
@@ -623,7 +623,7 @@ footer { margin-top:26px; font-size:.7rem; color:var(--muted); }
                     data-name="三菱電機">📈</button>
           </div>
           <ul class="hits"><li>BBスクイーズ形成中（ブレイク待ち）</li></ul>
-          <div class="pcard-detail">発火時の期待値（過去3年・5日後）: <b style="color:#7ee787">+0.37%</b> / 勝率 52%</div>
+          <div class="pcard-detail">発火時の期待値（過去3年・5日後）: <b style="color:#7ee787">+0.38%</b> / 勝率 52%</div>
         </div>
         <div class="hold">
           <div class="hold-head">
@@ -635,7 +635,7 @@ footer { margin-top:26px; font-size:.7rem; color:var(--muted); }
                     data-name="富士電機">📈</button>
           </div>
           <ul class="hits"><li>GC接近（25日線が75日線まで0.1%）</li></ul>
-          <div class="pcard-detail">発火時の期待値（過去3年・5日後）: <b style="color:#7ee787">+0.37%</b> / 勝率 52%</div>
+          <div class="pcard-detail">発火時の期待値（過去3年・5日後）: <b style="color:#7ee787">+0.38%</b> / 勝率 52%</div>
         </div>
         <div class="hold">
           <div class="hold-head">
@@ -647,7 +647,7 @@ footer { margin-top:26px; font-size:.7rem; color:var(--muted); }
                     data-name="ルネサスエレクトロニクス">📈</button>
           </div>
           <ul class="hits"><li>出来高じわ増（5日平均が20日平均比1.3倍）</li></ul>
-          <div class="pcard-detail">発火時の期待値（過去3年・5日後）: <b style="color:#7ee787">+0.35%</b> / 勝率 50%</div>
+          <div class="pcard-detail">発火時の期待値（過去3年・5日後）: <b style="color:#7ee787">+0.37%</b> / 勝率 50%</div>
         </div>
         <div class="hold">
           <div class="hold-head">
@@ -659,90 +659,9 @@ footer { margin-top:26px; font-size:.7rem; color:var(--muted); }
                     data-name="TDK">📈</button>
           </div>
           <ul class="hits"><li>出来高じわ増（5日平均が20日平均比1.6倍）</li></ul>
-          <div class="pcard-detail">発火時の期待値（過去3年・5日後）: <b style="color:#7ee787">+0.35%</b> / 勝率 50%</div>
+          <div class="pcard-detail">発火時の期待値（過去3年・5日後）: <b style="color:#7ee787">+0.37%</b> / 勝率 50%</div>
         </div></div>
-    <h2>■ 適時開示（ユニバース・直近2日）</h2><div class="holds">
-        <div class="hold">
-          <div class="hold-head">
-            <span class="code">6506</span>
-            <span class="judge" style="background:#8250df">決算</span>
-            <span class="muted">2026-10-09 16:00</span>
-          </div>
-          <div class="hold-detail">2027年2月期 第2四半期（中間期）決算短信〔ＩＦＲＳ〕（連結）</div>
-          
-        </div>
-        <div class="hold">
-          <div class="hold-head">
-            <span class="code">4543</span>
-            <span class="judge" style="background:#57606a">その他</span>
-            <span class="muted">2026-10-08 16:30</span>
-          </div>
-          <div class="hold-detail">主要取引先との供給契約の解除に伴う損失等の計上、および2027年3月期通期連結業績予想の修正に関するお知らせ</div>
-          <div class="hold-detail"><span style="color:var(--down);font-weight:700">利益修正率 -37.9%</span> </div>
-        </div>
-        <div class="hold">
-          <div class="hold-head">
-            <span class="code">4528</span>
-            <span class="judge" style="background:#57606a">その他</span>
-            <span class="muted">2026-10-08 17:00</span>
-          </div>
-          <div class="hold-detail">米国Biohaven社と、日本、韓国、台湾、ASEAN諸国における「IgG分解薬」アセットの開発と商業化に関する独占ライセンス契約を締結</div>
-          
-        </div>
-        <div class="hold">
-          <div class="hold-head">
-            <span class="code">9503</span>
-            <span class="judge" style="background:#57606a">その他</span>
-            <span class="muted">2026-10-09 15:00</span>
-          </div>
-          <div class="hold-detail">美浜発電所３号機の原子炉起動および調整運転の開始予定について（６Ａ高圧給水加熱器常用水位制御弁出口配管の空気抜き弁周辺からの水の滴下）</div>
-          
-        </div>
-        <div class="hold">
-          <div class="hold-head">
-            <span class="code">4021</span>
-            <span class="judge" style="background:#57606a">その他</span>
-            <span class="muted">2026-10-09 15:30</span>
-          </div>
-          <div class="hold-detail">過年度における特定子会社の異動に関するお知らせ</div>
-          
-        </div>
-        <div class="hold">
-          <div class="hold-head">
-            <span class="code">7912</span>
-            <span class="judge" style="background:#57606a">その他</span>
-            <span class="muted">2026-10-09 15:30</span>
-          </div>
-          <div class="hold-detail">完全子会社の吸収合併（簡易合併）に関するお知らせ</div>
-          
-        </div>
-        <div class="hold">
-          <div class="hold-head">
-            <span class="code">7912</span>
-            <span class="judge" style="background:#57606a">その他</span>
-            <span class="muted">2026-10-09 15:30</span>
-          </div>
-          <div class="hold-detail">連結子会社との会社分割（簡易吸収分割）に関するお知らせ</div>
-          
-        </div>
-        <div class="hold">
-          <div class="hold-head">
-            <span class="code">9984</span>
-            <span class="judge" style="background:#57606a">その他</span>
-            <span class="muted">2026-10-09 15:30</span>
-          </div>
-          <div class="hold-detail">2021年発行ユーロ建普通社債の期限前償還に関するお知らせ</div>
-          
-        </div>
-        <div class="hold">
-          <div class="hold-head">
-            <span class="code">7741</span>
-            <span class="judge" style="background:#57606a">その他</span>
-            <span class="muted">2026-10-09 18:15</span>
-          </div>
-          <div class="hold-detail">子会社等の異動（株式譲渡）に関するお知らせ</div>
-          
-        </div></div>
+    <h2>■ 適時開示（ユニバース・直近2日）</h2><p class="muted">該当する開示はありません（または取得失敗）。</p>
   </section>
 
   <section class="tabpanel" id="tab-buy">
@@ -756,14 +675,14 @@ footer { margin-top:26px; font-size:.7rem; color:var(--muted); }
   <section class="tabpanel" id="tab-etc">
     
     <h2>■ 答え合わせ（実運用のピック実績）</h2><p>2026-10-06ピック 10銘柄: 5日後平均 <b>+2.4%</b>（勝率 8/10）</p><table class="rev"><thead><tr><th>系統</th><th>件数</th><th>平均</th><th>勝率</th></tr></thead><tbody><tr><td>anomaly</td><td>532</td><td>-1.1%</td><td>41%</td></tr><tr><td>catalyst</td><td>107</td><td>+2.3%</td><td>64%</td></tr><tr><td>tech</td><td>991</td><td>-0.1%</td><td>47%</td></tr><tr><td>volume</td><td>488</td><td>-0.9%</td><td>40%</td></tr></tbody></table>
-    <h2>■ バックテスト（過去データ検証）</h2><p class="muted">2024-03-04〜2026-10-02 のユニバース日足で、各シグナル発生から5営業日後の騰落を集計。「基準」行を上回る系統（✓）に優位性。現ユニバース構成での検証のため生存者バイアスあり・目安。カタリスト系は対象外。</p><table class="rev"><thead><tr><th>系統</th><th>回数</th><th>平均</th><th>勝率</th></tr></thead><tbody><tr style="color:#8b949e"><td>基準（全営業日）</td><td>87,078</td><td>+0.49%</td><td>53%</td></tr><tr><td>★2系統以上（本命）</td><td>8,140</td><td>+0.15%</td><td>50%</td></tr><tr><td>②出来高・需給</td><td>6,668</td><td>+0.35%</td><td>50%</td></tr><tr><td>③テクニカル</td><td>40,224</td><td>+0.37%</td><td>52%</td></tr><tr><td>⑦アノマリー</td><td>6,941</td><td>+0.17%</td><td>50%</td></tr><tr><td>アルゴ痕跡</td><td>19</td><td>-0.12%</td><td>47%</td></tr></tbody></table>
+    <h2>■ バックテスト（過去データ検証）</h2><p class="muted">2024-03-06〜2026-10-02 のユニバース日足で、各シグナル発生から5営業日後の騰落を集計。「基準」行を上回る系統（✓）に優位性。現ユニバース構成での検証のため生存者バイアスあり・目安。カタリスト系は対象外。</p><table class="rev"><thead><tr><th>系統</th><th>回数</th><th>平均</th><th>勝率</th></tr></thead><tbody><tr style="color:#8b949e"><td>基準（全営業日）</td><td>86,802</td><td>+0.49%</td><td>53%</td></tr><tr><td>★2系統以上（本命）</td><td>8,098</td><td>+0.17%</td><td>50%</td></tr><tr><td>②出来高・需給</td><td>6,617</td><td>+0.37%</td><td>50%</td></tr><tr><td>③テクニカル</td><td>40,060</td><td>+0.38%</td><td>52%</td></tr><tr><td>⑦アノマリー</td><td>6,935</td><td>+0.17%</td><td>50%</td></tr><tr><td>アルゴ痕跡</td><td>19</td><td>-0.12%</td><td>47%</td></tr></tbody></table>
   </section>
 
   <footer>
     ※本ツールは候補提示であり投資助言ではありません。最終判断は自分で行い、
     実発注前に証券会社アプリで現値を確認してください。無料データは遅延・欠損があり得ます。<br>
     購入記録・総資金はこの端末のブラウザ内(localStorage)にのみ保存され、公開されません。<br>
-    生成: 2026-10-09
+    生成: 2026-10-13
   </footer>
 </div>
 

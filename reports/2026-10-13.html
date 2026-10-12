@@ -1,0 +1,1151 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#0d1117">
+<link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" href="icons/icon-192.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<title>株レポ 2026-10-13 00:57</title>
+<style>
+:root { color-scheme: dark;
+  --bg:#0b0e14; --card:#151a23; --card2:#1b2230; --border:#242c3a;
+  --text:#e8ecf3; --muted:#8f9cb3; --accent:#3b82f6;
+  --up:#16c784; --down:#ea3943; --gold:#f0b90b; }
+* { box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
+body { margin:0; font-family:-apple-system,"Hiragino Kaku Gothic ProN",sans-serif;
+  background:var(--bg); color:var(--text); line-height:1.55;
+  padding-bottom:calc(78px + env(safe-area-inset-bottom)); }
+.wrap { max-width:600px; margin:0 auto; padding:8px 12px; }
+h2 { font-size:.98rem; margin:22px 0 8px; border-left:4px solid var(--accent);
+  padding-left:8px; }
+.muted { color:var(--muted); font-size:.85rem; }
+/* ===== アプリバー ===== */
+.appbar { position:sticky; top:0; z-index:30; display:flex; align-items:center; gap:8px;
+  padding:10px 14px 8px; padding-top:calc(10px + env(safe-area-inset-top));
+  background:rgba(11,14,20,.92); -webkit-backdrop-filter:blur(12px); backdrop-filter:blur(12px);
+  border-bottom:1px solid var(--border); }
+.appbar .logo { font-weight:800; font-size:1.02rem; }
+.appbar .when { color:var(--muted); font-size:.72rem; flex:1; }
+.iconbtn { background:var(--card); border:1px solid var(--border); color:var(--text);
+  border-radius:10px; width:40px; height:36px; font-size:1rem; cursor:pointer; }
+.iconbtn:active { background:var(--card2); }
+/* ===== 市況ストリップ ===== */
+.mstrip { display:flex; gap:8px; overflow-x:auto; padding:10px 0 4px;
+  scrollbar-width:none; }
+.mstrip::-webkit-scrollbar { display:none; }
+.mchip { flex:0 0 auto; background:var(--card); border:1px solid var(--border);
+  border-radius:12px; padding:6px 12px; text-align:center; min-width:84px; }
+.mchip .k { display:block; font-size:.66rem; color:var(--muted); }
+.mchip .v { font-weight:700; font-size:.88rem; }
+.up { color:var(--up); } .down { color:var(--down); }
+/* ===== サマリーダッシュ ===== */
+.dash { display:grid; grid-template-columns:repeat(4,1fr); gap:8px; margin:8px 0 4px; }
+.dash .cell { background:var(--card); border:1px solid var(--border); border-radius:14px;
+  padding:9px 4px; text-align:center; }
+.dash .num { font-size:1.15rem; font-weight:800; line-height:1.2; }
+.dash .lbl { font-size:.64rem; color:var(--muted); }
+/* ===== バナー・注意 ===== */
+.banner { border-radius:14px; padding:11px 14px; color:#fff; margin:8px 0; }
+.banner-top { font-weight:700; font-size:1rem; }
+.banner-metrics { font-size:.85rem; opacity:.95; margin-top:2px; }
+.banner-reasons { font-size:.78rem; opacity:.9; margin-top:3px; }
+.errbar { background:#3d2b00; color:#ffd479; border-radius:10px; padding:8px 10px;
+  font-size:.8rem; margin:8px 0; }
+.seemikakuri { background:#3a1414; color:#ffb3b3; border-radius:10px; padding:10px;
+  font-size:.9rem; margin:8px 0; }
+.capbox { background:var(--card); border:1px solid var(--border); border-radius:14px;
+  padding:10px 12px; margin:10px 0; font-size:.85rem; }
+.capbox input { width:130px; background:var(--bg); color:var(--text);
+  border:1px solid var(--border); border-radius:8px; padding:6px 8px; font-size:.95rem; }
+/* ===== 候補カード ===== */
+.tierhead { border-left:4px solid; padding-left:8px; margin:18px 0 6px;
+  font-size:.92rem; }
+.card { background:var(--card); border:1px solid var(--border); border-radius:16px;
+  margin:8px 0; overflow:hidden; box-shadow:0 2px 8px rgba(0,0,0,.25); }
+.card[open] { border-color:var(--accent); }
+.gated-card { opacity:.65; }
+summary { list-style:none; cursor:pointer; padding:12px 14px; }
+summary::-webkit-details-marker { display:none; }
+.card-head { display:flex; align-items:center; gap:10px; }
+.rank { color:#fff; border-radius:9px; min-width:26px; height:26px; padding:0 4px;
+  display:flex; align-items:center; justify-content:center;
+  font-size:.8rem; font-weight:800; background:#57606a; }
+.rank-S { background:linear-gradient(135deg,#f0b90b,#e8890b); color:#1a1200; }
+.rank-A { background:linear-gradient(135deg,#3b82f6,#2563eb); }
+.rank-B { background:#3a4453; }
+.tinfo { flex:1; min-width:0; }
+.tinfo .name { font-weight:700; font-size:.95rem; white-space:nowrap;
+  overflow:hidden; text-overflow:ellipsis; }
+.tinfo .csub { font-size:.7rem; color:var(--muted); font-family:monospace; }
+.card-right { text-align:right; display:flex; align-items:center; gap:8px; }
+.px { font-weight:700; font-size:.95rem; display:block; }
+.pxchg { display:block; font-size:.72rem; font-weight:600; }
+canvas.spark { width:62px; height:28px; }
+.code { font-family:monospace; color:var(--muted); }
+.name { font-weight:700; flex:1; }
+.score { background:rgba(22,199,132,.12); color:var(--up); font-weight:700;
+  padding:2px 8px; border-radius:8px; font-size:.85rem; }
+.card-sub { margin-top:7px; display:flex; flex-wrap:wrap; gap:5px; align-items:center; }
+.tag { background:rgba(59,130,246,.13); color:#7ab3ff; border-radius:6px;
+  padding:1px 8px; font-size:.7rem; }
+.card-body { padding:0 14px 13px; border-top:1px solid var(--border); }
+.gated { color:#ffb3b3; font-size:.85rem; margin:8px 0; }
+.hits { margin:10px 0; padding-left:18px; font-size:.84rem; }
+.hits li { margin:3px 0; }
+.levels { display:grid; grid-template-columns:1fr 1fr; gap:7px; margin-top:8px; }
+.levels > div { background:var(--bg); border:1px solid var(--border);
+  border-radius:10px; padding:6px 9px; }
+.levels .k { display:block; color:var(--muted); font-size:.7rem; }
+.levels .v { font-weight:700; font-size:.9rem; }
+.btnrow { display:flex; gap:8px; margin-top:10px; }
+.btn { flex:1; background:var(--card2); color:var(--text); border:1px solid var(--border);
+  border-radius:11px; padding:9px; font-size:.85rem; cursor:pointer; font-weight:600; }
+.btn:active { opacity:.75; }
+.btn.buy { background:rgba(22,199,132,.13); border-color:rgba(22,199,132,.5);
+  color:var(--up); }
+.btn.danger { background:rgba(234,57,67,.12); border-color:rgba(234,57,67,.45);
+  color:#ff8f96; }
+.btn.small { flex:none; padding:6px 11px; font-size:.78rem; }
+/* ===== リストカード（予備軍・開示・保有） ===== */
+.holds .hold { background:var(--card); border:1px solid var(--border);
+  border-radius:14px; padding:11px 12px; margin:8px 0; }
+.hold-head { display:flex; align-items:center; gap:8px; flex-wrap:wrap; }
+.hold .pnl { font-weight:700; }
+.judge { color:#fff; border-radius:7px; padding:2px 9px; font-size:.75rem; }
+.hold-detail { margin-top:4px; font-size:.8rem; color:var(--muted); }
+table.rev { width:100%; border-collapse:collapse; font-size:.82rem; margin-top:6px; }
+table.rev th, table.rev td { border-bottom:1px solid var(--border); padding:6px 4px;
+  text-align:center; }
+table.rev th { color:var(--muted); font-weight:600; }
+footer { margin-top:26px; font-size:.7rem; color:var(--muted); }
+/* ===== 購入一覧 ===== */
+.psum { background:linear-gradient(135deg,#17202e,#141a26);
+  border:1px solid var(--border); border-radius:16px; padding:14px;
+  margin:8px 0 12px; text-align:center; }
+.psum .big { font-size:1.5rem; font-weight:800; display:block; }
+.pos { color:var(--up); } .neg { color:var(--down); }
+.pcard { background:var(--card); border:1px solid var(--border); border-radius:14px;
+  padding:11px 12px; margin:8px 0; }
+.pcard.sold { opacity:.7; }
+.pcard-head { display:flex; align-items:center; gap:8px; flex-wrap:wrap; }
+.pcard-head .pnl { font-weight:700; margin-left:auto; }
+.pcard-detail { font-size:.8rem; color:var(--muted); margin-top:3px; }
+.pcard .btnrow { margin-top:8px; }
+/* ===== 下部タブバー ===== */
+.tabs { position:fixed; left:0; right:0; bottom:0; z-index:40; display:flex; gap:4px;
+  background:rgba(13,17,24,.96); -webkit-backdrop-filter:blur(12px);
+  backdrop-filter:blur(12px); border-top:1px solid var(--border);
+  padding:7px 12px calc(7px + env(safe-area-inset-bottom)); }
+.tabbtn { flex:1; background:none; border:none; color:var(--muted);
+  border-radius:12px; padding:5px 0 3px; font-size:.66rem; cursor:pointer;
+  display:flex; flex-direction:column; align-items:center; gap:1px; font-weight:600; }
+.tabbtn .ico { font-size:1.3rem; line-height:1.15; }
+.tabbtn.active { color:#7ab3ff; background:rgba(59,130,246,.13); }
+.tabpanel { display:none; }
+.tabpanel.active { display:block; animation:fadein .18s ease; }
+@keyframes fadein { from { opacity:.4; transform:translateY(4px); }
+  to { opacity:1; transform:none; } }
+/* ===== チャートモーダル ===== */
+#chart-overlay { position:fixed; inset:0; background:rgba(0,0,0,.86); z-index:50;
+  display:none; align-items:center; justify-content:center; flex-direction:column; }
+#chart-overlay.show { display:flex; }
+#chart-box { background:var(--card); border:1px solid var(--border); border-radius:16px;
+  padding:13px; width:min(96vw, 640px); }
+#chart-title { font-weight:700; margin-bottom:6px; display:flex; align-items:center; }
+#chart-close { margin-left:auto; background:none; border:none; color:var(--muted);
+  font-size:1.4rem; cursor:pointer; padding:0 4px; }
+#chart-canvas { width:100%; height:340px; display:block; }
+#chart-note { font-size:.72rem; color:var(--muted); margin-top:4px; }
+/* ===== 購入ダイアログ ===== */
+#buy-overlay { position:fixed; inset:0; background:rgba(0,0,0,.72); z-index:60;
+  display:none; align-items:center; justify-content:center; }
+#buy-overlay.show { display:flex; }
+#buy-box { background:var(--card); border:1px solid rgba(22,199,132,.55);
+  border-radius:16px; padding:16px; width:min(92vw, 380px); }
+#buy-box h3 { margin:0 0 10px; font-size:1rem; }
+#buy-box label { display:block; font-size:.8rem; color:var(--muted); margin-top:10px; }
+#buy-box input { width:100%; background:var(--bg); color:var(--text);
+  border:1px solid var(--border); border-radius:10px; padding:9px; font-size:1rem;
+  margin-top:3px; }
+#buy-box .btnrow { margin-top:14px; }
+</style>
+</head>
+<body>
+<header class="appbar">
+  <span class="logo">📈 株レポ</span>
+  <span class="when">2026-10-13<br>更新 00:57</span>
+  <button class="iconbtn" id="btn-archive" title="過去レポート">🗓</button>
+  <button class="iconbtn" id="btn-dispatch" title="今すぐデータ更新">🔄</button>
+  <button class="iconbtn" id="btn-reload" title="再読み込み">↻</button>
+</header>
+<div class="wrap">
+  <div class="muted" id="dispatch-msg" style="display:none"></div>
+  <div class="errbar">⚠ データ取得失敗 1銘柄 （前日キャッシュで代替の可能性）: 9613</div>
+  <div class="errbar" id="prices-warn" style="display:none"></div>
+
+  <div class="mstrip"><div class="mchip"><span class="k">地合い</span><span class="v">⚠️WARN</span></div><div class="mchip"><span class="k">日経先物</span><span class="v down">-0.5%</span></div><div class="mchip"><span class="k">日経平均</span><span class="v down">-0.0%</span></div><div class="mchip"><span class="k">SOX</span><span class="v down">-2.2%</span></div><div class="mchip"><span class="k">NYダウ</span><span class="v up">+0.5%</span></div><div class="mchip"><span class="k">ドル円</span><span class="v ">158.7円</span></div></div>
+
+  <div class="dash">
+    <div class="cell"><div class="num" style="color:var(--gold)">2</div>
+      <div class="lbl">🎯 本命</div></div>
+    <div class="cell"><div class="num">10</div>
+      <div class="lbl">候補合計</div></div>
+    <div class="cell"><div class="num">8</div>
+      <div class="lbl">予備軍</div></div>
+    <div class="cell"><div class="num" id="dash-pnl">—</div>
+      <div class="lbl">保有損益</div></div>
+  </div>
+
+  
+    <div class="banner" style="background:#c98a00">
+      <div class="banner-top">⚠️ 地合い: WARN</div>
+      <div class="banner-metrics">先物 -0.5% / 日経 -0.0% / SOX -2.2% / ダウ +0.5% / 為替 158.7円</div>
+      <div class="banner-reasons">日経 -0.0%　先物 -0.5%　SOX -2.2%（半導体軟調）</div>
+    </div>
+
+  <section class="tabpanel active" id="tab-cand">
+    <div class="capbox">
+      💰 総資金（この端末だけに保存）:
+      <input id="capital" type="number" inputmode="numeric" placeholder="例 3000000"> 円
+      <span class="muted">→ 許容損失 1.0% / 上限 5銘柄で株数を自動計算</span>
+    </div>
+    <h2>■ 新規候補</h2>
+    <div class="tierhead" style="border-color:#f0b90b"><b>🎯 本命</b> <span class="muted">3系統以上の根拠 or 開示材料あり（2件）</span></div>
+    <details class="card" data-code="2914"
+             data-in="7230.0" data-stop="6970.0">
+      <summary>
+        <div class="card-head">
+          <span class="rank rank-S">1</span>
+          <div class="tinfo">
+            <div class="name">日本たばこ産業</div>
+            <div class="csub">2914・出来高2.06倍・代金278.0億</div>
+          </div>
+          <div class="card-right">
+            <div>
+              <span class="px" data-code="2914">7,230</span>
+              <span class="pxchg" data-code="2914"></span>
+            </div>
+            <canvas class="spark" data-code="2914"></canvas>
+          </div>
+        </div>
+        <div class="card-sub"><span class="tag">⑦統計・アノマリー</span><span class="tag">③テクニカル</span><span class="tag">②出来高・需給</span><span class="score">75</span></div>
+      </summary>
+      <div class="card-body">
+        
+        <ul class="hits"><li><b>出来高急増</b> — 出来高が20日平均比 2.1倍</li><li><b>価格を伴う出来高増</b> — 陽線＋大商い（本物のブレイク候補）</li><li><b>60日高値ブレイク</b> — 直近60日高値(7218)を上抜け</li><li><b>パーフェクトオーダー</b> — 25&gt;75&gt;200日線の上昇配列</li><li><b>52週高値圏</b> — モメンタム継続の統計的優位（52週高値更新圏）</li></ul>
+        <div class="levels">
+          <div><span class="k">IN目安</span><span class="v">7,230.0円</span></div>
+          <div><span class="k">損切り</span><span class="v">6,970.0円 (-3.6%)</span></div>
+          <div><span class="k">目標</span><span class="v">7,620.0円 (+5.4%)</span></div>
+          <div><span class="k">株数目安</span><span class="v shares" data-code="2914">100株（コスト約723,000円）</span></div>
+        </div>
+        <div class="btnrow">
+          <button class="btn chartbtn" data-code="2914" data-name="日本たばこ産業">📈 チャート</button>
+          <button class="btn buy buybtn" data-code="2914" data-name="日本たばこ産業"
+                  data-in="7230.0">🛒 購入登録</button>
+        </div>
+      </div>
+    </details>
+    <details class="card" data-code="6532"
+             data-in="8748.0" data-stop="8249.6">
+      <summary>
+        <div class="card-head">
+          <span class="rank rank-S">2</span>
+          <div class="tinfo">
+            <div class="name">ベイカレント</div>
+            <div class="csub">6532・出来高1.59倍・代金91.8億</div>
+          </div>
+          <div class="card-right">
+            <div>
+              <span class="px" data-code="6532">8,748</span>
+              <span class="pxchg" data-code="6532"></span>
+            </div>
+            <canvas class="spark" data-code="6532"></canvas>
+          </div>
+        </div>
+        <div class="card-sub"><span class="tag">⑦統計・アノマリー</span><span class="tag">③テクニカル</span><span class="tag">②出来高・需給</span><span class="score">72</span></div>
+      </summary>
+      <div class="card-body">
+        
+        <ul class="hits"><li><b>60日高値ブレイク</b> — 直近60日高値(8409)を上抜け</li><li><b>パーフェクトオーダー</b> — 25&gt;75&gt;200日線の上昇配列</li><li><b>52週高値圏</b> — モメンタム継続の統計的優位（52週高値更新圏）</li></ul>
+        <div class="levels">
+          <div><span class="k">IN目安</span><span class="v">8,748.0円</span></div>
+          <div><span class="k">損切り</span><span class="v">8,249.6円 (-5.7%)</span></div>
+          <div><span class="k">目標</span><span class="v">9,495.6円 (+8.5%)</span></div>
+          <div><span class="k">株数目安</span><span class="v shares" data-code="6532">—（許容損失に対し値幅が大きく、単元(100株)に満たない）</span></div>
+        </div>
+        <div class="btnrow">
+          <button class="btn chartbtn" data-code="6532" data-name="ベイカレント">📈 チャート</button>
+          <button class="btn buy buybtn" data-code="6532" data-name="ベイカレント"
+                  data-in="8748.0">🛒 購入登録</button>
+        </div>
+      </div>
+    </details><div class="tierhead" style="border-color:#3b82f6"><b>◎ 有力</b> <span class="muted">2系統の根拠（8件）</span></div>
+    <details class="card" data-code="4543"
+             data-in="2284.0" data-stop="2159.3">
+      <summary>
+        <div class="card-head">
+          <span class="rank rank-A">3</span>
+          <div class="tinfo">
+            <div class="name">テルモ</div>
+            <div class="csub">4543・出来高2.84倍・代金130.8億</div>
+          </div>
+          <div class="card-right">
+            <div>
+              <span class="px" data-code="4543">2,284</span>
+              <span class="pxchg" data-code="4543"></span>
+            </div>
+            <canvas class="spark" data-code="4543"></canvas>
+          </div>
+        </div>
+        <div class="card-sub"><span class="tag">③テクニカル</span><span class="tag">②出来高・需給</span><span class="score">51</span></div>
+      </summary>
+      <div class="card-body">
+        
+        <ul class="hits"><li><b>出来高急増</b> — 出来高が20日平均比 2.8倍</li><li><b>BBスクイーズ</b> — バンド幅縮小→エクスパンション初動の可能性</li></ul>
+        <div class="levels">
+          <div><span class="k">IN目安</span><span class="v">2,284.0円</span></div>
+          <div><span class="k">損切り</span><span class="v">2,159.3円 (-5.5%)</span></div>
+          <div><span class="k">目標</span><span class="v">2,471.1円 (+8.2%)</span></div>
+          <div><span class="k">株数目安</span><span class="v shares" data-code="4543">200株（コスト約456,800円）</span></div>
+        </div>
+        <div class="btnrow">
+          <button class="btn chartbtn" data-code="4543" data-name="テルモ">📈 チャート</button>
+          <button class="btn buy buybtn" data-code="4543" data-name="テルモ"
+                  data-in="2284.0">🛒 購入登録</button>
+        </div>
+      </div>
+    </details>
+    <details class="card" data-code="4307"
+             data-in="5613.0" data-stop="5298.5">
+      <summary>
+        <div class="card-head">
+          <span class="rank rank-A">4</span>
+          <div class="tinfo">
+            <div class="name">野村総合研究所</div>
+            <div class="csub">4307・出来高2.07倍・代金121.9億</div>
+          </div>
+          <div class="card-right">
+            <div>
+              <span class="px" data-code="4307">5,613</span>
+              <span class="pxchg" data-code="4307"></span>
+            </div>
+            <canvas class="spark" data-code="4307"></canvas>
+          </div>
+        </div>
+        <div class="card-sub"><span class="tag">③テクニカル</span><span class="tag">②出来高・需給</span><span class="score">53</span></div>
+      </summary>
+      <div class="card-body">
+        
+        <ul class="hits"><li><b>出来高急増</b> — 出来高が20日平均比 2.1倍</li><li><b>価格を伴う出来高増</b> — 陽線＋大商い（本物のブレイク候補）</li><li><b>60日高値ブレイク</b> — 直近60日高値(5573)を上抜け</li><li><b>MACDゴールデンクロス</b> — 直近でGC（0ライン付近・信頼度高）</li><li><b>パーフェクトオーダー</b> — 25&gt;75&gt;200日線の上昇配列</li></ul>
+        <div class="levels">
+          <div><span class="k">IN目安</span><span class="v">5,613.0円</span></div>
+          <div><span class="k">損切り</span><span class="v">5,298.5円 (-5.6%)</span></div>
+          <div><span class="k">目標</span><span class="v">6,084.7円 (+8.4%)</span></div>
+          <div><span class="k">株数目安</span><span class="v shares" data-code="4307">—（許容損失に対し値幅が大きく、単元(100株)に満たない）</span></div>
+        </div>
+        <div class="btnrow">
+          <button class="btn chartbtn" data-code="4307" data-name="野村総合研究所">📈 チャート</button>
+          <button class="btn buy buybtn" data-code="4307" data-name="野村総合研究所"
+                  data-in="5613.0">🛒 購入登録</button>
+        </div>
+      </div>
+    </details>
+    <details class="card" data-code="7267"
+             data-in="1726.5" data-stop="1634.2">
+      <summary>
+        <div class="card-head">
+          <span class="rank rank-A">5</span>
+          <div class="tinfo">
+            <div class="name">本田技研工業</div>
+            <div class="csub">7267・出来高1.38倍・代金237.4億</div>
+          </div>
+          <div class="card-right">
+            <div>
+              <span class="px" data-code="7267">1,726</span>
+              <span class="pxchg" data-code="7267"></span>
+            </div>
+            <canvas class="spark" data-code="7267"></canvas>
+          </div>
+        </div>
+        <div class="card-sub"><span class="tag">⑦統計・アノマリー</span><span class="tag">③テクニカル</span><span class="score">50</span></div>
+      </summary>
+      <div class="card-body">
+        
+        <ul class="hits"><li><b>MACDゴールデンクロス</b> — 直近でGC（0ライン付近・信頼度高）</li><li><b>パーフェクトオーダー</b> — 25&gt;75&gt;200日線の上昇配列</li><li><b>52週高値圏</b> — モメンタム継続の統計的優位（52週高値更新圏）</li><li><b>ヒゲ分析で損切り調整</b> — 直近ヒゲ安値1646円の狩り帯を回避 1651→1634円</li></ul>
+        <div class="levels">
+          <div><span class="k">IN目安</span><span class="v">1,726.5円</span></div>
+          <div><span class="k">損切り</span><span class="v">1,634.2円 (-5.3%)</span></div>
+          <div><span class="k">目標</span><span class="v">1,839.7円 (+6.6%)</span></div>
+          <div><span class="k">株数目安</span><span class="v shares" data-code="7267">300株（コスト約517,950円）</span></div>
+        </div>
+        <div class="btnrow">
+          <button class="btn chartbtn" data-code="7267" data-name="本田技研工業">📈 チャート</button>
+          <button class="btn buy buybtn" data-code="7267" data-name="本田技研工業"
+                  data-in="1726.5">🛒 購入登録</button>
+        </div>
+      </div>
+    </details>
+    <details class="card" data-code="6701"
+             data-in="5233.0" data-stop="4947.9">
+      <summary>
+        <div class="card-head">
+          <span class="rank rank-A">6</span>
+          <div class="tinfo">
+            <div class="name">日本電気</div>
+            <div class="csub">6701・出来高1.36倍・代金266.5億</div>
+          </div>
+          <div class="card-right">
+            <div>
+              <span class="px" data-code="6701">5,233</span>
+              <span class="pxchg" data-code="6701"></span>
+            </div>
+            <canvas class="spark" data-code="6701"></canvas>
+          </div>
+        </div>
+        <div class="card-sub"><span class="tag">③テクニカル</span><span class="tag">②出来高・需給</span><span class="score">48</span></div>
+      </summary>
+      <div class="card-body">
+        
+        <ul class="hits"><li><b>60日高値ブレイク</b> — 直近60日高値(5176)を上抜け</li><li><b>パーフェクトオーダー</b> — 25&gt;75&gt;200日線の上昇配列</li></ul>
+        <div class="levels">
+          <div><span class="k">IN目安</span><span class="v">5,233.0円</span></div>
+          <div><span class="k">損切り</span><span class="v">4,947.9円 (-5.4%)</span></div>
+          <div><span class="k">目標</span><span class="v">5,660.7円 (+8.2%)</span></div>
+          <div><span class="k">株数目安</span><span class="v shares" data-code="6701">100株（コスト約523,300円）</span></div>
+        </div>
+        <div class="btnrow">
+          <button class="btn chartbtn" data-code="6701" data-name="日本電気">📈 チャート</button>
+          <button class="btn buy buybtn" data-code="6701" data-name="日本電気"
+                  data-in="5233.0">🛒 購入登録</button>
+        </div>
+      </div>
+    </details>
+    <details class="card" data-code="9766"
+             data-in="23120.0" data-stop="21828.7">
+      <summary>
+        <div class="card-head">
+          <span class="rank rank-A">7</span>
+          <div class="tinfo">
+            <div class="name">コナミグループ</div>
+            <div class="csub">9766・出来高1.36倍・代金120.3億</div>
+          </div>
+          <div class="card-right">
+            <div>
+              <span class="px" data-code="9766">23,120</span>
+              <span class="pxchg" data-code="9766"></span>
+            </div>
+            <canvas class="spark" data-code="9766"></canvas>
+          </div>
+        </div>
+        <div class="card-sub"><span class="tag">③テクニカル</span><span class="tag">②出来高・需給</span><span class="score">48</span></div>
+      </summary>
+      <div class="card-body">
+        
+        <ul class="hits"><li><b>60日高値ブレイク</b> — 直近60日高値(22980)を上抜け</li><li><b>パーフェクトオーダー</b> — 25&gt;75&gt;200日線の上昇配列</li></ul>
+        <div class="levels">
+          <div><span class="k">IN目安</span><span class="v">23,120.0円</span></div>
+          <div><span class="k">損切り</span><span class="v">21,828.7円 (-5.6%)</span></div>
+          <div><span class="k">目標</span><span class="v">25,057.0円 (+8.4%)</span></div>
+          <div><span class="k">株数目安</span><span class="v shares" data-code="9766">—（許容損失に対し値幅が大きく、単元(100株)に満たない）</span></div>
+        </div>
+        <div class="btnrow">
+          <button class="btn chartbtn" data-code="9766" data-name="コナミグループ">📈 チャート</button>
+          <button class="btn buy buybtn" data-code="9766" data-name="コナミグループ"
+                  data-in="23120.0">🛒 購入登録</button>
+        </div>
+      </div>
+    </details>
+    <details class="card" data-code="7832"
+             data-in="5833.0" data-stop="5430.6">
+      <summary>
+        <div class="card-head">
+          <span class="rank rank-A">8</span>
+          <div class="tinfo">
+            <div class="name">バンダイナムコホールディングス</div>
+            <div class="csub">7832・出来高1.35倍・代金142.4億</div>
+          </div>
+          <div class="card-right">
+            <div>
+              <span class="px" data-code="7832">5,833</span>
+              <span class="pxchg" data-code="7832"></span>
+            </div>
+            <canvas class="spark" data-code="7832"></canvas>
+          </div>
+        </div>
+        <div class="card-sub"><span class="tag">⑦統計・アノマリー</span><span class="tag">③テクニカル</span><span class="score">49</span></div>
+      </summary>
+      <div class="card-body">
+        
+        <ul class="hits"><li><b>パーフェクトオーダー</b> — 25&gt;75&gt;200日線の上昇配列</li><li><b>52週高値圏</b> — モメンタム継続の統計的優位（52週高値更新圏）</li><li><b>ヒゲ分析で損切り調整</b> — 直近ヒゲ安値5477円の狩り帯を回避 5522→5431円</li></ul>
+        <div class="levels">
+          <div><span class="k">IN目安</span><span class="v">5,833.0円</span></div>
+          <div><span class="k">損切り</span><span class="v">5,430.6円 (-6.9%)</span></div>
+          <div><span class="k">目標</span><span class="v">6,299.8円 (+8.0%)</span></div>
+          <div><span class="k">株数目安</span><span class="v shares" data-code="7832">—（許容損失に対し値幅が大きく、単元(100株)に満たない）</span></div>
+        </div>
+        <div class="btnrow">
+          <button class="btn chartbtn" data-code="7832" data-name="バンダイナムコホールディングス">📈 チャート</button>
+          <button class="btn buy buybtn" data-code="7832" data-name="バンダイナムコホールディングス"
+                  data-in="5833.0">🛒 購入登録</button>
+        </div>
+      </div>
+    </details>
+    <details class="card" data-code="4021"
+             data-in="9090.0" data-stop="8663.2">
+      <summary>
+        <div class="card-head">
+          <span class="rank rank-A">9</span>
+          <div class="tinfo">
+            <div class="name">日産化学</div>
+            <div class="csub">4021・出来高1.2倍・代金48.0億</div>
+          </div>
+          <div class="card-right">
+            <div>
+              <span class="px" data-code="4021">9,090</span>
+              <span class="pxchg" data-code="4021"></span>
+            </div>
+            <canvas class="spark" data-code="4021"></canvas>
+          </div>
+        </div>
+        <div class="card-sub"><span class="tag">⑦統計・アノマリー</span><span class="tag">③テクニカル</span><span class="score">48</span></div>
+      </summary>
+      <div class="card-body">
+        
+        <ul class="hits"><li><b>パーフェクトオーダー</b> — 25&gt;75&gt;200日線の上昇配列</li><li><b>52週高値圏</b> — モメンタム継続の統計的優位（52週高値更新圏）</li></ul>
+        <div class="levels">
+          <div><span class="k">IN目安</span><span class="v">9,090.0円</span></div>
+          <div><span class="k">損切り</span><span class="v">8,663.2円 (-4.7%)</span></div>
+          <div><span class="k">目標</span><span class="v">9,730.3円 (+7.0%)</span></div>
+          <div><span class="k">株数目安</span><span class="v shares" data-code="4021">—（許容損失に対し値幅が大きく、単元(100株)に満たない）</span></div>
+        </div>
+        <div class="btnrow">
+          <button class="btn chartbtn" data-code="4021" data-name="日産化学">📈 チャート</button>
+          <button class="btn buy buybtn" data-code="4021" data-name="日産化学"
+                  data-in="9090.0">🛒 購入登録</button>
+        </div>
+      </div>
+    </details>
+    <details class="card" data-code="9104"
+             data-in="7301.0" data-stop="6823.6">
+      <summary>
+        <div class="card-head">
+          <span class="rank rank-A">10</span>
+          <div class="tinfo">
+            <div class="name">商船三井</div>
+            <div class="csub">9104・出来高1.12倍・代金183.4億</div>
+          </div>
+          <div class="card-right">
+            <div>
+              <span class="px" data-code="9104">7,301</span>
+              <span class="pxchg" data-code="9104"></span>
+            </div>
+            <canvas class="spark" data-code="9104"></canvas>
+          </div>
+        </div>
+        <div class="card-sub"><span class="tag">⑦統計・アノマリー</span><span class="tag">③テクニカル</span><span class="score">49</span></div>
+      </summary>
+      <div class="card-body">
+        
+        <ul class="hits"><li><b>パーフェクトオーダー</b> — 25&gt;75&gt;200日線の上昇配列</li><li><b>52週高値圏</b> — モメンタム継続の統計的優位（52週高値更新圏）</li><li><b>ヒゲ分析で損切り調整</b> — 直近ヒゲ安値6881円の狩り帯を回避 6918→6824円</li></ul>
+        <div class="levels">
+          <div><span class="k">IN目安</span><span class="v">7,301.0円</span></div>
+          <div><span class="k">損切り</span><span class="v">6,823.6円 (-6.5%)</span></div>
+          <div><span class="k">目標</span><span class="v">7,875.1円 (+7.9%)</span></div>
+          <div><span class="k">株数目安</span><span class="v shares" data-code="9104">—（許容損失に対し値幅が大きく、単元(100株)に満たない）</span></div>
+        </div>
+        <div class="btnrow">
+          <button class="btn chartbtn" data-code="9104" data-name="商船三井">📈 チャート</button>
+          <button class="btn buy buybtn" data-code="9104" data-name="商船三井"
+                  data-in="7301.0">🛒 購入登録</button>
+        </div>
+      </div>
+    </details>
+    <h2>■ 予備軍（もうすぐ候補）</h2><p class="muted">条件まであと一歩の監視銘柄。緑数字は期待度(0-100)。期待値は同系統シグナルが過去3年に発火した後の平均実績。</p><div class="holds">
+        <div class="hold">
+          <div class="hold-head">
+            <span class="code">2413</span>
+            <span class="name">エムスリー</span>
+            <span class="score" title="期待度">55</span>
+            <canvas class="spark" data-code="2413"></canvas>
+            <button class="btn small chartbtn" data-code="2413"
+                    data-name="エムスリー">📈</button>
+          </div>
+          <ul class="hits"><li>GC接近（25日線が75日線まで1.3%）</li></ul>
+          <div class="pcard-detail">発火時の期待値（過去3年・5日後）: <b style="color:#7ee787">+0.38%</b> / 勝率 52%</div>
+        </div>
+        <div class="hold">
+          <div class="hold-head">
+            <span class="code">2503</span>
+            <span class="name">キリンホールディングス</span>
+            <span class="score" title="期待度">55</span>
+            <canvas class="spark" data-code="2503"></canvas>
+            <button class="btn small chartbtn" data-code="2503"
+                    data-name="キリンホールディングス">📈</button>
+          </div>
+          <ul class="hits"><li>BBスクイーズ形成中（ブレイク待ち）</li></ul>
+          <div class="pcard-detail">発火時の期待値（過去3年・5日後）: <b style="color:#7ee787">+0.38%</b> / 勝率 52%</div>
+        </div>
+        <div class="hold">
+          <div class="hold-head">
+            <span class="code">4507</span>
+            <span class="name">塩野義製薬</span>
+            <span class="score" title="期待度">55</span>
+            <canvas class="spark" data-code="4507"></canvas>
+            <button class="btn small chartbtn" data-code="4507"
+                    data-name="塩野義製薬">📈</button>
+          </div>
+          <ul class="hits"><li>出来高じわ増（5日平均が20日平均比1.3倍）</li></ul>
+          <div class="pcard-detail">発火時の期待値（過去3年・5日後）: <b style="color:#7ee787">+0.37%</b> / 勝率 50%</div>
+        </div>
+        <div class="hold">
+          <div class="hold-head">
+            <span class="code">5713</span>
+            <span class="name">住友金属鉱山</span>
+            <span class="score" title="期待度">55</span>
+            <canvas class="spark" data-code="5713"></canvas>
+            <button class="btn small chartbtn" data-code="5713"
+                    data-name="住友金属鉱山">📈</button>
+          </div>
+          <ul class="hits"><li>BBスクイーズ形成中（ブレイク待ち）</li></ul>
+          <div class="pcard-detail">発火時の期待値（過去3年・5日後）: <b style="color:#7ee787">+0.38%</b> / 勝率 52%</div>
+        </div>
+        <div class="hold">
+          <div class="hold-head">
+            <span class="code">6503</span>
+            <span class="name">三菱電機</span>
+            <span class="score" title="期待度">55</span>
+            <canvas class="spark" data-code="6503"></canvas>
+            <button class="btn small chartbtn" data-code="6503"
+                    data-name="三菱電機">📈</button>
+          </div>
+          <ul class="hits"><li>BBスクイーズ形成中（ブレイク待ち）</li></ul>
+          <div class="pcard-detail">発火時の期待値（過去3年・5日後）: <b style="color:#7ee787">+0.38%</b> / 勝率 52%</div>
+        </div>
+        <div class="hold">
+          <div class="hold-head">
+            <span class="code">6504</span>
+            <span class="name">富士電機</span>
+            <span class="score" title="期待度">55</span>
+            <canvas class="spark" data-code="6504"></canvas>
+            <button class="btn small chartbtn" data-code="6504"
+                    data-name="富士電機">📈</button>
+          </div>
+          <ul class="hits"><li>GC接近（25日線が75日線まで0.1%）</li></ul>
+          <div class="pcard-detail">発火時の期待値（過去3年・5日後）: <b style="color:#7ee787">+0.38%</b> / 勝率 52%</div>
+        </div>
+        <div class="hold">
+          <div class="hold-head">
+            <span class="code">6723</span>
+            <span class="name">ルネサスエレクトロニクス</span>
+            <span class="score" title="期待度">55</span>
+            <canvas class="spark" data-code="6723"></canvas>
+            <button class="btn small chartbtn" data-code="6723"
+                    data-name="ルネサスエレクトロニクス">📈</button>
+          </div>
+          <ul class="hits"><li>出来高じわ増（5日平均が20日平均比1.3倍）</li></ul>
+          <div class="pcard-detail">発火時の期待値（過去3年・5日後）: <b style="color:#7ee787">+0.37%</b> / 勝率 50%</div>
+        </div>
+        <div class="hold">
+          <div class="hold-head">
+            <span class="code">6762</span>
+            <span class="name">TDK</span>
+            <span class="score" title="期待度">55</span>
+            <canvas class="spark" data-code="6762"></canvas>
+            <button class="btn small chartbtn" data-code="6762"
+                    data-name="TDK">📈</button>
+          </div>
+          <ul class="hits"><li>出来高じわ増（5日平均が20日平均比1.6倍）</li></ul>
+          <div class="pcard-detail">発火時の期待値（過去3年・5日後）: <b style="color:#7ee787">+0.37%</b> / 勝率 50%</div>
+        </div></div>
+    <h2>■ 適時開示（ユニバース・直近2日）</h2><p class="muted">該当する開示はありません（または取得失敗）。</p>
+  </section>
+
+  <section class="tabpanel" id="tab-buy">
+    <h2 id="purchases-h2">■ 購入一覧（この端末だけに保存）</h2>
+    <div id="purchase-list"></div>
+    <div class="btnrow">
+      <button class="btn buybtn" data-code="" data-name="" data-in="">＋ 候補以外の銘柄を手動で購入登録</button>
+    </div>
+  </section>
+
+  <section class="tabpanel" id="tab-etc">
+    
+    <h2>■ 答え合わせ（実運用のピック実績）</h2><p>2026-10-06ピック 10銘柄: 5日後平均 <b>+2.4%</b>（勝率 8/10）</p><table class="rev"><thead><tr><th>系統</th><th>件数</th><th>平均</th><th>勝率</th></tr></thead><tbody><tr><td>anomaly</td><td>532</td><td>-1.1%</td><td>41%</td></tr><tr><td>catalyst</td><td>107</td><td>+2.3%</td><td>64%</td></tr><tr><td>tech</td><td>991</td><td>-0.1%</td><td>47%</td></tr><tr><td>volume</td><td>488</td><td>-0.9%</td><td>40%</td></tr></tbody></table>
+    <h2>■ バックテスト（過去データ検証）</h2><p class="muted">2024-03-06〜2026-10-02 のユニバース日足で、各シグナル発生から5営業日後の騰落を集計。「基準」行を上回る系統（✓）に優位性。現ユニバース構成での検証のため生存者バイアスあり・目安。カタリスト系は対象外。</p><table class="rev"><thead><tr><th>系統</th><th>回数</th><th>平均</th><th>勝率</th></tr></thead><tbody><tr style="color:#8b949e"><td>基準（全営業日）</td><td>86,802</td><td>+0.49%</td><td>53%</td></tr><tr><td>★2系統以上（本命）</td><td>8,098</td><td>+0.17%</td><td>50%</td></tr><tr><td>②出来高・需給</td><td>6,617</td><td>+0.37%</td><td>50%</td></tr><tr><td>③テクニカル</td><td>40,060</td><td>+0.38%</td><td>52%</td></tr><tr><td>⑦アノマリー</td><td>6,935</td><td>+0.17%</td><td>50%</td></tr><tr><td>アルゴ痕跡</td><td>19</td><td>-0.12%</td><td>47%</td></tr></tbody></table>
+  </section>
+
+  <footer>
+    ※本ツールは候補提示であり投資助言ではありません。最終判断は自分で行い、
+    実発注前に証券会社アプリで現値を確認してください。無料データは遅延・欠損があり得ます。<br>
+    購入記録・総資金はこの端末のブラウザ内(localStorage)にのみ保存され、公開されません。<br>
+    生成: 2026-10-13
+  </footer>
+</div>
+
+<nav class="tabs">
+  <button class="tabbtn active" data-tab="cand"><span class="ico">🏠</span>候補</button>
+  <button class="tabbtn" data-tab="buy"><span class="ico">💼</span>購入</button>
+  <button class="tabbtn" data-tab="etc"><span class="ico">📊</span>検証</button>
+</nav>
+
+<div id="chart-overlay">
+  <div id="chart-box">
+    <div id="chart-title"><span id="chart-title-text"></span>
+      <button id="chart-close" onclick="closeChart()">✕</button></div>
+    <canvas id="chart-canvas"></canvas>
+    <div id="chart-note"></div>
+  </div>
+</div>
+
+<div id="buy-overlay">
+  <div id="buy-box">
+    <h3>🛒 購入登録 <span class="muted" id="buy-name"></span></h3>
+    <label>銘柄コード</label><input id="buy-code" inputmode="numeric" placeholder="例 7203">
+    <label>購入価格（円）</label><input id="buy-price" type="number" inputmode="decimal">
+    <label>単元数（1単元=100株）</label><input id="buy-units" type="number" inputmode="numeric" value="1" min="1">
+    <label>購入日</label><input id="buy-date" type="date">
+    <div class="btnrow">
+      <button class="btn" onclick="closeBuy()">キャンセル</button>
+      <button class="btn buy" onclick="submitBuy()">登録する</button>
+    </div>
+  </div>
+</div>
+
+<script>
+const RISK_PCT = 1.0;
+const CANDS = [{"code": "2914", "in": 7230.0, "stop": 6970.0}, {"code": "6532", "in": 8748.0, "stop": 8249.6}, {"code": "4543", "in": 2284.0, "stop": 2159.3}, {"code": "4307", "in": 5613.0, "stop": 5298.5}, {"code": "7267", "in": 1726.5, "stop": 1634.2}, {"code": "6701", "in": 5233.0, "stop": 4947.9}, {"code": "9766", "in": 23120.0, "stop": 21828.7}, {"code": "7832", "in": 5833.0, "stop": 5430.6}, {"code": "4021", "in": 9090.0, "stop": 8663.2}, {"code": "9104", "in": 7301.0, "stop": 6823.6}];
+const IS_ARCHIVE = location.pathname.includes('/reports/');
+const PRICES_URL = (IS_ARCHIVE ? '../' : '') + 'prices.json';
+let PRICES = null;
+
+function fmt(n) { return Math.round(n).toLocaleString('ja-JP'); }
+function esc(s) { const d = document.createElement('div'); d.textContent = s; return d.innerHTML; }
+
+/* ---------- 総資金→株数再計算 ---------- */
+const capEl = document.getElementById('capital');
+function recalc() {
+  const cap = parseFloat(capEl.value);
+  CANDS.forEach(c => {
+    const el = document.querySelector('.shares[data-code="' + c.code + '"]');
+    if (!el || !cap || cap <= 0) return;
+    const risk = cap * RISK_PCT / 100;
+    const per = Math.max(c.in - c.stop, 0.01);
+    const shares = Math.floor((risk / per) / 100) * 100;
+    el.textContent = shares > 0
+      ? shares + '株（コスト約' + fmt(shares * c.in) + '円）'
+      : '—（値幅が大きく単元に満たない）';
+  });
+}
+try { const s = localStorage.getItem('kabu_capital'); if (s) { capEl.value = s; recalc(); } } catch (e) {}
+capEl.addEventListener('input', () => {
+  try { localStorage.setItem('kabu_capital', capEl.value); } catch (e) {}
+  recalc();
+});
+
+/* ---------- 購入記録（localStorage） ---------- */
+function loadPurchases() {
+  try { return JSON.parse(localStorage.getItem('kabu_purchases') || '[]'); }
+  catch (e) { return []; }
+}
+function savePurchases(a) { localStorage.setItem('kabu_purchases', JSON.stringify(a)); }
+function lastClose(code) {
+  const p = PRICES && PRICES[code];
+  return (p && p.c.length) ? p.c[p.c.length - 1] : null;
+}
+function stockName(code) {
+  const p = PRICES && PRICES[code];
+  return p ? p.name : '';
+}
+
+function renderPurchases() {
+  const box = document.getElementById('purchase-list');
+  const items = loadPurchases();
+  if (!items.length) {
+    box.innerHTML = '<p class="muted">まだ購入記録がありません。候補カードの「🛒 購入登録」から追加できます。</p>';
+    return;
+  }
+  let totalPnl = 0, totalCost = 0, html = '';
+  const holding = items.filter(p => p.status !== 'sold');
+  const sold = items.filter(p => p.status === 'sold');
+
+  holding.forEach(p => {
+    const shares = p.units * 100;
+    const cur = lastClose(p.code);
+    let pnlHtml = '<span class="muted">現在値不明</span>', detail;
+    if (cur !== null) {
+      const pnl = (cur - p.price) * shares;
+      const pct = (cur / p.price - 1) * 100;
+      totalPnl += pnl; totalCost += p.price * shares;
+      const cls = pnl >= 0 ? 'pos' : 'neg';
+      pnlHtml = '<span class="pnl ' + cls + '">' + (pnl >= 0 ? '+' : '') + fmt(pnl) + '円 (' +
+        (pct >= 0 ? '+' : '') + pct.toFixed(1) + '%)</span>';
+      detail = '購入 ' + esc(p.date) + ' @' + fmt(p.price) + ' × ' + p.units + '単元(' + shares +
+        '株) → 現在 ' + fmt(cur) + '円';
+    } else {
+      detail = '購入 ' + esc(p.date) + ' @' + fmt(p.price) + ' × ' + p.units + '単元(' + shares + '株)';
+    }
+    html += '<div class="pcard">' +
+      '<div class="pcard-head"><span class="code">' + esc(p.code) + '</span>' +
+      '<span class="name">' + esc(p.name || stockName(p.code)) + '</span>' + pnlHtml + '</div>' +
+      '<div class="pcard-detail">' + detail + '</div>' +
+      '<div class="btnrow">' +
+      '<button class="btn small chartbtn" data-code="' + esc(p.code) + '" data-name="' +
+        esc(p.name || '') + '" data-line="' + p.price + '">📈 チャート</button>' +
+      '<button class="btn small" onclick="sellPurchase(\'' + p.id + '\')">💰 売却登録</button>' +
+      '<button class="btn small danger" onclick="deletePurchase(\'' + p.id + '\')">🗑 削除</button>' +
+      '</div></div>';
+  });
+
+  let sum = '';
+  if (totalCost > 0) {
+    const cls = totalPnl >= 0 ? 'pos' : 'neg';
+    sum = '<div class="psum"><span class="muted" style="font-size:.75rem">保有中の評価損益</span>' +
+      '<span class="big ' + cls + '">' + (totalPnl >= 0 ? '+' : '') + fmt(totalPnl) + '円</span>' +
+      '<span class="' + cls + '" style="font-weight:700">(' +
+      (totalPnl >= 0 ? '+' : '') + (totalPnl / totalCost * 100).toFixed(2) + '%)</span>' +
+      '<div class="muted" style="font-size:.72rem;margin-top:2px">投下資金 ' + fmt(totalCost) + '円</div></div>';
+  }
+
+  if (sold.length) {
+    html += '<h3 style="font-size:.9rem;color:#8b949e;margin:14px 0 4px">売却済み（確定）</h3>';
+    sold.forEach(p => {
+      const shares = p.units * 100;
+      const pnl = (p.sellPrice - p.price) * shares;
+      const pct = (p.sellPrice / p.price - 1) * 100;
+      const cls = pnl >= 0 ? 'pos' : 'neg';
+      html += '<div class="pcard sold">' +
+        '<div class="pcard-head"><span class="code">' + esc(p.code) + '</span>' +
+        '<span class="name">' + esc(p.name || '') + '</span>' +
+        '<span class="pnl ' + cls + '">' + (pnl >= 0 ? '+' : '') + fmt(pnl) + '円 (' +
+        (pct >= 0 ? '+' : '') + pct.toFixed(1) + '%)</span></div>' +
+        '<div class="pcard-detail">購入 ' + esc(p.date) + ' @' + fmt(p.price) +
+        ' → 売却 ' + esc(p.sellDate || '') + ' @' + fmt(p.sellPrice) + ' × ' + p.units + '単元</div>' +
+        '<div class="btnrow"><button class="btn small danger" onclick="deletePurchase(\'' +
+        p.id + '\')">🗑 削除</button></div></div>';
+    });
+  }
+  box.innerHTML = sum + html;
+}
+
+function sellPurchase(id) {
+  const items = loadPurchases();
+  const p = items.find(x => x.id === id);
+  if (!p) return;
+  const cur = lastClose(p.code);
+  const v = prompt('売却価格（円）を入力', cur !== null ? String(cur) : '');
+  if (v === null) return;
+  const price = parseFloat(v);
+  if (!price || price <= 0) { alert('価格が不正です'); return; }
+  p.status = 'sold';
+  p.sellPrice = price;
+  p.sellDate = new Date().toISOString().slice(0, 10);
+  savePurchases(items);
+  renderPurchases();
+  fillDashPnl();
+}
+function deletePurchase(id) {
+  if (!confirm('この記録を削除しますか？')) return;
+  savePurchases(loadPurchases().filter(x => x.id !== id));
+  renderPurchases();
+  fillDashPnl();
+}
+
+/* ---------- 購入登録ダイアログ ---------- */
+function openBuy(code, name, defPrice) {
+  document.getElementById('buy-code').value = code || '';
+  document.getElementById('buy-code').readOnly = !!code;
+  document.getElementById('buy-name').textContent = name ? code + ' ' + name : '銘柄コードを入力';
+  document.getElementById('buy-price').value = defPrice || '';
+  document.getElementById('buy-units').value = 1;
+  document.getElementById('buy-date').value = new Date().toISOString().slice(0, 10);
+  document.getElementById('buy-overlay').classList.add('show');
+}
+function closeBuy() { document.getElementById('buy-overlay').classList.remove('show'); }
+function submitBuy() {
+  const code = document.getElementById('buy-code').value.trim();
+  const price = parseFloat(document.getElementById('buy-price').value);
+  const units = parseInt(document.getElementById('buy-units').value, 10);
+  const date = document.getElementById('buy-date').value;
+  if (!code) { alert('銘柄コードを入力してください'); return; }
+  if (!price || price <= 0) { alert('購入価格を入力してください'); return; }
+  if (!units || units <= 0) { alert('単元数を入力してください'); return; }
+  const items = loadPurchases();
+  items.push({
+    id: String(Date.now()), code: code,
+    name: stockName(code) || '',
+    price: price, units: units, date: date, status: 'holding'
+  });
+  savePurchases(items);
+  closeBuy();
+  renderPurchases();
+  fillDashPnl();
+  const tb = document.querySelector('.tabbtn[data-tab="buy"]');
+  if (tb) tb.click();
+}
+
+/* ---------- チャート描画（ローソク足＋MA5/25＋出来高） ---------- */
+function openChart(code, line) {
+  const p = PRICES && PRICES[code];
+  const overlay = document.getElementById('chart-overlay');
+  document.getElementById('chart-title-text').textContent =
+    code + ' ' + (p ? p.name : '') + (line ? '（橙線=購入価格）' : '');
+  overlay.classList.add('show');
+  const canvas = document.getElementById('chart-canvas');
+  const note = document.getElementById('chart-note');
+  if (!p) {
+    const g = canvas.getContext('2d');
+    g.clearRect(0, 0, canvas.width, canvas.height);
+    note.textContent = 'この銘柄の株価データがありません（ユニバース外、またはprices.json未読込）。';
+    return;
+  }
+  note.textContent = '直近' + p.c.length + '営業日 / 青線=MA25 黄線=MA5 / 最終日: ' + p.d[p.d.length - 1];
+  drawChart(canvas, p, line);
+}
+function closeChart() { document.getElementById('chart-overlay').classList.remove('show'); }
+
+function sma(arr, n) {
+  const out = new Array(arr.length).fill(null);
+  let sum = 0;
+  for (let i = 0; i < arr.length; i++) {
+    sum += arr[i];
+    if (i >= n) sum -= arr[i - n];
+    if (i >= n - 1) out[i] = sum / n;
+  }
+  return out;
+}
+
+function drawChart(canvas, p, line) {
+  const dpr = window.devicePixelRatio || 1;
+  const W = canvas.clientWidth, H = canvas.clientHeight;
+  canvas.width = W * dpr; canvas.height = H * dpr;
+  const g = canvas.getContext('2d');
+  g.scale(dpr, dpr);
+  g.clearRect(0, 0, W, H);
+
+  const n = p.c.length;
+  const padL = 46, padR = 8, padT = 8;
+  const volH = H * 0.16, gap = 6;
+  const priceH = H - volH - gap - padT - 16;
+  const plotW = W - padL - padR;
+
+  let lo = Math.min.apply(null, p.l), hi = Math.max.apply(null, p.h);
+  if (line) { lo = Math.min(lo, line); hi = Math.max(hi, line); }
+  const range = (hi - lo) || 1;
+  lo -= range * 0.04; hi += range * 0.04;
+  const y = v => padT + (hi - v) / (hi - lo) * priceH;
+  const x = i => padL + (i + 0.5) / n * plotW;
+  const cw = Math.max(1.5, plotW / n * 0.62);
+
+  g.strokeStyle = '#21262d'; g.fillStyle = '#8b949e';
+  g.font = '10px sans-serif'; g.textAlign = 'right';
+  for (let k = 0; k <= 4; k++) {
+    const v = lo + (hi - lo) * k / 4, yy = y(v);
+    g.beginPath(); g.moveTo(padL, yy); g.lineTo(W - padR, yy); g.stroke();
+    g.fillText(Math.round(v).toLocaleString(), padL - 4, yy + 3);
+  }
+  g.textAlign = 'center';
+  const step = Math.max(1, Math.floor(n / 5));
+  for (let i = 0; i < n; i += step) g.fillText(p.d[i], x(i), H - 4);
+
+  const vmax = Math.max.apply(null, p.v) || 1;
+  const vy0 = padT + priceH + gap;
+  for (let i = 0; i < n; i++) {
+    g.fillStyle = p.c[i] >= p.o[i] ? 'rgba(38,166,154,.45)' : 'rgba(239,83,80,.45)';
+    const vh = p.v[i] / vmax * volH;
+    g.fillRect(x(i) - cw / 2, vy0 + volH - vh, cw, vh);
+  }
+
+  for (let i = 0; i < n; i++) {
+    const up = p.c[i] >= p.o[i];
+    g.strokeStyle = g.fillStyle = up ? '#26a69a' : '#ef5350';
+    g.beginPath(); g.moveTo(x(i), y(p.h[i])); g.lineTo(x(i), y(p.l[i])); g.stroke();
+    const top = y(Math.max(p.o[i], p.c[i])), bot = y(Math.min(p.o[i], p.c[i]));
+    g.fillRect(x(i) - cw / 2, top, cw, Math.max(1, bot - top));
+  }
+
+  [[sma(p.c, 5), '#e3b341'], [sma(p.c, 25), '#58a6ff']].forEach(pair => {
+    const ma = pair[0], col = pair[1];
+    g.strokeStyle = col; g.lineWidth = 1.4; g.beginPath();
+    let started = false;
+    for (let i = 0; i < n; i++) {
+      if (ma[i] === null) continue;
+      if (!started) { g.moveTo(x(i), y(ma[i])); started = true; }
+      else g.lineTo(x(i), y(ma[i]));
+    }
+    g.stroke(); g.lineWidth = 1;
+  });
+
+  if (line) {
+    g.strokeStyle = '#f0883e'; g.setLineDash([5, 4]); g.lineWidth = 1.5;
+    g.beginPath(); g.moveTo(padL, y(line)); g.lineTo(W - padR, y(line)); g.stroke();
+    g.setLineDash([]); g.lineWidth = 1;
+    g.fillStyle = '#f0883e'; g.textAlign = 'left';
+    g.fillText('買 ' + Math.round(line).toLocaleString(), padL + 2, y(line) - 4);
+  }
+}
+
+/* ---------- イベント委譲 ---------- */
+document.addEventListener('click', e => {
+  const cb = e.target.closest('.chartbtn');
+  if (cb) { openChart(cb.dataset.code, parseFloat(cb.dataset.line || '') || null); return; }
+  const bb = e.target.closest('.buybtn');
+  if (bb) { openBuy(bb.dataset.code, bb.dataset.name, parseFloat(bb.dataset.in || '') || ''); return; }
+});
+document.getElementById('chart-overlay').addEventListener('click', e => {
+  if (e.target === e.currentTarget) closeChart();
+});
+document.getElementById('buy-overlay').addEventListener('click', e => {
+  if (e.target === e.currentTarget) closeBuy();
+});
+
+/* ---------- 手動更新（GitHub Actionsをトリガー） ---------- */
+const GH_REPO = 'Resapan159/Kabu-app';
+const GH_WORKFLOW = 'daily.yml';
+function dmsg(t) {
+  const el = document.getElementById('dispatch-msg');
+  el.textContent = t; el.style.display = 'block';
+}
+document.getElementById('btn-reload').addEventListener('click', () => {
+  location.href = location.pathname + '?t=' + Date.now();
+});
+document.getElementById('btn-archive').addEventListener('click', () => {
+  location.href = (IS_ARCHIVE ? '../' : '') + 'archive.html';
+});
+document.getElementById('btn-dispatch').addEventListener('click', async () => {
+  let tok = null;
+  try { tok = localStorage.getItem('kabu_gh_token'); } catch (e) {}
+  if (!tok) {
+    tok = prompt('GitHubトークン(PAT)を入力してください（初回のみ・この端末だけに保存）。\n作り方は公開手順.mdの「手動更新の設定」参照');
+    if (!tok) return;
+    tok = tok.trim();
+    try { localStorage.setItem('kabu_gh_token', tok); } catch (e) {}
+  }
+  dmsg('更新リクエスト送信中...');
+  try {
+    const r = await fetch('https://api.github.com/repos/' + GH_REPO +
+        '/actions/workflows/' + GH_WORKFLOW + '/dispatches', {
+      method: 'POST',
+      headers: {
+        'Authorization': 'Bearer ' + tok,
+        'Accept': 'application/vnd.github+json',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ ref: 'main' })
+    });
+    if (r.status === 204) {
+      let sec = 150;
+      dmsg('✅ 更新を開始しました。約2〜3分後に自動で再読み込みします...');
+      const timer = setInterval(() => {
+        sec -= 10;
+        if (sec <= 0) {
+          clearInterval(timer);
+          location.href = location.pathname + '?t=' + Date.now();
+        } else {
+          dmsg('✅ 更新実行中... あと約' + sec + '秒で再読み込み');
+        }
+      }, 10000);
+    } else if (r.status === 401 || r.status === 403) {
+      try { localStorage.removeItem('kabu_gh_token'); } catch (e) {}
+      dmsg('⛔ トークンが無効です。次回タップ時に再入力してください（権限: Actions Read and write が必要）');
+    } else {
+      dmsg('⛔ 失敗 (HTTP ' + r.status + ')。トークンの権限を確認してください');
+    }
+  } catch (e) {
+    dmsg('⛔ 通信エラー: ' + e.message);
+  }
+});
+
+/* ---------- タブ切替 ---------- */
+document.querySelectorAll('.tabbtn').forEach(b => b.addEventListener('click', () => {
+  document.querySelectorAll('.tabbtn').forEach(x => x.classList.remove('active'));
+  document.querySelectorAll('.tabpanel').forEach(x => x.classList.remove('active'));
+  b.classList.add('active');
+  document.getElementById('tab-' + b.dataset.tab).classList.add('active');
+  try { localStorage.setItem('kabu_tab', b.dataset.tab); } catch (e) {}
+}));
+try {
+  const t = localStorage.getItem('kabu_tab');
+  if (t && t !== 'cand') {
+    const b = document.querySelector('.tabbtn[data-tab="' + t + '"]');
+    if (b) b.click();
+  }
+} catch (e) {}
+
+/* ---------- スパークライン・前日比・保有損益 ---------- */
+function drawSpark(cv, arr) {
+  if (!arr || arr.length < 2) return;
+  const dpr = window.devicePixelRatio || 1;
+  const W = cv.clientWidth || 62, H = cv.clientHeight || 28;
+  cv.width = W * dpr; cv.height = H * dpr;
+  const g = cv.getContext('2d');
+  g.scale(dpr, dpr);
+  const lo = Math.min.apply(null, arr), hi = Math.max.apply(null, arr);
+  const r = (hi - lo) || 1;
+  const up = arr[arr.length - 1] >= arr[0];
+  const col = up ? '#16c784' : '#ea3943';
+  g.beginPath();
+  arr.forEach((v, i) => {
+    const x = i / (arr.length - 1) * W;
+    const y = H - 2 - (v - lo) / r * (H - 5);
+    i ? g.lineTo(x, y) : g.moveTo(x, y);
+  });
+  g.strokeStyle = col; g.lineWidth = 1.6; g.stroke();
+  g.lineTo(W, H); g.lineTo(0, H); g.closePath();
+  g.fillStyle = up ? 'rgba(22,199,132,.12)' : 'rgba(234,57,67,.12)';
+  g.fill();
+}
+function fillQuotes() {
+  if (!PRICES) return;
+  document.querySelectorAll('.px[data-code]').forEach(el => {
+    const p = PRICES[el.dataset.code];
+    if (!p || p.c.length < 2) return;
+    const last = p.c[p.c.length - 1], prev = p.c[p.c.length - 2];
+    el.textContent = Math.round(last).toLocaleString();
+    const chg = (last / prev - 1) * 100;
+    const ce = document.querySelector('.pxchg[data-code="' + el.dataset.code + '"]');
+    if (ce) {
+      ce.textContent = (chg >= 0 ? '+' : '') + chg.toFixed(2) + '%';
+      ce.classList.remove('up', 'down');
+      ce.classList.add(chg >= 0 ? 'up' : 'down');
+    }
+  });
+  document.querySelectorAll('canvas.spark[data-code]').forEach(cv => {
+    const p = PRICES[cv.dataset.code];
+    if (p) drawSpark(cv, p.c.slice(-30));
+  });
+}
+function fillDashPnl() {
+  const el = document.getElementById('dash-pnl');
+  if (!el) return;
+  const items = loadPurchases().filter(p => p.status !== 'sold');
+  if (!items.length) { el.textContent = '—'; return; }
+  let pnl = 0, known = false;
+  items.forEach(p => {
+    const cur = lastClose(p.code);
+    if (cur !== null) { pnl += (cur - p.price) * p.units * 100; known = true; }
+  });
+  if (!known) { el.textContent = '—'; return; }
+  const man = pnl / 10000;
+  el.textContent = (pnl >= 0 ? '+' : '') +
+    (Math.abs(man) >= 1 ? man.toFixed(1) + '万' : Math.round(pnl).toLocaleString());
+  el.style.color = pnl >= 0 ? 'var(--up)' : 'var(--down)';
+}
+
+/* ---------- 株価データ読込 ---------- */
+fetch(PRICES_URL)
+  .then(r => r.json())
+  .then(p => { PRICES = p; renderPurchases(); fillQuotes(); fillDashPnl(); })
+  .catch(() => {
+    renderPurchases();
+    const el = document.getElementById('prices-warn');
+    el.textContent = '⚠ 株価データ(prices.json)を読み込めませんでした。チャート・現在値は表示されません（ローカルで開いている場合は python -m http.server 経由で開いてください）。';
+    el.style.display = 'block';
+  });
+</script>
+
+</body>
+</html>
