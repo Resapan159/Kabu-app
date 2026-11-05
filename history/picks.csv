@@ -1449,3 +1449,6 @@ pick_date,ref_date,code,name,ref_close,score,num_systems,systems
 2026-11-05,2026-11-05,8001,伊藤忠商事,2394.0,72,3,anomaly|tech|volume
 2026-11-05,2026-11-05,2914,日本たばこ産業,7738.0,71,3,anomaly|tech|volume
 2026-11-05,2026-11-05,6758,ソニーグループ,4213.0,73,3,catalyst|tech|volume
+2026-11-05,2026-11-05,2503,キリンホールディングス,3167.0,94,4,anomaly|catalyst|tech|volume
+2026-11-05,2026-11-05,9202,ANAホールディングス,3315.0,75,3,anomaly|catalyst|volume
+2026-11-05,2026-11-05,4452,花王,3891.0,74,3,anomaly|tech|volume
