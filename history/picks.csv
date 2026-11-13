@@ -1561,3 +1561,5 @@ pick_date,ref_date,code,name,ref_close,score,num_systems,systems
 2026-11-13,2026-11-13,1802,大林組,3370.0,49,2,catalyst|volume
 2026-11-13,2026-11-13,8316,三井住友フィナンシャルグループ,3270.0,51,2,catalyst|tech
 2026-11-13,2026-11-13,8630,SOMPOホールディングス,7281.0,49,2,anomaly|tech
+2026-11-13,2026-11-13,4543,テルモ,2400.0,50,2,tech|volume
+2026-11-13,2026-11-13,9020,東日本旅客鉄道,4100.0,47,2,anomaly|volume
