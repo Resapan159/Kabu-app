@@ -1573,3 +1573,6 @@ pick_date,ref_date,code,name,ref_close,score,num_systems,systems
 2026-11-16,2026-11-16,7832,バンダイナムコホールディングス,7050.0,69,3,anomaly|tech|volume
 2026-11-16,2026-11-16,5108,ブリヂストン,4429.0,69,3,anomaly|tech|volume
 2026-11-16,2026-11-16,4661,オリエンタルランド,3869.0,69,3,anomaly|tech|volume
+2026-11-16,2026-11-16,2503,キリンホールディングス,3194.0,71,3,anomaly|tech|volume
+2026-11-16,2026-11-16,4452,花王,4054.0,69,3,anomaly|tech|volume
+2026-11-16,2026-11-16,1802,大林組,3475.0,48,2,tech|volume
