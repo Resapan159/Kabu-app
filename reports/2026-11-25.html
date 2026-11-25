@@ -8,7 +8,7 @@
 <link rel="apple-touch-icon" href="icons/icon-192.png">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<title>株レポ 2026-11-25 03:09</title>
+<title>株レポ 2026-11-25 13:41</title>
 <style>
 :root { color-scheme: dark;
   --bg:#0b0e14; --card:#151a23; --card2:#1b2230; --border:#242c3a;
@@ -176,7 +176,7 @@ footer { margin-top:26px; font-size:.7rem; color:var(--muted); }
 <body>
 <header class="appbar">
   <span class="logo">📈 株レポ</span>
-  <span class="when">2026-11-25<br>更新 03:09</span>
+  <span class="when">2026-11-25<br>更新 13:41</span>
   <button class="iconbtn" id="btn-archive" title="過去レポート">🗓</button>
   <button class="iconbtn" id="btn-dispatch" title="今すぐデータ更新">🔄</button>
   <button class="iconbtn" id="btn-reload" title="再読み込み">↻</button>
@@ -186,14 +186,14 @@ footer { margin-top:26px; font-size:.7rem; color:var(--muted); }
   <div class="errbar">⚠ データ取得失敗 1銘柄 （前日キャッシュで代替の可能性）: 9613</div>
   <div class="errbar" id="prices-warn" style="display:none"></div>
 
-  <div class="mstrip"><div class="mchip"><span class="k">地合い</span><span class="v">⛔NG</span></div><div class="mchip"><span class="k">日経先物</span><span class="v down">-0.8%</span></div><div class="mchip"><span class="k">日経平均</span><span class="v down">-5.1%</span></div><div class="mchip"><span class="k">SOX</span><span class="v down">-7.4%</span></div><div class="mchip"><span class="k">NYダウ</span><span class="v up">+0.8%</span></div><div class="mchip"><span class="k">ドル円</span><span class="v ">159.2円</span></div></div>
+  <div class="mstrip"><div class="mchip"><span class="k">地合い</span><span class="v">⛔NG</span></div><div class="mchip"><span class="k">日経先物</span><span class="v down">-1.5%</span></div><div class="mchip"><span class="k">日経平均</span><span class="v down">-2.6%</span></div><div class="mchip"><span class="k">SOX</span><span class="v down">-7.9%</span></div><div class="mchip"><span class="k">NYダウ</span><span class="v up">+0.8%</span></div><div class="mchip"><span class="k">ドル円</span><span class="v ">159.3円</span></div></div>
 
   <div class="dash">
-    <div class="cell"><div class="num" style="color:var(--gold)">1</div>
+    <div class="cell"><div class="num" style="color:var(--gold)">10</div>
       <div class="lbl">🎯 本命</div></div>
     <div class="cell"><div class="num">10</div>
       <div class="lbl">候補合計</div></div>
-    <div class="cell"><div class="num">6</div>
+    <div class="cell"><div class="num">4</div>
       <div class="lbl">予備軍</div></div>
     <div class="cell"><div class="num" id="dash-pnl">—</div>
       <div class="lbl">保有損益</div></div>
@@ -202,8 +202,8 @@ footer { margin-top:26px; font-size:.7rem; color:var(--muted); }
   
     <div class="banner" style="background:#c0392b">
       <div class="banner-top">⛔ 地合い: NG</div>
-      <div class="banner-metrics">先物 -0.8% / 日経 -5.1% / SOX -7.4% / ダウ +0.8% / 為替 159.2円</div>
-      <div class="banner-reasons">日経 -5.1%（大幅安）→ 本日は見送り推奨　先物 -0.8%　SOX -7.4%（半導体軟調）</div>
+      <div class="banner-metrics">先物 -1.5% / 日経 -2.6% / SOX -7.9% / ダウ +0.8% / 為替 159.3円</div>
+      <div class="banner-reasons">日経 -2.6%（大幅安）→ 本日は見送り推奨　日経先物 -1.5%（軟調）　SOX -7.9%（半導体軟調）</div>
     </div>
 
   <section class="tabpanel active" id="tab-cand">
@@ -213,429 +213,405 @@ footer { margin-top:26px; font-size:.7rem; color:var(--muted); }
       <span class="muted">→ 許容損失 1.0% / 上限 5銘柄で株数を自動計算</span>
     </div>
     <h2>■ 新規候補</h2>
-    <div class="seemikakuri">⛔ 本日は地合いNGのため「見送り」推奨。以下は参考候補（IN非推奨）。</div><div class="tierhead" style="border-color:#f0b90b"><b>🎯 本命</b> <span class="muted">3系統以上の根拠 or 開示材料あり（1件）</span></div>
-    <details class="card gated-card" data-code="4661"
-             data-in="3850.0" data-stop="3585.9">
+    <div class="seemikakuri">⛔ 本日は地合いNGのため「見送り」推奨。以下は参考候補（IN非推奨）。</div><div class="tierhead" style="border-color:#f0b90b"><b>🎯 本命</b> <span class="muted">3系統以上の根拠 or 開示材料あり（10件）</span></div>
+    <details class="card gated-card" data-code="4528"
+             data-in="2681.5" data-stop="2512.8">
+      <summary>
+        <div class="card-head">
+          <span class="rank rank-S">1</span>
+          <div class="tinfo">
+            <div class="name">小野薬品工業</div>
+            <div class="csub">4528・出来高0.95倍・代金50.7億</div>
+          </div>
+          <div class="card-right">
+            <div>
+              <span class="px" data-code="4528">2,682</span>
+              <span class="pxchg" data-code="4528"></span>
+            </div>
+            <canvas class="spark" data-code="4528"></canvas>
+          </div>
+        </div>
+        <div class="card-sub"><span class="tag">⑦統計・アノマリー</span><span class="tag">③テクニカル</span><span class="tag">②出来高・需給</span><span class="score">70</span></div>
+      </summary>
+      <div class="card-body">
+        <div class="gated">⛔ 地合いNGのため本日は見送り推奨</div>
+        <ul class="hits"><li><b>60日高値ブレイク</b> — 直近60日高値(2566)を上抜け</li><li><b>パーフェクトオーダー</b> — 25&gt;75&gt;200日線の上昇配列</li><li><b>52週高値圏</b> — モメンタム継続の統計的優位（52週高値更新圏）</li></ul>
+        <div class="levels">
+          <div><span class="k">IN目安</span><span class="v">2,681.5円</span></div>
+          <div><span class="k">損切り</span><span class="v">2,512.8円 (-6.3%)</span></div>
+          <div><span class="k">目標</span><span class="v">2,934.5円 (+9.4%)</span></div>
+          <div><span class="k">株数目安</span><span class="v shares" data-code="4528">100株（コスト約268,150円）</span></div>
+        </div>
+        <div class="btnrow">
+          <button class="btn chartbtn" data-code="4528" data-name="小野薬品工業">📈 チャート</button>
+          <button class="btn buy buybtn" data-code="4528" data-name="小野薬品工業"
+                  data-in="2681.5">🛒 購入登録</button>
+        </div>
+      </div>
+    </details>
+    <details class="card gated-card" data-code="4523"
+             data-in="5634.0" data-stop="5330.2">
       <summary>
         <div class="card-head">
           <span class="rank rank-S">2</span>
           <div class="tinfo">
-            <div class="name">オリエンタルランド</div>
-            <div class="csub">4661・出来高0.93倍・代金212.7億</div>
+            <div class="name">エーザイ</div>
+            <div class="csub">4523・出来高0.82倍・代金71.5億</div>
           </div>
           <div class="card-right">
             <div>
-              <span class="px" data-code="4661">3,850</span>
-              <span class="pxchg" data-code="4661"></span>
+              <span class="px" data-code="4523">5,634</span>
+              <span class="pxchg" data-code="4523"></span>
             </div>
-            <canvas class="spark" data-code="4661"></canvas>
+            <canvas class="spark" data-code="4523"></canvas>
           </div>
         </div>
-        <div class="card-sub"><span class="tag">①カタリスト（開示）</span><span class="tag">③テクニカル</span><span class="score">48</span></div>
+        <div class="card-sub"><span class="tag">⑦統計・アノマリー</span><span class="tag">③テクニカル</span><span class="tag">②出来高・需給</span><span class="score">70</span></div>
       </summary>
       <div class="card-body">
         <div class="gated">⛔ 地合いNGのため本日は見送り推奨</div>
-        <ul class="hits"><li><b>パーフェクトオーダー</b> — 25&gt;75&gt;200日線の上昇配列</li><li><b>好材料開示: 自己株式の取得</b> — 2026-11-24 17:30 自己株式の取得および自己株式の消却に係る事項の決定に関するお知らせ</li><li><b>ヒゲ分析で損切り調整</b> — 直近ヒゲ安値3620円の狩り帯を回避 3623→3586円</li></ul>
+        <ul class="hits"><li><b>60日高値ブレイク</b> — 直近60日高値(5367)を上抜け</li><li><b>パーフェクトオーダー</b> — 25&gt;75&gt;200日線の上昇配列</li><li><b>52週高値圏</b> — モメンタム継続の統計的優位（52週高値更新圏）</li></ul>
         <div class="levels">
-          <div><span class="k">IN目安</span><span class="v">3,850.0円</span></div>
-          <div><span class="k">損切り</span><span class="v">3,585.9円 (-6.9%)</span></div>
-          <div><span class="k">目標</span><span class="v">4,190.8円 (+8.9%)</span></div>
-          <div><span class="k">株数目安</span><span class="v shares" data-code="4661">100株（コスト約385,000円）</span></div>
+          <div><span class="k">IN目安</span><span class="v">5,634.0円</span></div>
+          <div><span class="k">損切り</span><span class="v">5,330.2円 (-5.4%)</span></div>
+          <div><span class="k">目標</span><span class="v">6,089.7円 (+8.1%)</span></div>
+          <div><span class="k">株数目安</span><span class="v shares" data-code="4523">—（許容損失に対し値幅が大きく、単元(100株)に満たない）</span></div>
         </div>
         <div class="btnrow">
-          <button class="btn chartbtn" data-code="4661" data-name="オリエンタルランド">📈 チャート</button>
-          <button class="btn buy buybtn" data-code="4661" data-name="オリエンタルランド"
-                  data-in="3850.0">🛒 購入登録</button>
+          <button class="btn chartbtn" data-code="4523" data-name="エーザイ">📈 チャート</button>
+          <button class="btn buy buybtn" data-code="4523" data-name="エーザイ"
+                  data-in="5634.0">🛒 購入登録</button>
         </div>
       </div>
-    </details><div class="tierhead" style="border-color:#3b82f6"><b>◎ 有力</b> <span class="muted">2系統の根拠（1件）</span></div>
+    </details>
     <details class="card gated-card" data-code="4502"
-             data-in="6973.0" data-stop="6466.6">
+             data-in="7375.0" data-stop="7015.9">
       <summary>
         <div class="card-head">
-          <span class="rank rank-A">1</span>
+          <span class="rank rank-S">3</span>
           <div class="tinfo">
             <div class="name">武田薬品工業</div>
-            <div class="csub">4502・出来高1.51倍・代金338.6億</div>
+            <div class="csub">4502・出来高0.81倍・代金351.6億</div>
           </div>
           <div class="card-right">
             <div>
-              <span class="px" data-code="4502">6,973</span>
+              <span class="px" data-code="4502">7,375</span>
               <span class="pxchg" data-code="4502"></span>
             </div>
             <canvas class="spark" data-code="4502"></canvas>
           </div>
         </div>
-        <div class="card-sub"><span class="tag">⑦統計・アノマリー</span><span class="tag">③テクニカル</span><span class="score">50</span></div>
+        <div class="card-sub"><span class="tag">⑦統計・アノマリー</span><span class="tag">③テクニカル</span><span class="tag">②出来高・需給</span><span class="score">70</span></div>
       </summary>
       <div class="card-body">
         <div class="gated">⛔ 地合いNGのため本日は見送り推奨</div>
-        <ul class="hits"><li><b>パーフェクトオーダー</b> — 25&gt;75&gt;200日線の上昇配列</li><li><b>52週高値圏</b> — モメンタム継続の統計的優位（52週高値更新圏）</li><li><b>ヒゲ分析で損切り調整</b> — 直近ヒゲ安値6517円の狩り帯を回避 6637→6467円</li></ul>
+        <ul class="hits"><li><b>60日高値ブレイク</b> — 直近60日高値(7091)を上抜け</li><li><b>パーフェクトオーダー</b> — 25&gt;75&gt;200日線の上昇配列</li><li><b>52週高値圏</b> — モメンタム継続の統計的優位（52週高値更新圏）</li></ul>
         <div class="levels">
-          <div><span class="k">IN目安</span><span class="v">6,973.0円</span></div>
-          <div><span class="k">損切り</span><span class="v">6,466.6円 (-7.3%)</span></div>
-          <div><span class="k">目標</span><span class="v">7,477.2円 (+7.2%)</span></div>
+          <div><span class="k">IN目安</span><span class="v">7,375.0円</span></div>
+          <div><span class="k">損切り</span><span class="v">7,015.9円 (-4.9%)</span></div>
+          <div><span class="k">目標</span><span class="v">7,913.7円 (+7.3%)</span></div>
           <div><span class="k">株数目安</span><span class="v shares" data-code="4502">—（許容損失に対し値幅が大きく、単元(100株)に満たない）</span></div>
         </div>
         <div class="btnrow">
           <button class="btn chartbtn" data-code="4502" data-name="武田薬品工業">📈 チャート</button>
           <button class="btn buy buybtn" data-code="4502" data-name="武田薬品工業"
-                  data-in="6973.0">🛒 購入登録</button>
-        </div>
-      </div>
-    </details><div class="tierhead" style="border-color:#57606a"><b>△ 参考</b> <span class="muted">根拠1系統（監視向き）（8件）</span></div>
-    <details class="card gated-card" data-code="4755"
-             data-in="554.7" data-stop="504.4">
-      <summary>
-        <div class="card-head">
-          <span class="rank rank-B">3</span>
-          <div class="tinfo">
-            <div class="name">楽天グループ</div>
-            <div class="csub">4755・出来高2.05倍・代金139.9億</div>
-          </div>
-          <div class="card-right">
-            <div>
-              <span class="px" data-code="4755">555</span>
-              <span class="pxchg" data-code="4755"></span>
-            </div>
-            <canvas class="spark" data-code="4755"></canvas>
-          </div>
-        </div>
-        <div class="card-sub"><span class="tag">②出来高・需給</span><span class="score">27</span></div>
-      </summary>
-      <div class="card-body">
-        <div class="gated">⛔ 地合いNGのため本日は見送り推奨</div>
-        <ul class="hits"><li><b>出来高急増</b> — 出来高が20日平均比 2.0倍</li></ul>
-        <div class="levels">
-          <div><span class="k">IN目安</span><span class="v">554.7円</span></div>
-          <div><span class="k">損切り</span><span class="v">504.4円 (-9.1%)</span></div>
-          <div><span class="k">目標</span><span class="v">630.2円 (+13.6%)</span></div>
-          <div><span class="k">株数目安</span><span class="v shares" data-code="4755">500株（コスト約277,350円）</span></div>
-        </div>
-        <div class="btnrow">
-          <button class="btn chartbtn" data-code="4755" data-name="楽天グループ">📈 チャート</button>
-          <button class="btn buy buybtn" data-code="4755" data-name="楽天グループ"
-                  data-in="554.7">🛒 購入登録</button>
+                  data-in="7375.0">🛒 購入登録</button>
         </div>
       </div>
     </details>
-    <details class="card gated-card" data-code="7911"
-             data-in="1697.5" data-stop="1520.7">
+    <details class="card gated-card" data-code="6532"
+             data-in="13395.0" data-stop="12309.1">
       <summary>
         <div class="card-head">
-          <span class="rank rank-B">4</span>
+          <span class="rank rank-S">4</span>
           <div class="tinfo">
-            <div class="name">TOPPANホールディングス</div>
-            <div class="csub">7911・出来高2.05倍・代金67.9億</div>
+            <div class="name">ベイカレント</div>
+            <div class="csub">6532・出来高0.79倍・代金221.8億</div>
           </div>
           <div class="card-right">
             <div>
-              <span class="px" data-code="7911">1,698</span>
-              <span class="pxchg" data-code="7911"></span>
+              <span class="px" data-code="6532">13,395</span>
+              <span class="pxchg" data-code="6532"></span>
             </div>
-            <canvas class="spark" data-code="7911"></canvas>
+            <canvas class="spark" data-code="6532"></canvas>
           </div>
         </div>
-        <div class="card-sub"><span class="tag">②出来高・需給</span><span class="score">27</span></div>
+        <div class="card-sub"><span class="tag">⑦統計・アノマリー</span><span class="tag">③テクニカル</span><span class="tag">②出来高・需給</span><span class="score">71</span></div>
       </summary>
       <div class="card-body">
         <div class="gated">⛔ 地合いNGのため本日は見送り推奨</div>
-        <ul class="hits"><li><b>出来高急増</b> — 出来高が20日平均比 2.0倍</li></ul>
+        <ul class="hits"><li><b>60日高値ブレイク</b> — 直近60日高値(13295)を上抜け</li><li><b>BBスクイーズ</b> — バンド幅縮小→エクスパンション初動の可能性</li><li><b>パーフェクトオーダー</b> — 25&gt;75&gt;200日線の上昇配列</li><li><b>52週高値圏</b> — モメンタム継続の統計的優位（52週高値更新圏）</li></ul>
         <div class="levels">
-          <div><span class="k">IN目安</span><span class="v">1,697.5円</span></div>
-          <div><span class="k">損切り</span><span class="v">1,520.7円 (-10.4%)</span></div>
-          <div><span class="k">目標</span><span class="v">1,962.7円 (+15.6%)</span></div>
-          <div><span class="k">株数目安</span><span class="v shares" data-code="7911">100株（コスト約169,750円）</span></div>
+          <div><span class="k">IN目安</span><span class="v">13,395.0円</span></div>
+          <div><span class="k">損切り</span><span class="v">12,309.1円 (-8.1%)</span></div>
+          <div><span class="k">目標</span><span class="v">15,023.8円 (+12.2%)</span></div>
+          <div><span class="k">株数目安</span><span class="v shares" data-code="6532">—（許容損失に対し値幅が大きく、単元(100株)に満たない）</span></div>
         </div>
         <div class="btnrow">
-          <button class="btn chartbtn" data-code="7911" data-name="TOPPANホールディングス">📈 チャート</button>
-          <button class="btn buy buybtn" data-code="7911" data-name="TOPPANホールディングス"
-                  data-in="1697.5">🛒 購入登録</button>
+          <button class="btn chartbtn" data-code="6532" data-name="ベイカレント">📈 チャート</button>
+          <button class="btn buy buybtn" data-code="6532" data-name="ベイカレント"
+                  data-in="13395.0">🛒 購入登録</button>
         </div>
       </div>
     </details>
-    <details class="card gated-card" data-code="8630"
-             data-in="6994.0" data-stop="6615.0">
+    <details class="card gated-card" data-code="4543"
+             data-in="2715.0" data-stop="2518.5">
       <summary>
         <div class="card-head">
-          <span class="rank rank-B">5</span>
+          <span class="rank rank-S">5</span>
           <div class="tinfo">
-            <div class="name">SOMPOホールディングス</div>
-            <div class="csub">8630・出来高1.59倍・代金218.4億</div>
+            <div class="name">テルモ</div>
+            <div class="csub">4543・出来高0.77倍・代金163.6億</div>
           </div>
           <div class="card-right">
             <div>
-              <span class="px" data-code="8630">6,994</span>
-              <span class="pxchg" data-code="8630"></span>
+              <span class="px" data-code="4543">2,715</span>
+              <span class="pxchg" data-code="4543"></span>
             </div>
-            <canvas class="spark" data-code="8630"></canvas>
+            <canvas class="spark" data-code="4543"></canvas>
           </div>
         </div>
-        <div class="card-sub"><span class="tag">③テクニカル</span><span class="score">26</span></div>
+        <div class="card-sub"><span class="tag">⑦統計・アノマリー</span><span class="tag">③テクニカル</span><span class="tag">②出来高・需給</span><span class="score">71</span></div>
       </summary>
       <div class="card-body">
         <div class="gated">⛔ 地合いNGのため本日は見送り推奨</div>
-        <ul class="hits"><li><b>パーフェクトオーダー</b> — 25&gt;75&gt;200日線の上昇配列</li></ul>
+        <ul class="hits"><li><b>60日高値ブレイク</b> — 直近60日高値(2640)を上抜け</li><li><b>MACDゴールデンクロス</b> — 直近でGC（0ライン付近・信頼度高）</li><li><b>パーフェクトオーダー</b> — 25&gt;75&gt;200日線の上昇配列</li><li><b>52週高値圏</b> — モメンタム継続の統計的優位（52週高値更新圏）</li></ul>
         <div class="levels">
-          <div><span class="k">IN目安</span><span class="v">6,994.0円</span></div>
-          <div><span class="k">損切り</span><span class="v">6,615.0円 (-5.4%)</span></div>
-          <div><span class="k">目標</span><span class="v">7,562.5円 (+8.1%)</span></div>
-          <div><span class="k">株数目安</span><span class="v shares" data-code="8630">—（許容損失に対し値幅が大きく、単元(100株)に満たない）</span></div>
+          <div><span class="k">IN目安</span><span class="v">2,715.0円</span></div>
+          <div><span class="k">損切り</span><span class="v">2,518.5円 (-7.2%)</span></div>
+          <div><span class="k">目標</span><span class="v">3,009.7円 (+10.9%)</span></div>
+          <div><span class="k">株数目安</span><span class="v shares" data-code="4543">100株（コスト約271,500円）</span></div>
         </div>
         <div class="btnrow">
-          <button class="btn chartbtn" data-code="8630" data-name="SOMPOホールディングス">📈 チャート</button>
-          <button class="btn buy buybtn" data-code="8630" data-name="SOMPOホールディングス"
-                  data-in="6994.0">🛒 購入登録</button>
-        </div>
-      </div>
-    </details>
-    <details class="card gated-card" data-code="7974"
-             data-in="8832.0" data-stop="8159.7">
-      <summary>
-        <div class="card-head">
-          <span class="rank rank-B">6</span>
-          <div class="tinfo">
-            <div class="name">任天堂</div>
-            <div class="csub">7974・出来高1.44倍・代金839.1億</div>
-          </div>
-          <div class="card-right">
-            <div>
-              <span class="px" data-code="7974">8,832</span>
-              <span class="pxchg" data-code="7974"></span>
-            </div>
-            <canvas class="spark" data-code="7974"></canvas>
-          </div>
-        </div>
-        <div class="card-sub"><span class="tag">③テクニカル</span><span class="score">25</span></div>
-      </summary>
-      <div class="card-body">
-        <div class="gated">⛔ 地合いNGのため本日は見送り推奨</div>
-        <ul class="hits"><li><b>パーフェクトオーダー</b> — 25&gt;75&gt;200日線の上昇配列</li></ul>
-        <div class="levels">
-          <div><span class="k">IN目安</span><span class="v">8,832.0円</span></div>
-          <div><span class="k">損切り</span><span class="v">8,159.7円 (-7.6%)</span></div>
-          <div><span class="k">目標</span><span class="v">9,840.5円 (+11.4%)</span></div>
-          <div><span class="k">株数目安</span><span class="v shares" data-code="7974">—（許容損失に対し値幅が大きく、単元(100株)に満たない）</span></div>
-        </div>
-        <div class="btnrow">
-          <button class="btn chartbtn" data-code="7974" data-name="任天堂">📈 チャート</button>
-          <button class="btn buy buybtn" data-code="7974" data-name="任天堂"
-                  data-in="8832.0">🛒 購入登録</button>
-        </div>
-      </div>
-    </details>
-    <details class="card gated-card" data-code="8725"
-             data-in="5081.0" data-stop="4802.9">
-      <summary>
-        <div class="card-head">
-          <span class="rank rank-B">7</span>
-          <div class="tinfo">
-            <div class="name">MS&amp;ADインシュアランスグループ</div>
-            <div class="csub">8725・出来高1.38倍・代金236.4億</div>
-          </div>
-          <div class="card-right">
-            <div>
-              <span class="px" data-code="8725">5,081</span>
-              <span class="pxchg" data-code="8725"></span>
-            </div>
-            <canvas class="spark" data-code="8725"></canvas>
-          </div>
-        </div>
-        <div class="card-sub"><span class="tag">③テクニカル</span><span class="score">25</span></div>
-      </summary>
-      <div class="card-body">
-        <div class="gated">⛔ 地合いNGのため本日は見送り推奨</div>
-        <ul class="hits"><li><b>パーフェクトオーダー</b> — 25&gt;75&gt;200日線の上昇配列</li></ul>
-        <div class="levels">
-          <div><span class="k">IN目安</span><span class="v">5,081.0円</span></div>
-          <div><span class="k">損切り</span><span class="v">4,802.9円 (-5.5%)</span></div>
-          <div><span class="k">目標</span><span class="v">5,498.2円 (+8.2%)</span></div>
-          <div><span class="k">株数目安</span><span class="v shares" data-code="8725">100株（コスト約508,100円）</span></div>
-        </div>
-        <div class="btnrow">
-          <button class="btn chartbtn" data-code="8725" data-name="MS&amp;ADインシュアランスグループ">📈 チャート</button>
-          <button class="btn buy buybtn" data-code="8725" data-name="MS&amp;ADインシュアランスグループ"
-                  data-in="5081.0">🛒 購入登録</button>
-        </div>
-      </div>
-    </details>
-    <details class="card gated-card" data-code="5108"
-             data-in="4238.0" data-stop="4010.1">
-      <summary>
-        <div class="card-head">
-          <span class="rank rank-B">8</span>
-          <div class="tinfo">
-            <div class="name">ブリヂストン</div>
-            <div class="csub">5108・出来高1.37倍・代金184.2億</div>
-          </div>
-          <div class="card-right">
-            <div>
-              <span class="px" data-code="5108">4,238</span>
-              <span class="pxchg" data-code="5108"></span>
-            </div>
-            <canvas class="spark" data-code="5108"></canvas>
-          </div>
-        </div>
-        <div class="card-sub"><span class="tag">③テクニカル</span><span class="score">25</span></div>
-      </summary>
-      <div class="card-body">
-        <div class="gated">⛔ 地合いNGのため本日は見送り推奨</div>
-        <ul class="hits"><li><b>パーフェクトオーダー</b> — 25&gt;75&gt;200日線の上昇配列</li></ul>
-        <div class="levels">
-          <div><span class="k">IN目安</span><span class="v">4,238.0円</span></div>
-          <div><span class="k">損切り</span><span class="v">4,010.1円 (-5.4%)</span></div>
-          <div><span class="k">目標</span><span class="v">4,579.8円 (+8.1%)</span></div>
-          <div><span class="k">株数目安</span><span class="v shares" data-code="5108">100株（コスト約423,800円）</span></div>
-        </div>
-        <div class="btnrow">
-          <button class="btn chartbtn" data-code="5108" data-name="ブリヂストン">📈 チャート</button>
-          <button class="btn buy buybtn" data-code="5108" data-name="ブリヂストン"
-                  data-in="4238.0">🛒 購入登録</button>
-        </div>
-      </div>
-    </details>
-    <details class="card gated-card" data-code="4578"
-             data-in="12390.0" data-stop="11479.4">
-      <summary>
-        <div class="card-head">
-          <span class="rank rank-B">9</span>
-          <div class="tinfo">
-            <div class="name">大塚ホールディングス</div>
-            <div class="csub">4578・出来高1.28倍・代金157.9億</div>
-          </div>
-          <div class="card-right">
-            <div>
-              <span class="px" data-code="4578">12,390</span>
-              <span class="pxchg" data-code="4578"></span>
-            </div>
-            <canvas class="spark" data-code="4578"></canvas>
-          </div>
-        </div>
-        <div class="card-sub"><span class="tag">③テクニカル</span><span class="score">27</span></div>
-      </summary>
-      <div class="card-body">
-        <div class="gated">⛔ 地合いNGのため本日は見送り推奨</div>
-        <ul class="hits"><li><b>MACDゴールデンクロス</b> — 直近でGC（0ライン付近・信頼度高）</li><li><b>パーフェクトオーダー</b> — 25&gt;75&gt;200日線の上昇配列</li><li><b>ヒゲ分析で損切り調整</b> — 直近ヒゲ安値11590円の狩り帯を回避 11652→11479円</li></ul>
-        <div class="levels">
-          <div><span class="k">IN目安</span><span class="v">12,390.0円</span></div>
-          <div><span class="k">損切り</span><span class="v">11,479.4円 (-7.3%)</span></div>
-          <div><span class="k">目標</span><span class="v">13,496.2円 (+8.9%)</span></div>
-          <div><span class="k">株数目安</span><span class="v shares" data-code="4578">—（許容損失に対し値幅が大きく、単元(100株)に満たない）</span></div>
-        </div>
-        <div class="btnrow">
-          <button class="btn chartbtn" data-code="4578" data-name="大塚ホールディングス">📈 チャート</button>
-          <button class="btn buy buybtn" data-code="4578" data-name="大塚ホールディングス"
-                  data-in="12390.0">🛒 購入登録</button>
+          <button class="btn chartbtn" data-code="4543" data-name="テルモ">📈 チャート</button>
+          <button class="btn buy buybtn" data-code="4543" data-name="テルモ"
+                  data-in="2715.0">🛒 購入登録</button>
         </div>
       </div>
     </details>
     <details class="card gated-card" data-code="4307"
-             data-in="6080.0" data-stop="5630.3">
+             data-in="6471.0" data-stop="6008.1">
       <summary>
         <div class="card-head">
-          <span class="rank rank-B">10</span>
+          <span class="rank rank-S">6</span>
           <div class="tinfo">
             <div class="name">野村総合研究所</div>
-            <div class="csub">4307・出来高1.27倍・代金187.2億</div>
+            <div class="csub">4307・出来高0.74倍・代金185.2億</div>
           </div>
           <div class="card-right">
             <div>
-              <span class="px" data-code="4307">6,080</span>
+              <span class="px" data-code="4307">6,471</span>
               <span class="pxchg" data-code="4307"></span>
             </div>
             <canvas class="spark" data-code="4307"></canvas>
           </div>
         </div>
-        <div class="card-sub"><span class="tag">③テクニカル</span><span class="score">26</span></div>
+        <div class="card-sub"><span class="tag">⑦統計・アノマリー</span><span class="tag">③テクニカル</span><span class="tag">②出来高・需給</span><span class="score">71</span></div>
       </summary>
       <div class="card-body">
         <div class="gated">⛔ 地合いNGのため本日は見送り推奨</div>
-        <ul class="hits"><li><b>BBスクイーズ</b> — バンド幅縮小→エクスパンション初動の可能性</li><li><b>パーフェクトオーダー</b> — 25&gt;75&gt;200日線の上昇配列</li></ul>
+        <ul class="hits"><li><b>60日高値ブレイク</b> — 直近60日高値(6345)を上抜け</li><li><b>MACDゴールデンクロス</b> — 直近でGC（0ライン付近・信頼度高）</li><li><b>パーフェクトオーダー</b> — 25&gt;75&gt;200日線の上昇配列</li><li><b>52週高値圏</b> — モメンタム継続の統計的優位（52週高値更新圏）</li></ul>
         <div class="levels">
-          <div><span class="k">IN目安</span><span class="v">6,080.0円</span></div>
-          <div><span class="k">損切り</span><span class="v">5,630.3円 (-7.4%)</span></div>
-          <div><span class="k">目標</span><span class="v">6,754.6円 (+11.1%)</span></div>
+          <div><span class="k">IN目安</span><span class="v">6,471.0円</span></div>
+          <div><span class="k">損切り</span><span class="v">6,008.1円 (-7.2%)</span></div>
+          <div><span class="k">目標</span><span class="v">7,165.3円 (+10.7%)</span></div>
           <div><span class="k">株数目安</span><span class="v shares" data-code="4307">—（許容損失に対し値幅が大きく、単元(100株)に満たない）</span></div>
         </div>
         <div class="btnrow">
           <button class="btn chartbtn" data-code="4307" data-name="野村総合研究所">📈 チャート</button>
           <button class="btn buy buybtn" data-code="4307" data-name="野村総合研究所"
-                  data-in="6080.0">🛒 購入登録</button>
+                  data-in="6471.0">🛒 購入登録</button>
+        </div>
+      </div>
+    </details>
+    <details class="card gated-card" data-code="8725"
+             data-in="5434.0" data-stop="4951.9">
+      <summary>
+        <div class="card-head">
+          <span class="rank rank-S">7</span>
+          <div class="tinfo">
+            <div class="name">MS&amp;ADインシュアランスグループ</div>
+            <div class="csub">8725・出来高0.74倍・代金232.1億</div>
+          </div>
+          <div class="card-right">
+            <div>
+              <span class="px" data-code="8725">5,434</span>
+              <span class="pxchg" data-code="8725"></span>
+            </div>
+            <canvas class="spark" data-code="8725"></canvas>
+          </div>
+        </div>
+        <div class="card-sub"><span class="tag">⑦統計・アノマリー</span><span class="tag">③テクニカル</span><span class="tag">②出来高・需給</span><span class="score">72</span></div>
+      </summary>
+      <div class="card-body">
+        <div class="gated">⛔ 地合いNGのため本日は見送り推奨</div>
+        <ul class="hits"><li><b>60日高値ブレイク</b> — 直近60日高値(5387)を上抜け</li><li><b>MACDゴールデンクロス</b> — 直近でGC（0ライン付近・信頼度高）</li><li><b>パーフェクトオーダー</b> — 25&gt;75&gt;200日線の上昇配列</li><li><b>52週高値圏</b> — モメンタム継続の統計的優位（52週高値更新圏）</li><li><b>ヒゲ分析で損切り調整</b> — 直近ヒゲ安値4997円の狩り帯を回避 5134→4952円</li></ul>
+        <div class="levels">
+          <div><span class="k">IN目安</span><span class="v">5,434.0円</span></div>
+          <div><span class="k">損切り</span><span class="v">4,951.9円 (-8.9%)</span></div>
+          <div><span class="k">目標</span><span class="v">5,884.8円 (+8.3%)</span></div>
+          <div><span class="k">株数目安</span><span class="v shares" data-code="8725">—（許容損失に対し値幅が大きく、単元(100株)に満たない）</span></div>
+        </div>
+        <div class="btnrow">
+          <button class="btn chartbtn" data-code="8725" data-name="MS&amp;ADインシュアランスグループ">📈 チャート</button>
+          <button class="btn buy buybtn" data-code="8725" data-name="MS&amp;ADインシュアランスグループ"
+                  data-in="5434.0">🛒 購入登録</button>
+        </div>
+      </div>
+    </details>
+    <details class="card gated-card" data-code="7832"
+             data-in="7417.0" data-stop="6576.6">
+      <summary>
+        <div class="card-head">
+          <span class="rank rank-S">8</span>
+          <div class="tinfo">
+            <div class="name">バンダイナムコホールディングス</div>
+            <div class="csub">7832・出来高0.64倍・代金212.0億</div>
+          </div>
+          <div class="card-right">
+            <div>
+              <span class="px" data-code="7832">7,417</span>
+              <span class="pxchg" data-code="7832"></span>
+            </div>
+            <canvas class="spark" data-code="7832"></canvas>
+          </div>
+        </div>
+        <div class="card-sub"><span class="tag">⑦統計・アノマリー</span><span class="tag">③テクニカル</span><span class="tag">②出来高・需給</span><span class="score">71</span></div>
+      </summary>
+      <div class="card-body">
+        <div class="gated">⛔ 地合いNGのため本日は見送り推奨</div>
+        <ul class="hits"><li><b>60日高値ブレイク</b> — 直近60日高値(7313)を上抜け</li><li><b>パーフェクトオーダー</b> — 25&gt;75&gt;200日線の上昇配列</li><li><b>52週高値圏</b> — モメンタム継続の統計的優位（52週高値更新圏）</li><li><b>ヒゲ分析で損切り調整</b> — 直近ヒゲ安値6662円の狩り帯を回避 6848→6577円</li></ul>
+        <div class="levels">
+          <div><span class="k">IN目安</span><span class="v">7,417.0円</span></div>
+          <div><span class="k">損切り</span><span class="v">6,576.6円 (-11.3%)</span></div>
+          <div><span class="k">目標</span><span class="v">8,271.2円 (+11.5%)</span></div>
+          <div><span class="k">株数目安</span><span class="v shares" data-code="7832">—（許容損失に対し値幅が大きく、単元(100株)に満たない）</span></div>
+        </div>
+        <div class="btnrow">
+          <button class="btn chartbtn" data-code="7832" data-name="バンダイナムコホールディングス">📈 チャート</button>
+          <button class="btn buy buybtn" data-code="7832" data-name="バンダイナムコホールディングス"
+                  data-in="7417.0">🛒 購入登録</button>
+        </div>
+      </div>
+    </details>
+    <details class="card gated-card" data-code="4578"
+             data-in="13185.0" data-stop="12385.6">
+      <summary>
+        <div class="card-head">
+          <span class="rank rank-S">9</span>
+          <div class="tinfo">
+            <div class="name">大塚ホールディングス</div>
+            <div class="csub">4578・出来高0.59倍・代金155.5億</div>
+          </div>
+          <div class="card-right">
+            <div>
+              <span class="px" data-code="4578">13,185</span>
+              <span class="pxchg" data-code="4578"></span>
+            </div>
+            <canvas class="spark" data-code="4578"></canvas>
+          </div>
+        </div>
+        <div class="card-sub"><span class="tag">⑦統計・アノマリー</span><span class="tag">③テクニカル</span><span class="tag">②出来高・需給</span><span class="score">71</span></div>
+      </summary>
+      <div class="card-body">
+        <div class="gated">⛔ 地合いNGのため本日は見送り推奨</div>
+        <ul class="hits"><li><b>60日高値ブレイク</b> — 直近60日高値(12785)を上抜け</li><li><b>MACDゴールデンクロス</b> — 直近でGC（0ライン付近・信頼度高）</li><li><b>パーフェクトオーダー</b> — 25&gt;75&gt;200日線の上昇配列</li><li><b>52週高値圏</b> — モメンタム継続の統計的優位（52週高値更新圏）</li></ul>
+        <div class="levels">
+          <div><span class="k">IN目安</span><span class="v">13,185.0円</span></div>
+          <div><span class="k">損切り</span><span class="v">12,385.6円 (-6.1%)</span></div>
+          <div><span class="k">目標</span><span class="v">14,384.2円 (+9.1%)</span></div>
+          <div><span class="k">株数目安</span><span class="v shares" data-code="4578">—（許容損失に対し値幅が大きく、単元(100株)に満たない）</span></div>
+        </div>
+        <div class="btnrow">
+          <button class="btn chartbtn" data-code="4578" data-name="大塚ホールディングス">📈 チャート</button>
+          <button class="btn buy buybtn" data-code="4578" data-name="大塚ホールディングス"
+                  data-in="13185.0">🛒 購入登録</button>
+        </div>
+      </div>
+    </details>
+    <details class="card gated-card" data-code="4661"
+             data-in="3951.0" data-stop="3628.4">
+      <summary>
+        <div class="card-head">
+          <span class="rank rank-S">10</span>
+          <div class="tinfo">
+            <div class="name">オリエンタルランド</div>
+            <div class="csub">4661・出来高0.59倍・代金214.0億</div>
+          </div>
+          <div class="card-right">
+            <div>
+              <span class="px" data-code="4661">3,951</span>
+              <span class="pxchg" data-code="4661"></span>
+            </div>
+            <canvas class="spark" data-code="4661"></canvas>
+          </div>
+        </div>
+        <div class="card-sub"><span class="tag">⑦統計・アノマリー</span><span class="tag">①カタリスト（開示）</span><span class="tag">③テクニカル</span><span class="score">72</span></div>
+      </summary>
+      <div class="card-body">
+        <div class="gated">⛔ 地合いNGのため本日は見送り推奨</div>
+        <ul class="hits"><li><b>パーフェクトオーダー</b> — 25&gt;75&gt;200日線の上昇配列</li><li><b>52週高値圏</b> — モメンタム継続の統計的優位（52週高値更新圏）</li><li><b>好材料開示: 自己株式の取得</b> — 2026-11-25 10:30 自己株式立会外買付取引（ToSTNeT-3）による自己株式の取得結果および自己株式の取得終了に関</li><li><b>好材料開示: 自己株式の取得</b> — 2026-11-24 17:30 自己株式の取得および自己株式の消却に係る事項の決定に関するお知らせ</li><li><b>ヒゲ分析で損切り調整</b> — 直近ヒゲ安値3663円の狩り帯を回避 3720→3628円</li></ul>
+        <div class="levels">
+          <div><span class="k">IN目安</span><span class="v">3,951.0円</span></div>
+          <div><span class="k">損切り</span><span class="v">3,628.4円 (-8.2%)</span></div>
+          <div><span class="k">目標</span><span class="v">4,297.1円 (+8.8%)</span></div>
+          <div><span class="k">株数目安</span><span class="v shares" data-code="4661">—（許容損失に対し値幅が大きく、単元(100株)に満たない）</span></div>
+        </div>
+        <div class="btnrow">
+          <button class="btn chartbtn" data-code="4661" data-name="オリエンタルランド">📈 チャート</button>
+          <button class="btn buy buybtn" data-code="4661" data-name="オリエンタルランド"
+                  data-in="3951.0">🛒 購入登録</button>
         </div>
       </div>
     </details>
     <h2>■ 予備軍（もうすぐ候補）</h2><p class="muted">条件まであと一歩の監視銘柄。緑数字は期待度(0-100)。期待値は同系統シグナルが過去3年に発火した後の平均実績。</p><div class="holds">
         <div class="hold">
           <div class="hold-head">
-            <span class="code">4506</span>
-            <span class="name">住友ファーマ</span>
+            <span class="code">4755</span>
+            <span class="name">楽天グループ</span>
             <span class="score" title="期待度">55</span>
-            <canvas class="spark" data-code="4506"></canvas>
-            <button class="btn small chartbtn" data-code="4506"
-                    data-name="住友ファーマ">📈</button>
+            <canvas class="spark" data-code="4755"></canvas>
+            <button class="btn small chartbtn" data-code="4755"
+                    data-name="楽天グループ">📈</button>
           </div>
-          <ul class="hits"><li>BBスクイーズ形成中（ブレイク待ち）</li></ul>
-          <div class="pcard-detail">発火時の期待値（過去3年・5日後）: <b style="color:#7ee787">+0.35%</b> / 勝率 52%</div>
+          <ul class="hits"><li>出来高じわ増（5日平均が20日平均比1.4倍）</li></ul>
+          <div class="pcard-detail">発火時の期待値（過去3年・5日後）: <b style="color:#7ee787">+0.37%</b> / 勝率 51%</div>
         </div>
         <div class="hold">
           <div class="hold-head">
-            <span class="code">5411</span>
-            <span class="name">JFEホールディングス</span>
+            <span class="code">7911</span>
+            <span class="name">TOPPANホールディングス</span>
             <span class="score" title="期待度">55</span>
-            <canvas class="spark" data-code="5411"></canvas>
-            <button class="btn small chartbtn" data-code="5411"
-                    data-name="JFEホールディングス">📈</button>
+            <canvas class="spark" data-code="7911"></canvas>
+            <button class="btn small chartbtn" data-code="7911"
+                    data-name="TOPPANホールディングス">📈</button>
           </div>
-          <ul class="hits"><li>GC接近（25日線が75日線まで0.1%）</li></ul>
-          <div class="pcard-detail">発火時の期待値（過去3年・5日後）: <b style="color:#7ee787">+0.35%</b> / 勝率 52%</div>
+          <ul class="hits"><li>出来高じわ増（5日平均が20日平均比1.4倍）</li></ul>
+          <div class="pcard-detail">発火時の期待値（過去3年・5日後）: <b style="color:#7ee787">+0.37%</b> / 勝率 51%</div>
         </div>
         <div class="hold">
           <div class="hold-head">
-            <span class="code">6367</span>
-            <span class="name">ダイキン工業</span>
+            <span class="code">9022</span>
+            <span class="name">東海旅客鉄道</span>
             <span class="score" title="期待度">55</span>
-            <canvas class="spark" data-code="6367"></canvas>
-            <button class="btn small chartbtn" data-code="6367"
-                    data-name="ダイキン工業">📈</button>
+            <canvas class="spark" data-code="9022"></canvas>
+            <button class="btn small chartbtn" data-code="9022"
+                    data-name="東海旅客鉄道">📈</button>
           </div>
-          <ul class="hits"><li>60日高値まであと1.6%（ブレイク目前）</li></ul>
-          <div class="pcard-detail">発火時の期待値（過去3年・5日後）: <b style="color:#7ee787">+0.38%</b> / 勝率 51%</div>
+          <ul class="hits"><li>60日高値まであと2.1%（ブレイク目前）</li></ul>
+          <div class="pcard-detail">発火時の期待値（過去3年・5日後）: <b style="color:#7ee787">+0.37%</b> / 勝率 51%</div>
         </div>
         <div class="hold">
           <div class="hold-head">
-            <span class="code">6594</span>
-            <span class="name">ニデック</span>
+            <span class="code">9531</span>
+            <span class="name">東京ガス</span>
             <span class="score" title="期待度">55</span>
-            <canvas class="spark" data-code="6594"></canvas>
-            <button class="btn small chartbtn" data-code="6594"
-                    data-name="ニデック">📈</button>
+            <canvas class="spark" data-code="9531"></canvas>
+            <button class="btn small chartbtn" data-code="9531"
+                    data-name="東京ガス">📈</button>
           </div>
-          <ul class="hits"><li>BBスクイーズ形成中（ブレイク待ち）</li></ul>
-          <div class="pcard-detail">発火時の期待値（過去3年・5日後）: <b style="color:#7ee787">+0.35%</b> / 勝率 52%</div>
-        </div>
-        <div class="hold">
-          <div class="hold-head">
-            <span class="code">7012</span>
-            <span class="name">川崎重工業</span>
-            <span class="score" title="期待度">55</span>
-            <canvas class="spark" data-code="7012"></canvas>
-            <button class="btn small chartbtn" data-code="7012"
-                    data-name="川崎重工業">📈</button>
-          </div>
-          <ul class="hits"><li>出来高じわ増（5日平均が20日平均比1.3倍）</li></ul>
-          <div class="pcard-detail">発火時の期待値（過去3年・5日後）: <b style="color:#7ee787">+0.38%</b> / 勝率 51%</div>
-        </div>
-        <div class="hold">
-          <div class="hold-head">
-            <span class="code">9433</span>
-            <span class="name">KDDI</span>
-            <span class="score" title="期待度">55</span>
-            <canvas class="spark" data-code="9433"></canvas>
-            <button class="btn small chartbtn" data-code="9433"
-                    data-name="KDDI">📈</button>
-          </div>
-          <ul class="hits"><li>GC接近（25日線が75日線まで0.6%）</li></ul>
-          <div class="pcard-detail">発火時の期待値（過去3年・5日後）: <b style="color:#7ee787">+0.35%</b> / 勝率 52%</div>
+          <ul class="hits"><li>60日高値まであと1.8%（ブレイク目前）</li></ul>
+          <div class="pcard-detail">発火時の期待値（過去3年・5日後）: <b style="color:#7ee787">+0.37%</b> / 勝率 51%</div>
         </div></div>
     <h2>■ 適時開示（ユニバース・直近2日）</h2><div class="holds">
         <div class="hold">
@@ -654,6 +630,15 @@ footer { margin-top:26px; font-size:.7rem; color:var(--muted); }
             <span class="muted">2026-11-24 17:30</span>
           </div>
           <div class="hold-detail">自己株式の取得および自己株式の消却に係る事項の決定に関するお知らせ</div>
+          
+        </div>
+        <div class="hold">
+          <div class="hold-head">
+            <span class="code">4661</span>
+            <span class="judge" style="background:#1f9d55">好材料</span>
+            <span class="muted">2026-11-25 10:30</span>
+          </div>
+          <div class="hold-detail">自己株式立会外買付取引（ToSTNeT-3）による自己株式の取得結果および自己株式の取得終了に関するお知らせ</div>
           
         </div>
         <div class="hold">
@@ -691,6 +676,24 @@ footer { margin-top:26px; font-size:.7rem; color:var(--muted); }
           </div>
           <div class="hold-detail">当社個別決算における営業外収益（受取配当金）の計上に関するお知らせ</div>
           
+        </div>
+        <div class="hold">
+          <div class="hold-head">
+            <span class="code">4528</span>
+            <span class="judge" style="background:#57606a">その他</span>
+            <span class="muted">2026-11-25 10:00</span>
+          </div>
+          <div class="hold-detail">アムジェン社との米国における抗PD-1抗体オプジーボ点滴静注に係る特許侵害訴訟の和解についてお知らせ</div>
+          
+        </div>
+        <div class="hold">
+          <div class="hold-head">
+            <span class="code">9501</span>
+            <span class="judge" style="background:#57606a">その他</span>
+            <span class="muted">2026-11-25 11:00</span>
+          </div>
+          <div class="hold-detail">原子力損害賠償・廃炉等支援機構からの資金の交付について</div>
+          
         </div></div>
   </section>
 
@@ -704,8 +707,8 @@ footer { margin-top:26px; font-size:.7rem; color:var(--muted); }
 
   <section class="tabpanel" id="tab-etc">
     
-    <h2>■ 答え合わせ（実運用のピック実績）</h2><p>2026-11-17ピック 10銘柄: 5日後平均 <b>-1.1%</b>（勝率 4/10）</p><table class="rev"><thead><tr><th>系統</th><th>件数</th><th>平均</th><th>勝率</th></tr></thead><tbody><tr><td>anomaly</td><td>768</td><td>-1.0%</td><td>43%</td></tr><tr><td>catalyst</td><td>161</td><td>+1.3%</td><td>61%</td></tr><tr><td>tech</td><td>1438</td><td>-0.3%</td><td>48%</td></tr><tr><td>volume</td><td>681</td><td>-0.5%</td><td>44%</td></tr></tbody></table>
-    <h2>■ バックテスト（過去データ検証）</h2><p class="muted">2024-04-16〜2026-11-13 のユニバース日足で、各シグナル発生から5営業日後の騰落を集計。「基準」行を上回る系統（✓）に優位性。現ユニバース構成での検証のため生存者バイアスあり・目安。カタリスト系は対象外。</p><table class="rev"><thead><tr><th>系統</th><th>回数</th><th>平均</th><th>勝率</th></tr></thead><tbody><tr style="color:#8b949e"><td>基準（全営業日）</td><td>86,802</td><td>+0.44%</td><td>53%</td></tr><tr><td>★2系統以上（本命）</td><td>7,921</td><td>+0.20%</td><td>50%</td></tr><tr><td>②出来高・需給</td><td>6,585</td><td>+0.38%</td><td>51%</td></tr><tr><td>③テクニカル</td><td>39,112</td><td>+0.35%</td><td>52%</td></tr><tr><td>⑦アノマリー</td><td>6,809</td><td>+0.20%</td><td>50%</td></tr><tr><td>アルゴ痕跡</td><td>19</td><td>-0.12%</td><td>47%</td></tr></tbody></table>
+    <h2>■ 答え合わせ（実運用のピック実績）</h2><p>2026-11-19ピック 10銘柄: 5日後平均 <b>+2.4%</b>（勝率 9/10）</p><table class="rev"><thead><tr><th>系統</th><th>件数</th><th>平均</th><th>勝率</th></tr></thead><tbody><tr><td>anomaly</td><td>807</td><td>-0.9%</td><td>43%</td></tr><tr><td>catalyst</td><td>161</td><td>+1.3%</td><td>61%</td></tr><tr><td>tech</td><td>1480</td><td>-0.3%</td><td>48%</td></tr><tr><td>volume</td><td>705</td><td>-0.6%</td><td>44%</td></tr></tbody></table>
+    <h2>■ バックテスト（過去データ検証）</h2><p class="muted">2024-04-16〜2026-11-17 のユニバース日足で、各シグナル発生から5営業日後の騰落を集計。「基準」行を上回る系統（✓）に優位性。現ユニバース構成での検証のため生存者バイアスあり・目安。カタリスト系は対象外。</p><table class="rev"><thead><tr><th>系統</th><th>回数</th><th>平均</th><th>勝率</th></tr></thead><tbody><tr style="color:#8b949e"><td>基準（全営業日）</td><td>87,078</td><td>+0.43%</td><td>53%</td></tr><tr><td>★2系統以上（本命）</td><td>7,950</td><td>+0.20%</td><td>50%</td></tr><tr><td>②出来高・需給</td><td>6,604</td><td>+0.37%</td><td>51%</td></tr><tr><td>③テクニカル</td><td>39,213</td><td>+0.35%</td><td>52%</td></tr><tr><td>⑦アノマリー</td><td>6,837</td><td>+0.20%</td><td>50%</td></tr><tr><td>アルゴ痕跡</td><td>19</td><td>-0.12%</td><td>47%</td></tr></tbody></table>
   </section>
 
   <footer>
@@ -747,7 +750,7 @@ footer { margin-top:26px; font-size:.7rem; color:var(--muted); }
 
 <script>
 const RISK_PCT = 1.0;
-const CANDS = [{"code": "4502", "in": 6973.0, "stop": 6466.6}, {"code": "4661", "in": 3850.0, "stop": 3585.9}, {"code": "4755", "in": 554.7, "stop": 504.4}, {"code": "7911", "in": 1697.5, "stop": 1520.7}, {"code": "8630", "in": 6994.0, "stop": 6615.0}, {"code": "7974", "in": 8832.0, "stop": 8159.7}, {"code": "8725", "in": 5081.0, "stop": 4802.9}, {"code": "5108", "in": 4238.0, "stop": 4010.1}, {"code": "4578", "in": 12390.0, "stop": 11479.4}, {"code": "4307", "in": 6080.0, "stop": 5630.3}];
+const CANDS = [{"code": "4528", "in": 2681.5, "stop": 2512.8}, {"code": "4523", "in": 5634.0, "stop": 5330.2}, {"code": "4502", "in": 7375.0, "stop": 7015.9}, {"code": "6532", "in": 13395.0, "stop": 12309.1}, {"code": "4543", "in": 2715.0, "stop": 2518.5}, {"code": "4307", "in": 6471.0, "stop": 6008.1}, {"code": "8725", "in": 5434.0, "stop": 4951.9}, {"code": "7832", "in": 7417.0, "stop": 6576.6}, {"code": "4578", "in": 13185.0, "stop": 12385.6}, {"code": "4661", "in": 3951.0, "stop": 3628.4}];
 const IS_ARCHIVE = location.pathname.includes('/reports/');
 const PRICES_URL = (IS_ARCHIVE ? '../' : '') + 'prices.json';
 let PRICES = null;
