@@ -1688,3 +1688,5 @@ pick_date,ref_date,code,name,ref_close,score,num_systems,systems
 2026-11-25,2026-11-25,6532,ベイカレント,13395.0,71,3,anomaly|tech|volume
 2026-11-25,2026-11-25,4543,テルモ,2715.0,71,3,anomaly|tech|volume
 2026-11-25,2026-11-25,7832,バンダイナムコホールディングス,7417.0,71,3,anomaly|tech|volume
+2026-11-25,2026-11-25,6758,ソニーグループ,4513.0,72,3,anomaly|tech|volume
+2026-11-25,2026-11-25,4452,花王,4118.0,72,3,anomaly|tech|volume
